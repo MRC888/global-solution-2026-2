@@ -42,4 +42,5 @@ No fim do projeto, antes da entrega, **lembrar o Marcelo** de:
 ## Estado e próximas tarefas
 - [x] Primeira etapa: estrutura do portfólio, checklist, uso de IA e `docs/algoritmo_v1.md` (14 decisões, D1–D14, para a reunião)
 - [ ] **Código parado até a reunião fechar o algoritmo** (pedido do Marcelo, 10/11/2026). Depois da reunião: aplicar as anotações, criar a v2 e só então começar o código.
-- [ ] Pendências: prazo, nome da equipe e RMs, turma (o modelo usa pastas por turma, como `1CC-AGO/1CCOR/1CCOA`; aqui foi usado `1CC/`, como no README do modelo), convite de Douglas e Alice como colaboradores
+- [ ] Pendências: prazo, nome da equipe e RMs, turma (o modelo usa pastas por turma, como `1CC-AGO/1CCOR/1CCOA`; aqui foi usado `1CC/`, como no README do modelo)
+- [x] Convites de colaborador (escrita) no repositório oficial enviados a `Douglasgbm` e `alicebessag` em 10/11/2026; aceitar em https://github.com/MRC888/global-solution-2026-2/invitations. O rascunho `gs2026-claude` continua só com o Marcelo.
