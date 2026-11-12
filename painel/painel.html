@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="../assets/logo-fiap.png" type="image/png">
+</head>
+<body>
+    <header id="banner" class="banner">
+        <h1>Neighborhood Action Dashboard</h1>
+    </header>
+
+<nav class="nav">
+    <ul>
+        <li><a href="painel.html">Inicio</a></li>
+        <li><a href="#">Sobre</a></li>
+        <li><a href="formulario.html">Formulario</a></li>
+         <li><a href="#">Solicitações</a></li>
+    </ul>
+</nav>
+
+<main class="conteudo">
+
+    <!-- Cartões de resumo -->
+    <section class="cartoes">
+        <div class="cartao"><span class="numero">12</span><span class="rotulo">Total</span></div>
+        <div class="cartao aberta"><span class="numero">5</span><span class="rotulo">Abertas</span></div>
+        <div class="cartao analise"><span class="numero">4</span><span class="rotulo">Em análise</span></div>
+        <div class="cartao concluida"><span class="numero">3</span><span class="rotulo">Concluídas</span></div>
+    </section>
+
+    <!-- Tabela: categoria × status (é a "matriz" do enunciado) -->
+    <section>
+        <h2>Ocorrências por categoria e status</h2>
+        <table class="tabela">
+            <caption>Quantidade de ocorrências em cada categoria, separada por situação</caption>
+            <thead>
+                <tr>
+                    <th scope="col">Categoria</th>
+                    <th scope="col">Aberta</th>
+                    <th scope="col">Em análise</th>
+                    <th scope="col">Concluída</th>
+                    <th scope="col">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><th scope="row">Iluminação</th><td>2</td><td>1</td><td>1</td><td>4</td></tr>
+                <tr><th scope="row">Acessibilidade</th><td>1</td><td>1</td><td>1</td><td>3</td></tr>
+                <tr><th scope="row">Limpeza</th><td>1</td><td>1</td><td>1</td><td>3</td></tr>
+                <tr><th scope="row">Conservação</th><td>1</td><td>1</td><td>0</td><td>2</td></tr>
+            </tbody>
+            <tfoot>
+                <tr><th scope="row">Total</th><td>5</td><td>4</td><td>3</td><td>12</td></tr>
+            </tfoot>
+        </table>
+    </section>
+
+    <!-- Gráfico de barras: proporção por categoria -->
+    <section>
+        <h2>Proporção por categoria</h2>
+        <div class="grafico">
+            <div class="linha">
+                <span class="nome">Iluminação</span>
+                <div class="trilho"><div class="barra" style="width: 33%"></div></div>
+                <span class="valor">4 (33%)</span>
+            </div>
+            <div class="linha">
+                <span class="nome">Acessibilidade</span>
+                <div class="trilho"><div class="barra" style="width: 25%"></div></div>
+                <span class="valor">3 (25%)</span>
+            </div>
+            <div class="linha">
+                <span class="nome">Limpeza</span>
+                <div class="trilho"><div class="barra" style="width: 25%"></div></div>
+                <span class="valor">3 (25%)</span>
+            </div>
+            <div class="linha">
+                <span class="nome">Conservação</span>
+                <div class="trilho"><div class="barra" style="width: 17%"></div></div>
+                <span class="valor">2 (17%)</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Barra empilhada: situação geral -->
+    <section>
+        <h2>Situação geral</h2>
+        <div class="empilhada">
+            <div class="aberta" style="width: 42%">Abertas 5</div>
+            <div class="analise" style="width: 33%">Análise 4</div>
+            <div class="concluida" style="width: 25%">Concluídas 3</div>
+        </div>
+    </section>
+
+</main>
+
+
+
+
+</body>
+<footer class="footer">
+    <p>&copy; 2024 Neighborhood Action Dashboard. Todos os direitos reservados.</p>
+</footer>   
+
+<script src="script.js"></script>
+</html>

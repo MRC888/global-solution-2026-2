@@ -1,0 +1,179 @@
+body {
+  margin: 0;               /* tira a borda branca padrão em volta do banner */
+}
+
+.banner {
+  background-image: url("../assets/banner.jpeg");
+  background-size: cover;
+  background-position: center;
+  aspect-ratio: 3168 / 1344;   /* proporção da imagem: o banner aparece inteiro */
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  color: rgb(46, 9, 9);
+}
+
+.banner h1 {
+  color: rgb(28, 172, 6);                          /* cor da letra */
+  font-size: 3rem;                       /* tamanho (1rem = 16px) */
+  font-family: Arial, sans-serif;        /* tipo de letra */
+  font-weight: bold;                     /* espessura: normal, bold, 300, 800... */
+  letter-spacing: 2px;                   /* espaço entre as letras */
+  text-transform: uppercase;             /* TUDO MAIÚSCULO (opcional) */
+  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7);  /* sombra: ajuda a ler sobre a foto */
+  margin: 3px;                             /* tira a margem padrão do h1 */
+}
+
+.nav {
+  background-color: rgb(16, 83, 5);
+  padding: 10px 24px;
+
+}
+
+.nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  height: 100%;
+}
+
+.nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  letter-spacing: 1px;
+  transition: color 0.3s ease;
+}
+
+.nav a:hover {
+  color: rgb(4, 4, 4);
+}
+
+.p {
+  font-size: 1rem;
+  line-height: 1.5;
+  margin: 16px 24px;
+  color: rgb(46, 9, 9);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 16px 24px;
+}
+
+.form label {
+  font-weight: bold;
+}
+
+.form input,
+.form textarea {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.form button {
+  padding: 10px 16px;
+  background-color: rgb(16, 83, 5);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.form button:hover {
+  background-color: rgb(12, 62, 4);
+}
+
+.footer {
+  background-color: rgb(16, 83, 5);
+  color: white;
+  text-align: center;
+  padding: 10px 0;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+.conteudo {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 24px 16px;
+  font-family: Arial, sans-serif;
+}
+
+/* ---- Cartões ---- */
+.cartoes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
+  margin-bottom: 32px;
+}
+.cartao {
+  background: #f2f2f2;
+  border-left: 6px solid #555;
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+}
+.cartao .numero { font-size: 2.5rem; font-weight: bold; }
+.cartao .rotulo { color: #444; }
+
+/* cores por status (usadas nos cartões e na barra empilhada) */
+.aberta    { border-color: #c0392b; }
+.analise   { border-color: #d68910; }
+.concluida { border-color: #1e8449; }
+
+/* ---- Tabela ---- */
+.tabela {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 32px;
+}
+.tabela caption { text-align: left; color: #444; margin-bottom: 8px; }
+.tabela th, .tabela td {
+  border: 1px solid #ccc;
+  padding: 8px 12px;
+  text-align: center;
+}
+.tabela th[scope="row"] { text-align: left; }
+.tabela thead, .tabela tfoot { background: #222; color: white; }
+.tabela tbody tr:nth-child(even) { background: #f7f7f7; }
+
+/* ---- Gráfico de barras ---- */
+.grafico { margin-bottom: 32px; }
+.linha {
+  display: grid;
+  grid-template-columns: 130px 1fr 80px;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+.trilho { background: #e5e5e5; border-radius: 4px; height: 22px; }
+.barra  { background: #2e86c1; height: 100%; border-radius: 4px; }
+
+/* ---- Barra empilhada ---- */
+.empilhada {
+  display: flex;
+  height: 36px;
+  border-radius: 6px;
+  overflow: hidden;
+  color: white;
+  font-weight: bold;
+}
+.empilhada div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+.empilhada .aberta    { background: #c0392b; }
+.empilhada .analise   { background: #d68910; }
+.empilhada .concluida { background: #1e8449; }
