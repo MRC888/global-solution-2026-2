@@ -71,10 +71,42 @@ body {
 }
 
 .form input,
-.form textarea {
+.form textarea,
+.form select {
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+/* dentro do .conteudo o formulário alinha com o título (sem recuo lateral) */
+.conteudo .form {
+  margin: 16px 0;
+}
+
+/* dica embaixo do campo */
+.form .dica {
+  color: #555;
+  margin-top: -6px;      /* encosta a dica no campo de cima */
+}
+
+/* caixa que avisa que o formulário é só protótipo */
+.aviso-prototipo {
+  background: #fff8e1;
+  border-left: 6px solid #d68910;
+  border-radius: 6px;
+  padding: 12px 16px;
+}
+
+/* texto só para leitor de tela (não aparece, mas é lido) */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
 }
 
 .form button {
@@ -90,14 +122,65 @@ body {
   background-color: rgb(12, 62, 4);
 }
 
+/* ---- Rodapé ----
+   Sem position: fixed: o rodapé fixo ficava por cima do fim da página
+   e escondia a tabela e os gráficos. Agora ele vem depois do conteúdo. */
 .footer {
-  background-color: rgb(16, 83, 5);
+  background-color: rgb(14, 20, 13);   /* quase preto: o rosa da logo aparece bem */
+  border-top: 4px solid rgb(16, 83, 5); /* faixa verde: liga com a nav */
   color: white;
   text-align: center;
-  padding: 10px 0;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
+  padding: 24px 16px;
+  margin-top: 48px;
+  font-family: Arial, sans-serif;
+}
+
+.footer-logo {
+  height: 32px;          /* a largura acompanha sozinha, sem distorcer */
+  margin-bottom: 12px;
+}
+
+.footer p {
+  margin: 4px 0;
+}
+
+.footer .footer-aviso {   /* ".footer" na frente: senão o ".footer p" acima ganha e anula a centralização */
+  font-size: 0.85rem;
+  color: rgb(190, 190, 190);
+  max-width: 640px;
+  margin: 8px auto 0;    /* centraliza o bloco de texto */
+  line-height: 1.5;
+}
+
+/* ---- Página Sobre ---- */
+.sobre h2 {
+  color: rgb(16, 83, 5);
+  margin-top: 32px;
+}
+
+.sobre p,
+.sobre li {
+  line-height: 1.6;
+}
+
+.equipe {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.equipe li {
+  background: #f2f2f2;
+  border-left: 6px solid rgb(16, 83, 5);
+  border-radius: 8px;
+  padding: 12px 16px;
+}
+
+.equipe strong {
+  display: block;
+  font-size: 1.1rem;
 }
 
 .conteudo {
