@@ -12,11 +12,11 @@
 
 # Neighborhood Action Dashboard — Global Solution 2026.2 (CitizenTech)
 
-> 🚧 Em finalização: faltam o nome do grupo, o tutor, os aprendizados e o vídeo.
+> 🚧 Revisão em andamento na branch `aline/atualização`. Antes da entrega, confirmar nome oficial do grupo e tutor(a), aprovar os aprendizados com a equipe, executar os testes finais e inserir o link do vídeo não listado. O repositório deve permanecer privado até a publicação autorizada pela equipe.
 
 ## 1. Equipe
 
-**Nome do grupo:** _(a definir)_
+**Nome do grupo:** _(a confirmar com a equipe)_
 
 ### 👨‍🎓 Integrantes
 - Marcelo Santos — RM 576131
@@ -24,7 +24,7 @@
 - Alice Brenda — RM 574916
 
 ### 👩‍🏫 Professores
-- **Tutor(a):** _(a definir)_
+- **Tutor(a):** _(a confirmar na FIAP ON)_
 - **Coordenador:** [André Godoi Chiovato](https://www.linkedin.com/in/andregodoichiovato/)
 
 ## 2. O bairro, o problema e o público
@@ -129,14 +129,14 @@ cd 1CC/GLOBAL-SOLUTION-2
 python src/sistema.py
 ```
 
-Ao abrir, o sistema lê os dados, mostra o resultado da validação e oferece dois caminhos:
+Ao abrir, o sistema procura uma sessão anterior em `data/saida/`. Se houver, pergunta se deseja **continuar de onde parou** ou **recomeçar com os dados demonstrativos originais**. Depois, mostra o resultado da validação e oferece dois caminhos:
 
 | Caminho | O que faz |
 |---|---|
 | **1 - Terminal** | O sistema completo, com menu: listar, buscar, filtrar, cadastrar, triagem, atualizar status, desfazer, histórico, hierarquia do bairro, painel de indicadores e correção de inconsistências. Tem modo acessível (sem cores, frases completas, confirmação antes de cada ação) |
-| **2 - Painel HTML (bônus)** | Gera `painel/solicitacoes.html` (na raiz do repositório) com os mesmos indicadores, para abrir no navegador. Só HTML e CSS montados pelo Python, sem JavaScript |
+| **2 - Painel HTML (bônus)** | Gera `painel/painel.html` e `painel/solicitacoes.html` (na raiz do repositório) com os mesmos indicadores para abrir no navegador; somente HTML e CSS montados pelo Python, sem JavaScript |
 
-Os dois caminhos usam os mesmos dados da sessão: o que for alterado no terminal aparece no painel gerado depois. Ao sair do terminal, o estado é salvo em `data/saida/`; os arquivos originais não mudam.
+Os dois caminhos usam os mesmos dados em memória: o que for alterado no terminal aparece no painel gerado depois. **Cada cadastro, correção, mudança de status e desfazer bem-sucedido salva automaticamente** a sessão em `data/saida/`; sair do terminal também salva. A opção de continuar recupera os registros e o histórico na próxima execução. Recomeçar com a base original permite um ensaio limpo, mas a sessão anterior será substituída ao salvar novas alterações. Os CSVs originais em `data/` nunca são modificados.
 
 Testes automáticos (comparam os resultados com o gabarito de `docs/dados.md`):
 
@@ -144,11 +144,19 @@ Testes automáticos (comparam os resultados com o gabarito de `docs/dados.md`):
 python src/testes.py
 ```
 
+**Sobre o formulário HTML:** `painel/formulario.html` é uma **prévia visual**, sem envio ou gravação de dados. Seus campos seguem as regras do cadastro Python (categoria, descrição de até 120 caracteres, local genérico e dia de 1 a 30). O cadastro funcional é a opção 4 do terminal.
+
+Para conferir as 11 verificações automatizadas (incluindo uma gravação e recarga isoladas, sem tocar nas sessões reais):
+
+```bash
+python3 src/testes.py
+```
+
 ## 7. Exemplos de uso
 
 Saída real do sistema (caminho 1, terminal). O que a pessoa digita aparece depois de cada pergunta.
 
-**Ao abrir:** a validação já separa os registros com problema.
+**Ao abrir com os dados originais:** a validação já separa os registros com problema.
 
 ```text
 Carga dos dados: 18 registros lidos, 16 válidos, 2 inconsistentes, 16 eventos no histórico.
@@ -203,7 +211,7 @@ Código da ocorrência (ex.: 14 ou 014): 999
 [!] Ocorrência 999 não encontrada.
 ```
 
-**Saída (opção 0):**
+**Saída (opção 0, depois do salvamento automático):**
 
 ```text
 Nesta sessão: 1 cadastro(s) e 1 mudança(s) de status.
@@ -229,10 +237,10 @@ Os arquivos originais em data/ não foram alterados.
 **Privacidade**
 - Todos os dados são fictícios. O cadastro **não pede nome, e-mail nem endereço**; o local é sempre um ponto genérico do bairro ("Entorno da UBS"), nunca a casa de alguém.
 - O formulário de protótipo do painel avisa para não colocar número da casa nem citar nomes de pessoas.
-- Os arquivos originais não são alterados; cada sessão grava em `data/saida/`, fora do repositório.
+- Os arquivos originais não são alterados; o estado da sessão é salvo automaticamente em `data/saida/`, pasta ignorada pelo Git, e pode ser retomado na execução seguinte.
 
 ## 9. Vídeo
-_(link do YouTube, "Não listado")_
+_(pendente: inserir o link do YouTube após a publicação como "Não listado")_
 
 ## 10. Conclusões, limitações e aprendizados
 
@@ -245,13 +253,20 @@ _(link do YouTube, "Não listado")_
 - Os pesos do score de prioridade foram escolhidos pela equipe e são uma opinião, não uma regra oficial.
 - O painel HTML é um retrato do momento em que foi gerado (não atualiza sozinho) e o formulário é só protótipo visual: o cadastro de verdade é feito no terminal.
 
-**Aprendizados:** _(a equipe escreve, com as palavras de cada integrante)_
+**Aprendizados técnicos demonstrados (texto-base sujeito à revisão da equipe):**
+- A mesma ocorrência precisa ser mantida de forma consistente em estruturas diferentes: lista para percorrer, dicionário para consultar por código, fila para triagem, pilha para desfazer, hierarquia para navegar e matriz para contar.
+- A validação é essencial antes de incluir dados nos indicadores. Separar registros inconsistentes, explicar o motivo e permitir correção torna os resultados mais confiáveis.
+- Regras booleanas e transições de status evitam estados impossíveis; o histórico preserva o que aconteceu, mesmo após desfazer.
+- Indicadores simples podem revelar situações diferentes: a categoria mais frequente não é necessariamente a que está pendente há mais tempo.
+- Persistir os dados em arquivos separados permite retomar o trabalho sem alterar a base fictícia usada para testar a aplicação.
+
+A equipe deve conferir esses pontos, registrar a contribuição real de cada integrante e aprovar a redação final antes da entrega.
 
 ---
 
 ## 📁 Estrutura de pastas
 
-* **`data/`** ocorrências e histórico simulados (CSV).
+* **`data/`** ocorrências e histórico simulados (CSV); a subpasta `saida/` guarda a sessão retomável localmente (ignorada pelo Git).
 * **`docs/`** documentação: checklist do edital e registro do uso de IA.
 * **`src/`** código-fonte Python.
 * **`README.md`** este arquivo.
