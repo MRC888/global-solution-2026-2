@@ -146,6 +146,11 @@ def validar_registro(registro, por_id):
         if campo_vazio(local):
             problemas.append(["local", "local vazio"])
 
+    # A interface já limita a descrição a 120 caracteres; a validação central
+    # também confere esse limite para carga do CSV e correção de inconsistências.
+    if len(descricao) > TAMANHO_MAXIMO_DESCRICAO:
+        problemas.append(["descricao", "descrição excede " + str(TAMANHO_MAXIMO_DESCRICAO) + " caracteres"])
+
     # Regra 5: o ponto e vírgula separa os campos no CSV, então não pode aparecer no texto
     if ";" in descricao or ";" in local:
         problemas.append(["descricao", "o texto não pode ter ponto e vírgula (;)"])
