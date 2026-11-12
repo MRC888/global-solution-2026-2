@@ -28,4 +28,4 @@ Cada entrega tem o próprio `README.md` com a descrição e as instruções de e
 
 | Pasta | Projeto | Situação |
 |---|---|---|
-| [1CC/GLOBAL-SOLUTION-2](1CC/GLOBAL-SOLUTION-2) | Neighborhood Action Dashboard | Em desenvolvimento |
+| [1CC/GLOBAL-SOLUTION-2](1CC/GLOBAL-SOLUTION-2) | Neighborhood Action Dashboard | Em revisão na branch `aline/atualização` (entrega ainda privada) |
