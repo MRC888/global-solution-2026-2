@@ -15,6 +15,8 @@ PASTA_SAIDA = os.path.join(PASTA_DADOS, "saida")
 
 ARQUIVO_OCORRENCIAS = os.path.join(PASTA_DADOS, "ocorrencias.csv")
 ARQUIVO_HISTORICO = os.path.join(PASTA_DADOS, "historico.csv")
+ARQUIVO_OCORRENCIAS_SALVAS = os.path.join(PASTA_SAIDA, "ocorrencias_sessao.csv")
+ARQUIVO_HISTORICO_SALVO = os.path.join(PASTA_SAIDA, "historico_sessao.csv")
 
 # O painel HTML (bônus) fica na pasta "painel" na raiz do repositório.
 PASTA_REPOSITORIO = os.path.dirname(os.path.dirname(PASTA_PROJETO))
@@ -67,14 +69,40 @@ def ler_registros(caminho, campos):
     return registros
 
 
-def ler_ocorrencias():
-    """Lê data/ocorrencias.csv e devolve a lista de registros (ou None se o arquivo não existir)."""
-    return ler_registros(ARQUIVO_OCORRENCIAS, CAMPOS_OCORRENCIA)
+def ha_sessao_salva(pasta_saida=None):
+    """Confere se existem os DOIS arquivos necessários para continuar uma sessão.
+
+    A pasta opcional permite testar sem tocar nos dados reais do usuário.
+    """
+    if pasta_saida is None:
+        pasta_saida = PASTA_SAIDA
+    ocorrencias = os.path.join(pasta_saida, "ocorrencias_sessao.csv")
+    historico = os.path.join(pasta_saida, "historico_sessao.csv")
+    return os.path.isfile(ocorrencias) and os.path.isfile(historico)
 
 
-def ler_historico():
-    """Lê data/historico.csv e devolve a lista de eventos (ou None se o arquivo não existir)."""
-    return ler_registros(ARQUIVO_HISTORICO, CAMPOS_EVENTO)
+def ler_ocorrencias(usar_sessao=False, pasta_saida=None):
+    """Lê os dados originais ou a versão salva, conforme a escolha do usuário."""
+    if usar_sessao:
+        if pasta_saida is None:
+            caminho = ARQUIVO_OCORRENCIAS_SALVAS
+        else:
+            caminho = os.path.join(pasta_saida, "ocorrencias_sessao.csv")
+    else:
+        caminho = ARQUIVO_OCORRENCIAS
+    return ler_registros(caminho, CAMPOS_OCORRENCIA)
+
+
+def ler_historico(usar_sessao=False, pasta_saida=None):
+    """Lê o histórico original ou o salvo; mantém o mesmo formato CSV."""
+    if usar_sessao:
+        if pasta_saida is None:
+            caminho = ARQUIVO_HISTORICO_SALVO
+        else:
+            caminho = os.path.join(pasta_saida, "historico_sessao.csv")
+    else:
+        caminho = ARQUIVO_HISTORICO
+    return ler_registros(caminho, CAMPOS_EVENTO)
 
 
 def gravar_linhas(caminho, cabecalho, linhas):
@@ -85,13 +113,15 @@ def gravar_linhas(caminho, cabecalho, linhas):
             arquivo.write(linha + "\n")
 
 
-def salvar_sessao(sistema):
-    """Salva o estado atual em data/saida/, sem mexer nos arquivos originais (decisão D10).
+def salvar_sessao(sistema, pasta_saida=None):
+    """Salva o estado atual em CSV sem alterar os dados fictícios originais.
 
-    Assim o vídeo e os testes sempre partem dos mesmos dados.
-    Devolve a lista com os caminhos gravados.
+    É chamada após cada alteração bem-sucedida e na saída do terminal.
+    pasta_saida permite que o teste use uma pasta isolada.
     """
-    os.makedirs(PASTA_SAIDA, exist_ok=True)
+    if pasta_saida is None:
+        pasta_saida = PASTA_SAIDA
+    os.makedirs(pasta_saida, exist_ok=True)
 
     linhas = []
     for oc in sistema["ocorrencias"]:
@@ -103,14 +133,14 @@ def salvar_sessao(sistema):
         reg = item["registro"]
         linhas.append(reg["id"] + ";" + reg["categoria"] + ";" + reg["descricao"] + ";"
                       + reg["local"] + ";" + reg["dia"] + ";" + reg["status"])
-    caminho_ocorrencias = os.path.join(PASTA_SAIDA, "ocorrencias_sessao.csv")
+    caminho_ocorrencias = os.path.join(pasta_saida, "ocorrencias_sessao.csv")
     gravar_linhas(caminho_ocorrencias, CABECALHO_OCORRENCIAS, linhas)
 
     linhas = []
     for ev in sistema["historico"]:
         linhas.append(ev["id"] + ";" + str(ev["dia"]) + ";" + ev["anterior"] + ";"
                       + ev["novo"] + ";" + ev["observacao"])
-    caminho_historico = os.path.join(PASTA_SAIDA, "historico_sessao.csv")
+    caminho_historico = os.path.join(pasta_saida, "historico_sessao.csv")
     gravar_linhas(caminho_historico, CABECALHO_HISTORICO, linhas)
 
     return [caminho_ocorrencias, caminho_historico]
