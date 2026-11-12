@@ -4,7 +4,8 @@
 # Como executar (dentro da pasta 1CC/GLOBAL-SOLUTION-2):
 #     python src/sistema.py
 #
-# Ao abrir, o sistema lê os CSVs, valida os registros, monta as estruturas
+# Ao abrir, o sistema oferece retomada da sessão salva, caso exista;
+# em seguida lê os CSVs escolhidos, valida os registros, monta as estruturas
 # e oferece dois caminhos:
 #     1 - Terminal: o sistema completo, com menu
 #     2 - Painel HTML (bônus): gera painel/solicitacoes.html com os indicadores
