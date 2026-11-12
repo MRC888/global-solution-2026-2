@@ -265,10 +265,9 @@ Na próxima execução, será possível continuar esta sessão.
 
 A pasta `notebooks/` do modelo não foi criada porque o projeto não usa notebooks (o modelo permite usar só as pastas que fazem sentido).
 
-## 📎 Observações
+## 📎 Uso de inteligência artificial
 
-* **Participação na Competição:** [ ] Sim, aceitamos participar / [ ] Não vamos participar.
-* **Uso de IA:** ver [docs/uso_ia.md](docs/uso_ia.md).
+O apoio de inteligência artificial ao projeto está documentado em [docs/uso_ia.md](docs/uso_ia.md).
 
 ---
 
