@@ -1,9 +1,9 @@
 # Checklist do edital — Neighborhood Action Dashboard
 
-Legenda: ✅ atendido e testado · 🟡 em andamento · ⬜ pendente.
+Legenda: ✅ implementado com evidência no código · 🟡 em revisão, aguardando confirmação ou teste final · ⬜ pendente.
 Coluna **Evidência**: arquivo, função ou teste que comprova o item.
 
-> Situação em 12/11/2026, branch `douglas`: código completo como **proposta**, ainda sem revisão da equipe.
+> Situação em 12/11/2026, branch `aline/atualização`: revisão de integração do formulário, persistência e documentação. A execução de toda a suíte atualizada deve ser confirmada pela equipe antes da entrega. A `main` não recebe estas mudanças.
 
 ## Dados simulados
 | # | Requisito | Situação | Evidência |
@@ -66,8 +66,8 @@ Coluna **Evidência**: arquivo, função ou teste que comprova o item.
 |---|---|---|---|
 | T1 | Só conceitos das Fases 1, 2 e 3 | 🟡 | Sem `try/except`, sem classes. Equipe deve revisar |
 | T2 | Sem pandas, numpy, sklearn, streamlit, web, banco de dados ou APIs | ✅ | Único `import` externo aos módulos: `os` |
-| T3 | Só biblioteca padrão (fora `csv`/`os`, com aprovação do Marcelo) | ✅ | Só `os` |
-| T4 | Executa com `python src/sistema.py` | ✅ | Testado com Python 3.14 |
+| T3 | Sem bibliotecas externas | ✅ | Sistema: `os`; testes isolados: `tempfile`, ambos da biblioteca padrão |
+| T4 | Executa com `python src/sistema.py` | 🟡 | Versão anterior testada com Python 3.14; reexecutar após alterações de persistência |
 
 ## README (estrutura obrigatória)
 | # | Seção | Situação |
@@ -81,7 +81,7 @@ Coluna **Evidência**: arquivo, função ou teste que comprova o item.
 | M7 | Exemplo de cadastro, consulta, alteração e saída | ✅ |
 | M8 | Acessibilidade, inclusão e privacidade | ✅ |
 | M9 | Link do vídeo | ⬜ |
-| M10 | Conclusões, limitações e aprendizados | 🟡 (falta "aprendizados", escrito pela equipe) |
+| M10 | Conclusões, limitações e aprendizados | 🟡 (texto-base de aprendizados inserido; equipe deve revisar e aprovar) |
 
 ## Entrega
 | # | Item | Situação |
@@ -89,5 +89,17 @@ Coluna **Evidência**: arquivo, função ou teste que comprova o item.
 | F1 | Repositório GitHub público, no modelo da coordenação | 🟡 (criado privado; tornar público antes da entrega) |
 | F2 | Vídeo no YouTube como "Não listado" | ⬜ |
 | F3 | TXT na FIAP ON com só os dois links | ⬜ |
-| F4 | Uso de IA documentado em `docs/uso_ia.md` | 🟡 |
-| F5 | Código sem erros nas operações demonstradas | ✅ (`src/testes.py` + sessões completas no terminal) |
+| F4 | Uso de IA documentado em `docs/uso_ia.md` | ✅ (registrar futuras alterações também) |
+| F5 | Código sem erros nas operações demonstradas | 🟡 (11 testes escritos; execução final e ensaio do vídeo pendentes) |
+
+## Revisão adicional da branch `aline/atualização`
+
+| Item | Situação | Evidência |
+|---|---|---|
+| Formulário visual alinhado às regras do Python | ✅ | `painel/formulario.html`: categoria, descrição ≤120, local genérico e dia 1–30; sem envio de dados |
+| RMs corrigidos na página Sobre | ✅ | `painel/sobre.html` |
+| Continuidade entre execuções | 🟡 | `dados.py`, `sistema.py`, `interface.py`; autosalvamento e retomada implementados, aguardando execução final |
+| Teste de persistência isolado | 🟡 | `src/testes.py`: grava/recupera com `tempfile` sem alterar dados do usuário; executar para validar |
+| Revisão visual do painel HTML | ⬜ | A alinhar com a equipe; CSS e estrutura visual mantidos nesta etapa |
+| Informações oficiais ainda faltantes | ⬜ | Nome oficial do grupo, tutor(a) e link do vídeo não listado |
+| Publicação para correção | ⬜ | Manter privado até autorização da equipe; publicar e conferir link público antes da entrega |
