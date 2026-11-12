@@ -5,6 +5,8 @@
 # Como rodar (dentro de 1CC/GLOBAL-SOLUTION-2):  python src/testes.py
 # Se algum teste falhar, o Python para e mostra qual assert não bateu.
 
+import tempfile
+
 import dados
 import estruturas
 import operacoes
@@ -63,6 +65,9 @@ def teste_validacao():
     ok = {"id": "050", "categoria": "limpeza", "descricao": "Lixo", "local": "Praça Central",
           "dia": "10", "status": "aberta"}
     assert validar_registro(ok, vazio) == []
+    longa = dict(ok)
+    longa["descricao"] = "x" * 121
+    assert validar_registro(longa, vazio) == [["descricao", "descrição excede 120 caracteres"]]
     sem_categoria = dict(ok)
     sem_categoria["categoria"] = ""
     assert validar_registro(sem_categoria, vazio) == [["categoria", "categoria ausente"]]
@@ -207,6 +212,37 @@ def teste_painel_html():
     passou("painel HTML: Início e Solicitações com os números dos dados")
 
 
+def teste_persistencia():
+    """Salva e recarrega cadastro, status e histórico, sem tocar nos CSVs originais.
+
+    Usa uma pasta temporária isolada, que é apagada ao encerrar o teste.
+    """
+    with tempfile.TemporaryDirectory() as pasta:
+        assert not dados.ha_sessao_salva(pasta)
+        s = sistema_novo()
+        assert operacoes.cadastrar(s, "iluminacao", "Poste apagado", "Praça Central", "30")[0]
+        assert operacoes.atualizar_status(s, "014", "em_analise", "Equipe avisada")[0]
+        caminhos = dados.salvar_sessao(s, pasta)
+        assert len(caminhos) == 2
+        assert dados.ha_sessao_salva(pasta)
+
+        novo = estruturas.criar_sistema()
+        estruturas.carregar_ocorrencias(novo, dados.ler_ocorrencias(True, pasta))
+        estruturas.carregar_historico(novo, dados.ler_historico(True, pasta))
+
+        assert len(novo["ocorrencias"]) == 17
+        assert len(novo["inconsistentes"]) == 2
+        assert novo["por_id"]["019"]["status"] == "aberta"
+        assert novo["por_id"]["014"]["status"] == "em_analise"
+        assert len(novo["historico"]) == 17
+        assert novo["historico"][-1]["id"] == "014"
+        assert novo["historico"][-1]["novo"] == "em_analise"
+        assert "019" in novo["fila"] and "014" not in novo["fila"]
+        assert novo["matriz"][2] == [0, 2, 1]
+        assert dados.ler_ocorrencias()[13]["status"] == "aberta"
+    passou("persistência: grava e retoma cadastro, status e histórico em pasta isolada")
+
+
 teste_carga()
 teste_estruturas()
 teste_validacao()
@@ -217,4 +253,5 @@ teste_status_e_desfazer()
 teste_triagem()
 teste_correcao()
 teste_painel_html()
+teste_persistencia()
 print(f"\n{testes_ok} testes passaram.")
