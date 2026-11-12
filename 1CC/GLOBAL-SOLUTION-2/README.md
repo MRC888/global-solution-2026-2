@@ -138,15 +138,9 @@ Ao abrir, o sistema procura uma sessão anterior em `data/saida/`. Se houver, pe
 
 Os dois caminhos usam os mesmos dados em memória: o que for alterado no terminal aparece no painel gerado depois. **Cada cadastro, correção, mudança de status e desfazer bem-sucedido salva automaticamente** a sessão em `data/saida/`; sair do terminal também salva. A opção de continuar recupera os registros e o histórico na próxima execução. Recomeçar com a base original permite um ensaio limpo, mas a sessão anterior será substituída ao salvar novas alterações. Os CSVs originais em `data/` nunca são modificados.
 
-Testes automáticos (comparam os resultados com o gabarito de `docs/dados.md`):
-
-```bash
-python src/testes.py
-```
-
 **Sobre o formulário HTML:** `painel/formulario.html` é uma **prévia visual**, sem envio ou gravação de dados. Seus campos seguem as regras do cadastro Python (categoria, descrição de até 120 caracteres, local genérico e dia de 1 a 30). O cadastro funcional é a opção 4 do terminal.
 
-Para conferir as 11 verificações automatizadas (incluindo uma gravação e recarga isoladas, sem tocar nas sessões reais):
+Para executar as 11 verificações automatizadas (incluindo cálculos conferidos com `docs/dados.md` e gravação/recarga isoladas, sem tocar nas sessões reais):
 
 ```bash
 python3 src/testes.py
@@ -174,6 +168,7 @@ Usar essa categoria? (s/n): s
 Escolha o local: 2
 Dia de abertura (1 a 30; hoje é o dia 30): 30
 [OK] Ocorrência 019 cadastrada e colocada na fila (posição 7 de 7).
+Sessão salva automaticamente em data/saida/.
 ```
 
 **Consulta (opção 3):** ocorrências abertas de iluminação.
@@ -219,6 +214,7 @@ Estado salvo em:
   .../data/saida/ocorrencias_sessao.csv
   .../data/saida/historico_sessao.csv
 Os arquivos originais em data/ não foram alterados.
+Na próxima execução, será possível continuar esta sessão.
 ```
 
 ## 8. Acessibilidade, inclusão e privacidade
