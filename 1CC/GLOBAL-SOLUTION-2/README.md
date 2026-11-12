@@ -12,19 +12,16 @@
 
 # Neighborhood Action Dashboard — Global Solution 2026.2 (CitizenTech)
 
-> 🚧 Revisão em andamento na branch `aline/atualização`. Antes da entrega, confirmar nome oficial do grupo e tutor(a), aprovar os aprendizados com a equipe, executar os testes finais e inserir o link do vídeo não listado. O repositório deve permanecer privado até a publicação autorizada pela equipe.
-
 ## 1. Equipe
 
-**Nome do grupo:** _(a confirmar com a equipe)_
+**Nome da equipe e do projeto:** Neighborhood Action Dashboard
 
 ### 👨‍🎓 Integrantes
 - Marcelo Santos — RM 576131
 - Douglas Goltz — RM 574439
 - Alice Brenda — RM 574916
 
-### 👩‍🏫 Professores
-- **Tutor(a):** _(a confirmar na FIAP ON)_
+### 👩‍🏫 Coordenação
 - **Coordenador:** [André Godoi Chiovato](https://www.linkedin.com/in/andregodoichiovato/)
 
 ## 2. O bairro, o problema e o público
@@ -56,7 +53,7 @@ Todas as estruturas ficam em um dicionário `sistema`, montado em [`src/estrutur
 
 ## 4. Regras lógicas principais
 
-**Validação** ([`validacao.validar_registro`](src/validacao.py)): todo registro (na carga do CSV, no cadastro e na correção) passa por seis regras. O registro recebe **todos** os motivos, não só o primeiro.
+**Validação** ([`validacao.validar_registro`](src/validacao.py)): todo registro (na carga do CSV, no cadastro e na correção) passa por verificações de identificação, categoria, status, campos obrigatórios, descrição, caracteres e data simulada. O registro recebe **todos** os motivos, não só o primeiro.
 
 | Regra | Mensagem | Por que essa mensagem aparece |
 |---|---|---|
@@ -65,6 +62,7 @@ Todas as estruturas ficam em um dicionário `sistema`, montado em [`src/estrutur
 | Status fora dos 3 padronizados | "status desconhecido (resolvido)" | O status decide a coluna da matriz e se a ocorrência vai para a fila |
 | Descrição **ou** local vazio (L1) | "descrição vazia" / "local vazio" | São campos obrigatórios para entender o problema |
 | `;` no texto | "o texto não pode ter ponto e vírgula" | O `;` separa os campos do CSV e quebraria o arquivo |
+| Descrição acima de 120 caracteres | "descrição excede 120 caracteres" | Limita o tamanho do campo no terminal e na validação dos CSVs |
 | Dia **não** numérico **ou** fora de 1 a 30 (L2) | "dia fora do período" | O tempo é simulado de 1 a 30; fora disso, os cálculos de tempo perdem o sentido |
 
 **Mudança de status** ([`validacao.verificar_transicao`](src/validacao.py)): só para a frente, um passo por vez (`aberta → em_analise → concluida`). O `if/elif/else` testa na ordem: status desconhecido → igual ao atual → já concluída → transição proibida → aceita. Cada `elif` só roda se os anteriores falharam, então a pessoa recebe o motivo mais claro. Para corrigir um engano existe o "desfazer" (opção 7).
@@ -236,7 +234,7 @@ Na próxima execução, será possível continuar esta sessão.
 - Os arquivos originais não são alterados; o estado da sessão é salvo automaticamente em `data/saida/`, pasta ignorada pelo Git, e pode ser retomado na execução seguinte.
 
 ## 9. Vídeo
-_(pendente: inserir o link do YouTube após a publicação como "Não listado")_
+**Vídeo de apresentação:** link a ser incluído após a publicação no YouTube como “Não listado”.
 
 ## 10. Conclusões, limitações e aprendizados
 
@@ -249,14 +247,12 @@ _(pendente: inserir o link do YouTube após a publicação como "Não listado")_
 - Os pesos do score de prioridade foram escolhidos pela equipe e são uma opinião, não uma regra oficial.
 - O painel HTML é um retrato do momento em que foi gerado (não atualiza sozinho) e o formulário é só protótipo visual: o cadastro de verdade é feito no terminal.
 
-**Aprendizados técnicos demonstrados (texto-base sujeito à revisão da equipe):**
+**Aprendizados técnicos demonstrados:**
 - A mesma ocorrência precisa ser mantida de forma consistente em estruturas diferentes: lista para percorrer, dicionário para consultar por código, fila para triagem, pilha para desfazer, hierarquia para navegar e matriz para contar.
 - A validação é essencial antes de incluir dados nos indicadores. Separar registros inconsistentes, explicar o motivo e permitir correção torna os resultados mais confiáveis.
 - Regras booleanas e transições de status evitam estados impossíveis; o histórico preserva o que aconteceu, mesmo após desfazer.
 - Indicadores simples podem revelar situações diferentes: a categoria mais frequente não é necessariamente a que está pendente há mais tempo.
 - Persistir os dados em arquivos separados permite retomar o trabalho sem alterar a base fictícia usada para testar a aplicação.
-
-A equipe deve conferir esses pontos, registrar a contribuição real de cada integrante e aprovar a redação final antes da entrega.
 
 ---
 
