@@ -115,6 +115,12 @@ def confirmar_se_acessivel(pergunta):
     return True
 
 
+def salvar_automaticamente(sistema):
+    """Persiste a lista e o histórico após mudanças; preserva os CSVs originais."""
+    dados.salvar_sessao(sistema)
+    print("Sessão salva automaticamente em data/saida/.")
+
+
 def escolher_da_lista(pergunta, nomes, permitir_vazio):
     """Mostra uma lista numerada e devolve o índice escolhido (começa em 0).
 
@@ -251,6 +257,23 @@ def mostrar_relatorio_carga(sistema):
         print("  - " + aviso)
 
 
+def escolher_origem_dados():
+    """Pergunta se deve retomar uma sessão existente ou usar a base demonstrativa."""
+    print("\nEncontrei uma sessão anterior salva em data/saida/.")
+    print("  1 - Continuar do ponto em que parei")
+    print("  2 - Recomeçar com os dados fictícios originais")
+    print("A opção 2 não apaga os arquivos originais. Ao alterar ou salvar,")
+    print("a nova sessão substitui a sessão salva anterior.")
+    while True:
+        resposta = ler_texto("Escolha 1 ou 2: ")
+        if resposta == "1":
+            return True
+        elif resposta == "2":
+            return False
+        else:
+            mensagem_erro("Digite 1 para continuar ou 2 para recomeçar.")
+
+
 def escolher_caminho():
     """Os dois caminhos do sistema. Devolve "1", "2" ou "0"."""
     print()
@@ -382,6 +405,7 @@ def tela_cadastrar(sistema):
         nova = resultado[2]
         mensagem_ok(f"Ocorrência {nova['id']} cadastrada e colocada na fila "
                     f"(posição {len(sistema['fila'])} de {len(sistema['fila'])}).")
+        salvar_automaticamente(sistema)
     else:
         mensagem_erro("Cadastro recusado: " + mensagens_dos_problemas(resultado[1]))
     pausar()
@@ -396,6 +420,7 @@ def pedir_mudanca(sistema, codigo, status_novo):
     resultado = operacoes.atualizar_status(sistema, codigo, status_novo, observacao)
     if resultado[0]:
         mensagem_ok(resultado[1])
+        salvar_automaticamente(sistema)
     else:
         mensagem_erro(resultado[1])
     return resultado[0]
@@ -466,6 +491,7 @@ def tela_desfazer(sistema):
         resultado = operacoes.desfazer(sistema)
         if resultado[0]:
             mensagem_ok(resultado[1])
+            salvar_automaticamente(sistema)
         else:
             mensagem_erro(resultado[1])
     else:
@@ -707,12 +733,13 @@ def corrigir(sistema, indice):
     resultado = operacoes.corrigir_inconsistente(sistema, indice, registro)
     if resultado[0]:
         mensagem_ok(resultado[1])
+        salvar_automaticamente(sistema)
     else:
         mensagem_erro("Ainda há problemas: " + mensagens_dos_problemas(resultado[1]))
 
 
 def tela_salvar(sistema):
-    """Opção 0: grava o estado da sessão em data/saida/ e mostra o resumo do que mudou."""
+    """Opção 0: confirma o estado salvo em data/saida/ e mostra as mudanças desta execução."""
     titulo("Salvar e voltar ao início")
     caminhos = dados.salvar_sessao(sistema)
     print(f"Nesta sessão: {sistema['cadastros']} cadastro(s) e {sistema['mudancas']} mudança(s) de status.")
@@ -720,6 +747,7 @@ def tela_salvar(sistema):
     for caminho in caminhos:
         print("  " + caminho)
     print("Os arquivos originais em data/ não foram alterados.")
+    print("Na próxima execução, será possível continuar esta sessão.")
 
 
 # ---------------------------------------------------------------
