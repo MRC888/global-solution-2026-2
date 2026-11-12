@@ -1,5 +1,7 @@
 # Algoritmo v1 — Neighborhood Action Dashboard (Vila Esperança)
 
+> **Documento histórico de concepção.** Esta versão registra decisões ainda em aberto na etapa inicial, antes da implementação. Para o comportamento efetivamente implementado, consulte `../README.md`, `dados.md`, `checklist.md` e o código em `../src/`. O sistema atual também permite retomar uma sessão salva automaticamente após alterações. Este rascunho é preservado como registro do processo, não como instrução atual de execução.
+
 > **Rascunho para a reunião da equipe.** Nada aqui é definitivo. Anotem, risquem e mudem. Só depois de fechado este algoritmo é que o código começa.
 >
 > Como ler: cada passo diz **o que** o sistema faz, **como** (em português, sem código) e **por quê**. Os pontos marcados com **❓ D1, D2…** são decisões para a reunião e estão reunidos na seção 12.
