@@ -1,0 +1,19 @@
+id;categoria;descricao;local;dia;status
+001;iluminacao;Poste apagado na entrada da praça;Praça Central;1;concluida
+002;acessibilidade;Rampa de acesso com piso solto;Entorno da UBS;2;concluida
+003;acessibilidade;Calçada sem rampa em frente à UBS;Entorno da UBS;3;em_analise
+004;limpeza;Lixo acumulado ao lado do ponto;Ponto de Ônibus;4;concluida
+005;acessibilidade;Piso tátil danificado no acesso à UBS;Entorno da UBS;5;aberta
+006;conservacao;Banco da praça quebrado;Praça Central;6;concluida
+007;acessibilidade;Degrau alto sem corrimão na entrada da UBS;Entorno da UBS;8;em_analise
+008;iluminacao;Lâmpada queimada no ponto de ônibus;Ponto de Ônibus;10;concluida
+009;limpeza;Entulho na calçada da escola;Entorno da Escola;12;em_analise
+010;conservacao;Muro da escola pichado;Entorno da Escola;14;aberta
+011;iluminacao;Rua escura no caminho da escola;Entorno da Escola;16;concluida
+012;conservacao;Brinquedo do parquinho quebrado;Praça Central;18;em_analise
+013;iluminacao;Refletor da quadra sem funcionar;Praça Central;20;aberta
+014;limpeza;Mato alto ao redor dos bancos;Praça Central;22;aberta
+015;iluminacao;Poste piscando à noite;Ponto de Ônibus;24;aberta
+016;conservacao;Pintura da faixa de pedestres apagada;Entorno da UBS;26;aberta
+017;;Restos de obra e entulho jogados na esquina;Entorno da Escola;27;aberta
+018;iluminacao;Luminária caída na calçada;Ponto de Ônibus;28;resolvido

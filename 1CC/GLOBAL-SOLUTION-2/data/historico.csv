@@ -1,0 +1,17 @@
+id;dia;status_anterior;status_novo;observacao
+001;3;aberta;em_analise;Equipe de manutenção avisada
+002;3;aberta;em_analise;Vistoria agendada
+004;5;aberta;em_analise;Mutirão de limpeza marcado
+002;6;em_analise;concluida;Piso da rampa refeito
+003;6;aberta;em_analise;Medição da calçada feita
+004;7;em_analise;concluida;Lixo recolhido
+001;8;em_analise;concluida;Lâmpada do poste trocada
+006;10;aberta;em_analise;Orçamento do conserto pedido
+008;12;aberta;em_analise;Pedido de troca registrado
+007;12;aberta;em_analise;Projeto do corrimão em estudo
+006;15;em_analise;concluida;Banco consertado
+008;15;em_analise;concluida;Lâmpada trocada
+009;15;aberta;em_analise;Caçamba solicitada
+011;17;aberta;em_analise;Vistoria noturna feita
+011;20;em_analise;concluida;Novos postes ligados
+012;21;aberta;em_analise;Peça de reposição encomendada
