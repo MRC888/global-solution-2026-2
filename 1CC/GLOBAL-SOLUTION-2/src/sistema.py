@@ -8,7 +8,7 @@
 # em seguida lê os CSVs escolhidos, valida os registros, monta as estruturas
 # e oferece dois caminhos:
 #     1 - Terminal: o sistema completo, com menu
-#     2 - Painel HTML (bônus): gera painel/solicitacoes.html com os indicadores
+#     2 - Painel HTML (bônus): gera painel/painel.html e solicitacoes.html
 # Os dois caminhos usam os mesmos dados da sessão: o que for cadastrado ou
 # alterado no terminal aparece no painel gerado depois.
 
