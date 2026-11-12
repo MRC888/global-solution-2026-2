@@ -12,7 +12,7 @@
 
 # Neighborhood Action Dashboard — Global Solution 2026.2 (CitizenTech)
 
-> 🚧 Em desenvolvimento. Versão de proposta na branch `douglas`, ainda em revisão pela equipe.
+> 🚧 Em finalização: faltam o nome do grupo, o tutor, os aprendizados e o vídeo.
 
 ## 1. Equipe
 
@@ -20,8 +20,8 @@
 
 ### 👨‍🎓 Integrantes
 - Marcelo Santos — RM 576131
-- Douglas — RM _(a definir)_
-- Alice — RM _(a definir)_
+- Douglas Goltz — RM 574439
+- Alice Brenda — RM 574916
 
 ### 👩‍🏫 Professores
 - **Tutor(a):** _(a definir)_

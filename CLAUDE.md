@@ -22,13 +22,13 @@ Este repositório é o **portfólio** no formato de `equipe1ccon/FIAP-PORTFOLIO-
 | Pessoa | Papel |
 |---|---|
 | Marcelo Santos (RM 576131), líder | Arquitetura, estruturas, integração, README |
-| Integrante 2 (a confirmar) | Validações, regras, score, indicadores |
-| Integrante 3 (a confirmar) | Interface do terminal, modo acessível, identidade do bairro, vídeo |
+| Douglas Goltz (RM 574439) | Código do sistema, validações, regras, indicadores e painel HTML |
+| Alice Brenda (RM 574916) | Visual, modo acessível e vídeo |
 
 ## Repositórios (os dois privados)
 | Repositório | Branch local | Remote | O que tem |
 |---|---|---|---|
-| [MRC888/global-solution-2026-2](https://github.com/MRC888/global-solution-2026-2) | `main` | `origin` | **Oficial da equipe.** Só a primeira etapa: estrutura, README em branco, checklist zerada, `algoritmo_v1.md` |
+| [MRC888/global-solution-2026-2](https://github.com/MRC888/global-solution-2026-2) | `main` | `origin` | **Oficial da equipe.** Sistema completo do Douglas, dados, testes, README, painel HTML e roteiro do vídeo |
 | [MRC888/gs2026-claude](https://github.com/MRC888/gs2026-claude) | `rascunho-claude` | `rascunho` | **Rascunho do Claude**, temporário: tudo o que foi adiantado, incluindo `data/*.csv` e `docs/dados.md` (dados da Vila Esperança e gabarito dos indicadores conferido por script) |
 
 Para consultar o rascunho sem trocar de branch: `git show rascunho-claude:1CC/GLOBAL-SOLUTION-2/docs/dados.md`.
@@ -39,8 +39,9 @@ No fim do projeto, antes da entrega, **lembrar o Marcelo** de:
 2. excluir o repositório `MRC888/gs2026-claude`, a branch `rascunho-claude` e o remote `rascunho`;
 3. tornar público o `global-solution-2026-2` (o edital exige repositório público).
 
-## Estado e próximas tarefas
-- [x] Primeira etapa: estrutura do portfólio, checklist, uso de IA e `docs/algoritmo_v1.md` (14 decisões, D1–D14, para a reunião)
-- [ ] **Código parado até a reunião fechar o algoritmo** (pedido do Marcelo, 10/11/2026). Depois da reunião: aplicar as anotações, criar a v2 e só então começar o código.
-- [ ] Pendências: prazo, nome da equipe e RMs, turma (o modelo usa pastas por turma, como `1CC-AGO/1CCOR/1CCOA`; aqui foi usado `1CC/`, como no README do modelo)
-- [x] Convites de colaborador (escrita) no repositório oficial enviados a `Douglasgbm` e `alicebessag` em 10/11/2026; aceitar em https://github.com/MRC888/global-solution-2026-2/invitations. O rascunho `gs2026-claude` continua só com o Marcelo.
+## Estado e próximas tarefas (12/11/2026)
+- [x] Sistema completo na `main` (Douglas, 12/11), revisado sem alterações; roteiro do vídeo em `docs/roteiro_video.md`.
+- [ ] Douglas corrige os pontos da revisão (ver nota do Obsidian, 12/11).
+- [ ] README: nome do grupo, tutor, aprendizados e link do vídeo.
+- [ ] Gravar o vídeo ("Não listado") e montar o `.TXT` com os dois links.
+- [ ] Lembrete acima: tornar público, apagar o rascunho.
