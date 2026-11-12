@@ -22,23 +22,34 @@
 </nav>
 
 <main class="conteudo">
-
     <h2>Registrar uma ocorrência</h2>
     <p>
-        Conte qual é o problema e onde ele está. Os campos com <span aria-hidden="true">*</span>
-        <span class="sr-only">asterisco</span> são obrigatórios.
+        Demonstração visual do cadastro do bairro fictício <strong>Vila Esperança</strong>.
+        O cadastro funcional é realizado no terminal, com validação em Python.
     </p>
 
-    <!-- Aviso: este formulário é só o protótipo visual.
-         O cadastro de verdade (com validação e gravação) é feito no Python. -->
-    <p class="aviso-prototipo">
-        <strong>Protótipo:</strong> esta tela mostra como seria o cadastro.
-        Nada é enviado nem gravado; o registro real é feito pelo sistema em Python.
+    <p class="aviso-prototipo" id="aviso-prototipo">
+        <strong>Prévia, sem envio de dados:</strong> esta página não cadastra nem salva ocorrências.
+        Execute <code>python3 src/sistema.py</code>, escolha <strong>1 — Terminal</strong>
+        e depois <strong>4 — Cadastrar nova ocorrência</strong>.
     </p>
 
-    <form class="form" action="#">
+    <!-- Campos espelhados do cadastro em interface.py e das regras em validacao.py.
+         Não há JavaScript, servidor ou gravação neste formulário demonstrativo. -->
+    <form class="form" aria-describedby="aviso-prototipo">
+        <p>
+            <strong>Código:</strong> gerado automaticamente pelo Python.
+            <strong>Situação inicial:</strong> Aberta (aguardando triagem).
+        </p>
 
-        <!-- Categoria: valores padronizados, iguais aos do sistema em Python -->
+        <label for="descricao">Descrição do problema *</label>
+        <textarea id="descricao" name="descricao" rows="4" maxlength="120" required
+                  aria-describedby="dica-descricao"
+                  placeholder="Ex.: Poste apagado perto da praça."></textarea>
+        <small id="dica-descricao" class="dica">
+            Até 120 caracteres; não use ponto e vírgula nem dados pessoais.
+        </small>
+
         <label for="categoria">Categoria *</label>
         <select id="categoria" name="categoria" required>
             <option value="">Escolha uma categoria</option>
@@ -47,38 +58,31 @@
             <option value="limpeza">Limpeza</option>
             <option value="conservacao">Conservação de espaços coletivos</option>
         </select>
+        <small class="dica">No terminal, o programa pode sugerir uma categoria a partir da descrição.</small>
 
-        <label for="bairro">Bairro *</label>
-        <input type="text" id="bairro" name="bairro" required>
-
-        <!-- Local genérico: rua ou ponto de referência, SEM número da casa (privacidade) -->
-        <label for="local">Rua ou ponto de referência *</label>
-        <input type="text" id="local" name="local" required
-               aria-describedby="dica-local"
-               placeholder="Ex.: Rua das Flores, perto da UBS">
+        <label for="local">Local genérico *</label>
+        <select id="local" name="local" required aria-describedby="dica-local">
+            <option value="">Escolha um ponto de referência</option>
+            <option value="Entorno da UBS">Entorno da UBS</option>
+            <option value="Entorno da Escola">Entorno da Escola</option>
+            <option value="Praça Central">Praça Central</option>
+            <option value="Ponto de Ônibus">Ponto de Ônibus</option>
+        </select>
         <small id="dica-local" class="dica">
-            Não coloque o número da casa: queremos saber onde está o problema, não onde você mora.
+            Selecione somente um dos locais fictícios; não informe endereços particulares.
         </small>
 
-        <label for="descricao">Descrição do problema *</label>
-        <textarea id="descricao" name="descricao" rows="4" maxlength="300" required
-                  aria-describedby="dica-descricao"
-                  placeholder="Ex.: Poste apagado há dias, a rua fica escura à noite."></textarea>
-        <small id="dica-descricao" class="dica">Até 300 caracteres. Descreva o problema, sem citar nomes de pessoas.</small>
+        <label for="dia">Dia simulado de abertura *</label>
+        <input type="number" id="dia" name="dia" min="1" max="30" step="1" required
+               aria-describedby="dica-dia" placeholder="1 a 30">
+        <small id="dica-dia" class="dica">
+            O período simulado vai do dia 1 ao dia 30 (hoje = dia 30).
+        </small>
 
-        <!-- Opções fixas: cada uma vira um número de dias no indicador de tempo -->
-        <label for="tempo">Há quanto tempo o problema existe? *</label>
-        <select id="tempo" name="tempo" required>
-            <option value="">Escolha uma opção</option>
-            <option value="menos_1_semana">Menos de 1 semana</option>
-            <option value="1_a_4_semanas">De 1 a 4 semanas</option>
-            <option value="1_a_3_meses">De 1 a 3 meses</option>
-            <option value="mais_3_meses">Mais de 3 meses</option>
-        </select>
-
-        <button type="submit">Registrar ocorrência</button>
+        <button type="button" disabled aria-describedby="aviso-prototipo">
+            Cadastro disponível no terminal
+        </button>
     </form>
-
 </main>
 
 <footer class="footer">
