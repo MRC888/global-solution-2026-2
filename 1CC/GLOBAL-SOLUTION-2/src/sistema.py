@@ -17,10 +17,10 @@ import interface
 import painel_html
 
 
-def carregar_sistema():
-    """Lê os arquivos e monta todas as estruturas. Devolve None se faltar um arquivo."""
-    registros = dados.ler_ocorrencias()
-    eventos = dados.ler_historico()
+def carregar_sistema(usar_sessao=False):
+    """Lê a base escolhida e monta as estruturas. Devolve None se faltar um arquivo."""
+    registros = dados.ler_ocorrencias(usar_sessao)
+    eventos = dados.ler_historico(usar_sessao)
     if registros is None or eventos is None:
         return None
     sistema = estruturas.criar_sistema()
@@ -35,13 +35,17 @@ def main():
     O while repete a escolha do caminho até a pessoa digitar 0. Assim dá para
     usar o terminal, depois gerar o painel com as mudanças feitas, e só então sair."""
     interface.mostrar_abertura()
-    sistema = carregar_sistema()
+    usar_sessao = False
+    if dados.ha_sessao_salva():
+        usar_sessao = interface.escolher_origem_dados()
+    sistema = carregar_sistema(usar_sessao)
     if sistema is None:
         print("\nNão encontrei os arquivos de dados:")
         print("  " + dados.ARQUIVO_OCORRENCIAS)
         print("  " + dados.ARQUIVO_HISTORICO)
         print("Confira se a pasta data/ está junto da pasta src/.")
         return
+    print("\nOrigem dos dados: " + ("sessão salva" if usar_sessao else "base fictícia original") + ".")
     interface.mostrar_relatorio_carga(sistema)
 
     while True:
