@@ -8,9 +8,11 @@ Bairro fictício: **Vila Esperança**. Todos os dados são inventados e nenhum i
 |---|---|
 | `data/ocorrencias.csv` | As 18 ocorrências (16 válidas e 2 inconsistentes de propósito) |
 | `data/historico.csv` | 16 eventos de mudança de status |
-| `data/saida/` | Criada pelo sistema ao salvar a sessão. Os originais nunca são alterados (decisão D10) |
+| `data/saida/` | Guarda automaticamente `ocorrencias_sessao.csv` e `historico_sessao.csv` após cada alteração; pode ser retomada na próxima execução. É ignorada pelo Git; os arquivos originais nunca são alterados |
 
 **Formato:** texto UTF-8, uma linha por registro, campos separados por `;`. A primeira linha é o cabeçalho. Por isso nenhum texto pode conter `;`, e o sistema recusa esse caractere no cadastro.
+
+**Persistência:** se os dois arquivos de `data/saida/` existirem, a abertura pergunta se deseja retomar a sessão ou carregar a base fictícia original. Cadastro, correção, atualização de status e desfazer salvam automaticamente; sair pelo menu também salva. Para recomeçar a demonstração, escolha a base original. Depois de salvar mudanças nesse modo, o estado anterior em `data/saida/` é substituído. Os arquivos `ocorrencias.csv` e `historico.csv` permanecem inalterados.
 
 ## Campos de uma ocorrência (todos obrigatórios)
 
