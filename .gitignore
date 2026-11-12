@@ -12,3 +12,6 @@ desktop.ini
 # Editores
 .vscode/
 .idea/
+
+# Arquivos gravados pelo sistema a cada sessão (os dados originais ficam em data/)
+1CC/GLOBAL-SOLUTION-2/data/saida/

@@ -1,0 +1,295 @@
+body {
+  margin: 0;               /* tira a borda branca padrão em volta do banner */
+}
+
+.banner {
+  background-image: url("../assets/banner.jpeg");
+  background-size: cover;
+  background-position: center;
+  aspect-ratio: 3168 / 1344;   /* proporção da imagem: o banner aparece inteiro */
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  color: rgb(46, 9, 9);
+}
+
+.banner h1 {
+  color: rgb(28, 172, 6);                          /* cor da letra */
+  font-size: 3rem;                       /* tamanho (1rem = 16px) */
+  font-family: Arial, sans-serif;        /* tipo de letra */
+  font-weight: bold;                     /* espessura: normal, bold, 300, 800... */
+  letter-spacing: 2px;                   /* espaço entre as letras */
+  text-transform: uppercase;             /* TUDO MAIÚSCULO (opcional) */
+  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7);  /* sombra: ajuda a ler sobre a foto */
+  margin: 3px;                             /* tira a margem padrão do h1 */
+}
+
+.nav {
+  background-color: rgb(16, 83, 5);
+  padding: 10px 24px;
+
+}
+
+.nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  height: 100%;
+}
+
+.nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  letter-spacing: 1px;
+  transition: color 0.3s ease;
+}
+
+.nav a:hover {
+  color: rgb(4, 4, 4);
+}
+
+.p {
+  font-size: 1rem;
+  line-height: 1.5;
+  margin: 16px 24px;
+  color: rgb(46, 9, 9);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 16px 24px;
+}
+
+.form label {
+  font-weight: bold;
+}
+
+.form input,
+.form textarea,
+.form select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+/* dentro do .conteudo o formulário alinha com o título (sem recuo lateral) */
+.conteudo .form {
+  margin: 16px 0;
+}
+
+/* dica embaixo do campo */
+.form .dica {
+  color: #555;
+  margin-top: -6px;      /* encosta a dica no campo de cima */
+}
+
+/* caixa que avisa que o formulário é só protótipo */
+.aviso-prototipo {
+  background: #fff8e1;
+  border-left: 6px solid #d68910;
+  border-radius: 6px;
+  padding: 12px 16px;
+}
+
+/* texto só para leitor de tela (não aparece, mas é lido) */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.form button {
+  padding: 10px 16px;
+  background-color: rgb(16, 83, 5);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.form button:hover {
+  background-color: rgb(12, 62, 4);
+}
+
+/* ---- Rodapé ----
+   Sem position: fixed: o rodapé fixo ficava por cima do fim da página
+   e escondia a tabela e os gráficos. Agora ele vem depois do conteúdo. */
+.footer {
+  background-color: rgb(14, 20, 13);   /* quase preto: o rosa da logo aparece bem */
+  border-top: 4px solid rgb(16, 83, 5); /* faixa verde: liga com a nav */
+  color: white;
+  text-align: center;
+  padding: 24px 16px;
+  margin-top: 48px;
+  font-family: Arial, sans-serif;
+}
+
+.footer-logo {
+  height: 32px;          /* a largura acompanha sozinha, sem distorcer */
+  margin-bottom: 12px;
+}
+
+.footer p {
+  margin: 4px 0;
+}
+
+.footer .footer-aviso {   /* ".footer" na frente: senão o ".footer p" acima ganha e anula a centralização */
+  font-size: 0.85rem;
+  color: rgb(190, 190, 190);
+  max-width: 640px;
+  margin: 8px auto 0;    /* centraliza o bloco de texto */
+  line-height: 1.5;
+}
+
+/* ---- Página Sobre ---- */
+.sobre h2 {
+  color: rgb(16, 83, 5);
+  margin-top: 32px;
+}
+
+.sobre p,
+.sobre li {
+  line-height: 1.6;
+}
+
+.equipe {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.equipe li {
+  background: #f2f2f2;
+  border-left: 6px solid rgb(16, 83, 5);
+  border-radius: 8px;
+  padding: 12px 16px;
+}
+
+.equipe strong {
+  display: block;
+  font-size: 1.1rem;
+}
+
+.conteudo {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 24px 16px;
+  font-family: Arial, sans-serif;
+}
+
+/* ---- Cartões ---- */
+.cartoes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
+  margin-bottom: 32px;
+}
+.cartao {
+  background: #f2f2f2;
+  border-left: 6px solid #555;
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+}
+.cartao .numero { font-size: 2.5rem; font-weight: bold; }
+.cartao .rotulo { color: #444; }
+
+/* cores por status (usadas nos cartões e na barra empilhada) */
+.aberta    { border-color: #c0392b; }
+.analise   { border-color: #d68910; }
+.concluida { border-color: #1e8449; }
+
+/* ---- Tabela ---- */
+.tabela {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 32px;
+}
+.tabela caption { text-align: left; color: #444; margin-bottom: 8px; }
+.tabela th, .tabela td {
+  border: 1px solid #ccc;
+  padding: 8px 12px;
+  text-align: center;
+}
+.tabela th[scope="row"] { text-align: left; }
+.tabela thead, .tabela tfoot { background: #222; color: white; }
+.tabela tbody tr:nth-child(even) { background: #f7f7f7; }
+
+/* ---- Gráfico de barras ---- */
+.grafico { margin-bottom: 32px; }
+.linha {
+  display: grid;
+  grid-template-columns: 130px 1fr 80px;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+.trilho { background: #e5e5e5; border-radius: 4px; height: 22px; }
+.barra  { background: #2e86c1; height: 100%; border-radius: 4px; }
+
+/* ---- Barra empilhada ---- */
+.empilhada {
+  display: flex;
+  height: 36px;
+  border-radius: 6px;
+  overflow: hidden;
+  color: white;
+  font-weight: bold;
+}
+.empilhada div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+.empilhada .aberta    { background: #c0392b; }
+.empilhada .analise   { background: #d68910; }
+.empilhada .concluida { background: #1e8449; }
+
+/* ---- Link com cara de botão (ex.: "Ver todas as solicitações" na Início) ---- */
+.botao-link {
+  display: inline-block;              /* aceita padding como um botão */
+  margin-top: 8px;
+  padding: 12px 20px;
+  background-color: rgb(16, 83, 5);   /* mesmo verde do menu e do botão do formulário */
+  color: white;
+  text-decoration: none;              /* tira o sublinhado padrão do link */
+  font-weight: bold;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+}
+
+.botao-link span {
+  display: inline-block;
+  margin-left: 6px;
+  transition: transform 0.2s ease;
+}
+
+.botao-link:hover {
+  background-color: rgb(12, 62, 4);   /* verde mais escuro ao passar o mouse */
+}
+
+.botao-link:hover span {
+  transform: translateX(4px);         /* a seta anda um pouco para a direita */
+}
+
+/* contorno visível ao navegar pelo teclado (Tab): acessibilidade */
+.botao-link:focus-visible {
+  outline: 3px solid rgb(214, 137, 16);
+  outline-offset: 3px;
+}
