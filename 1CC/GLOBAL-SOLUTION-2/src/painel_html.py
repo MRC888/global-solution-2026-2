@@ -224,7 +224,10 @@ def secao_conclusao(sistema):
     html = "\n    <section>\n        <h2>O que os números sugerem</h2>\n"
     for frase in indicadores.gerar_conclusao(sistema):
         html += f"        <p>{escapar(frase)}</p>\n"
-    html += ('        <p><a href="solicitacoes.html">Ver todas as solicitações e o detalhe de cada indicador</a></p>\n'
+    # A classe "botao-link" (definida no style.css) faz o link parecer um botão.
+    # A seta fica em um <span aria-hidden>, para o leitor de tela não ler "seta".
+    html += ('        <p><a class="botao-link" href="solicitacoes.html">Ver todas as solicitações '
+             'e o detalhe de cada indicador <span aria-hidden="true">→</span></a></p>\n'
              "    </section>\n")
     return html
 

@@ -260,3 +260,36 @@ body {
 .empilhada .aberta    { background: #c0392b; }
 .empilhada .analise   { background: #d68910; }
 .empilhada .concluida { background: #1e8449; }
+
+/* ---- Link com cara de botão (ex.: "Ver todas as solicitações" na Início) ---- */
+.botao-link {
+  display: inline-block;              /* aceita padding como um botão */
+  margin-top: 8px;
+  padding: 12px 20px;
+  background-color: rgb(16, 83, 5);   /* mesmo verde do menu e do botão do formulário */
+  color: white;
+  text-decoration: none;              /* tira o sublinhado padrão do link */
+  font-weight: bold;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+}
+
+.botao-link span {
+  display: inline-block;
+  margin-left: 6px;
+  transition: transform 0.2s ease;
+}
+
+.botao-link:hover {
+  background-color: rgb(12, 62, 4);   /* verde mais escuro ao passar o mouse */
+}
+
+.botao-link:hover span {
+  transform: translateX(4px);         /* a seta anda um pouco para a direita */
+}
+
+/* contorno visível ao navegar pelo teclado (Tab): acessibilidade */
+.botao-link:focus-visible {
+  outline: 3px solid rgb(214, 137, 16);
+  outline-offset: 3px;
+}
