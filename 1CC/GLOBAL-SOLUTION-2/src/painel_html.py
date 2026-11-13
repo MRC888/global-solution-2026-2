@@ -19,6 +19,7 @@ import os
 
 import dados
 import indicadores
+import mapa_html
 from validacao import (BAIRRO, CATEGORIAS, STATUS, DIA_HOJE, NOMES_CATEGORIAS,
                        NOMES_STATUS, SIGNIFICADO_STATUS)
 from estruturas import descrever_inconsistencia
@@ -333,6 +334,7 @@ def secao_inconsistencias(sistema):
 def gerar_html_inicio(sistema):
     """Monta a página Início (resumo) e devolve o texto HTML."""
     html = cabecalho_pagina("Painel")
+    html += mapa_html.secao_iframe_mapa()
     html += introducao("Resumo das ocorrências", "Visão geral das demandas registradas no bairro.")
     html += secao_cartoes(sistema)
     html += secao_matriz(sistema)
@@ -356,10 +358,23 @@ def gerar_html_solicitacoes(sistema):
     return html
 
 
+
+def _fiap_embutida_no_html(texto):
+    # Inclui a logo no HTML sem depender do caminho relativo no navegador.
+    marcador = 'src="../assets/logo-fiap.png"'
+    if marcador not in texto:
+        return texto
+    import base64
+    from pathlib import Path
+    imagem = Path(__file__).resolve().parents[3] / "assets" / "logo-fiap.png"
+    uri = "data:image/png;base64," + base64.b64encode(imagem.read_bytes()).decode("ascii")
+    return texto.replace(marcador, f'src="{uri}"')
+
+
 def gravar(caminho, texto):
     """Grava o texto em um arquivo, em UTF-8 (para os acentos aparecerem certos)."""
     with open(caminho, "w", encoding="utf-8") as arquivo:
-        arquivo.write(texto)
+        arquivo.write(_fiap_embutida_no_html(texto))
 
 
 def salvar_painel(sistema):
@@ -368,4 +383,5 @@ def salvar_painel(sistema):
         return None
     gravar(ARQUIVO_INICIO, gerar_html_inicio(sistema))
     gravar(ARQUIVO_SOLICITACOES, gerar_html_solicitacoes(sistema))
+    mapa_html.salvar_mapa(sistema)
     return [ARQUIVO_INICIO, ARQUIVO_SOLICITACOES]

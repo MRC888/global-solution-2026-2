@@ -132,7 +132,7 @@ Ao abrir, o sistema procura uma sessão anterior em `data/saida/`. Se houver, pe
 | Caminho | O que faz |
 |---|---|
 | **1 - Terminal** | O sistema completo, com menu: listar, buscar, filtrar, cadastrar, triagem, atualizar status, desfazer, histórico, hierarquia do bairro, painel de indicadores e correção de inconsistências. Tem modo acessível (sem cores, frases completas, confirmação antes de cada ação) |
-| **2 - Painel HTML (bônus)** | Gera `painel/painel.html` e `painel/solicitacoes.html` (na raiz do repositório) com os mesmos indicadores para abrir no navegador; somente HTML e CSS montados pelo Python, sem JavaScript |
+| **2 - Painel HTML (bônus)** | Gera `painel/painel.html`, `painel/solicitacoes.html` e `painel/mapa.html` (na raiz do repositório) com os mesmos indicadores para abrir no navegador; HTML e CSS gerados pelo Python; o mapa usa JavaScript local para zoom, filtros e fichas, sem internet |
 
 Os dois caminhos usam os mesmos dados em memória: o que for alterado no terminal aparece no painel gerado depois. **Cada cadastro, correção, mudança de status e desfazer bem-sucedido salva automaticamente** a sessão em `data/saida/`; sair do terminal também salva. A opção de continuar recupera os registros e o histórico na próxima execução. Recomeçar com a base original permite um ensaio limpo, mas a sessão anterior será substituída ao salvar novas alterações. Os CSVs originais em `data/` nunca são modificados.
 

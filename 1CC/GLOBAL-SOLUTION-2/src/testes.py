@@ -200,7 +200,9 @@ def teste_painel_html():
     for html in [inicio, detalhes]:
         assert "<!DOCTYPE html>" in html
         assert "Gerado pelo sistema em Python" in html
-        assert "<script" not in html.lower()   # o painel é só HTML e CSS
+
+    assert '<script src="script.js" defer></script>' in inicio
+    assert "<script" not in detalhes.lower()
     # Início: os números vêm dos dados (16 no total), e não dos 12 de exemplo
     assert '<span class="numero">16</span><span class="rotulo">Total' in inicio
     assert 'style="width: 31.25%"' in inicio   # CSS usa ponto, não vírgula
