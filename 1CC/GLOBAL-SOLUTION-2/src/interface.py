@@ -14,7 +14,7 @@ import indicadores
 from validacao import (BAIRRO, CATEGORIAS, STATUS, LOCAIS, DIA_HOJE, NOMES_CATEGORIAS,
                        NOMES_STATUS, SIGNIFICADO_STATUS, TRANSICOES, TAMANHO_MAXIMO_DESCRICAO,
                        dia_valido, sugerir_categoria, mensagens_dos_problemas, campos_com_problema,
-                       verificar_transicao)
+                       verificar_transicao, so_numeros)
 from estruturas import descrever_inconsistencia
 
 # Configuração da sessão. É um dicionário para poder ser alterado dentro das funções.
@@ -115,6 +115,12 @@ def confirmar_se_acessivel(pergunta):
     return True
 
 
+def salvar_automaticamente(sistema):
+    """Persiste a lista e o histórico após mudanças; preserva os CSVs originais."""
+    dados.salvar_sessao(sistema)
+    print("Sessão salva automaticamente em data/saida/.")
+
+
 def escolher_da_lista(pergunta, nomes, permitir_vazio):
     """Mostra uma lista numerada e devolve o índice escolhido (começa em 0).
 
@@ -123,11 +129,13 @@ def escolher_da_lista(pergunta, nomes, permitir_vazio):
     for i in range(len(nomes)):
         print(f"  {i + 1}. {nomes[i]}")
     while True:
-        dica = " (Enter = todas)" if permitir_vazio else ""
+        dica = ""
+        if permitir_vazio:
+            dica = " (Enter = todas)"
         resposta = ler_texto(pergunta + dica + ": ")
         if resposta == "" and permitir_vazio:
             return -1
-        elif resposta.isdigit() and 1 <= int(resposta) <= len(nomes):
+        elif so_numeros(resposta) and 1 <= int(resposta) <= len(nomes):
             return int(resposta) - 1
         else:
             mensagem_erro(f"Digite um número de 1 a {len(nomes)}.")
@@ -251,6 +259,25 @@ def mostrar_relatorio_carga(sistema):
         print("  - " + aviso)
 
 
+def escolher_origem_dados():
+    """Pergunta se deve retomar uma sessão existente ou usar a base demonstrativa."""
+    print("\nEncontrei uma sessão anterior salva em data/saida/.")
+    print("  1 - Continuar do ponto em que parei")
+    print("  2 - Recomeçar com os dados fictícios originais")
+    print("A opção 2 não apaga os arquivos originais. Ao alterar ou salvar,")
+    print("a nova sessão substitui a sessão salva anterior.")
+    while True:
+        resposta = ler_texto("Escolha 1 ou 2: ")
+        if resposta == "1":
+            return True
+        elif resposta == "2" and ler_sim_nao("Recomeçar substitui a sessão salva na próxima alteração. Confirma?"):
+            return False
+        elif resposta == "2":
+            print("Tudo bem, a sessão salva continua disponível.")
+        else:
+            mensagem_erro("Digite 1 para continuar ou 2 para recomeçar.")
+
+
 def escolher_caminho():
     """Os dois caminhos do sistema. Devolve "1", "2" ou "0"."""
     print()
@@ -271,14 +298,21 @@ def perguntar_modo_acessivel():
                                       "completas e confirmação antes de cada ação.")
 
 
-def mostrar_painel_gerado(caminhos):
-    """Mostra onde as páginas do painel foram gravadas e como abri-las."""
-    if caminhos is None:
-        print("\nNão encontrei a pasta 'painel' na raiz do repositório, então o painel não foi gerado.")
+def mostrar_painel_gerado(resultado):
+    """Mostra onde as páginas do painel foram gravadas, ou quais arquivos faltam.
+
+    resultado é a resposta de painel_html.salvar_painel: [True, caminhos] ou [False, faltando].
+    """
+    if not resultado[0]:
+        print("\nO painel não foi gerado porque faltam estes arquivos:")
+        for caminho in resultado[1]:
+            print("  " + caminho)
+        print("Nenhum arquivo foi alterado.")
         return
-    print("\nPainel HTML gerado com os dados atuais da sessão:")
-    for caminho in caminhos:
-        print("  " + caminho)
+    print("\nPainel HTML gerado com os dados atuais da sessão, em data/saida/painel/:")
+    for caminho in resultado[1]:
+        if caminho.endswith(".html") and not caminho.endswith("formulario.html") and not caminho.endswith("sobre.html"):
+            print("  " + caminho)
     print("Abra o painel.html no navegador (dois cliques nele, ou arraste para uma aba).")
     print("Ele mostra os mesmos indicadores da opção 10 do terminal.")
 
@@ -319,13 +353,18 @@ def tela_filtrar(sistema):
     titulo("Filtrar ocorrências")
     print("Categoria:")
     i = escolher_da_lista("Escolha a categoria", nomes_das_categorias(), True)
-    categoria = "" if i == -1 else CATEGORIAS[i]
+    categoria = ""                  # "" = todas as categorias
+    nome_categoria = "todas"
+    if i != -1:
+        categoria = CATEGORIAS[i]
+        nome_categoria = NOMES_CATEGORIAS[categoria]
     print("Status:")
     i = escolher_da_lista("Escolha o status", nomes_dos_status(), True)
-    status = "" if i == -1 else STATUS[i]
-
-    nome_categoria = "todas" if categoria == "" else NOMES_CATEGORIAS[categoria]
-    nome_status = "todos" if status == "" else NOMES_STATUS[status]
+    status = ""                     # "" = todos os status
+    nome_status = "todos"
+    if i != -1:
+        status = STATUS[i]
+        nome_status = NOMES_STATUS[status]
     print(f"\nFiltro: categoria = {nome_categoria}; status = {nome_status}\n")
     resultado = operacoes.filtrar(sistema, categoria, status)
     if len(resultado) == 0:
@@ -382,6 +421,7 @@ def tela_cadastrar(sistema):
         nova = resultado[2]
         mensagem_ok(f"Ocorrência {nova['id']} cadastrada e colocada na fila "
                     f"(posição {len(sistema['fila'])} de {len(sistema['fila'])}).")
+        salvar_automaticamente(sistema)
     else:
         mensagem_erro("Cadastro recusado: " + mensagens_dos_problemas(resultado[1]))
     pausar()
@@ -396,6 +436,7 @@ def pedir_mudanca(sistema, codigo, status_novo):
     resultado = operacoes.atualizar_status(sistema, codigo, status_novo, observacao)
     if resultado[0]:
         mensagem_ok(resultado[1])
+        salvar_automaticamente(sistema)
     else:
         mensagem_erro(resultado[1])
     return resultado[0]
@@ -466,6 +507,7 @@ def tela_desfazer(sistema):
         resultado = operacoes.desfazer(sistema)
         if resultado[0]:
             mensagem_ok(resultado[1])
+            salvar_automaticamente(sistema)
         else:
             mensagem_erro(resultado[1])
     else:
@@ -518,7 +560,7 @@ def tela_explorar(sistema):
         opcao = ler_texto("Escolha uma categoria: ")
         if opcao == "0":
             return
-        elif opcao.isdigit() and 1 <= int(opcao) <= len(CATEGORIAS):
+        elif so_numeros(opcao) and 1 <= int(opcao) <= len(CATEGORIAS):
             categoria = CATEGORIAS[int(opcao) - 1]
             explorar_categoria(sistema, categoria, hierarquia[categoria])
         else:
@@ -665,7 +707,7 @@ def tela_inconsistencias(sistema):
         opcao = ler_texto("\nNúmero do registro para corrigir (0 para voltar): ")
         if opcao == "0":
             return
-        elif opcao.isdigit() and 1 <= int(opcao) <= len(lista):
+        elif so_numeros(opcao) and 1 <= int(opcao) <= len(lista):
             corrigir(sistema, int(opcao) - 1)
         else:
             mensagem_erro(f"Digite um número de 0 a {len(lista)}.")
@@ -707,12 +749,13 @@ def corrigir(sistema, indice):
     resultado = operacoes.corrigir_inconsistente(sistema, indice, registro)
     if resultado[0]:
         mensagem_ok(resultado[1])
+        salvar_automaticamente(sistema)
     else:
         mensagem_erro("Ainda há problemas: " + mensagens_dos_problemas(resultado[1]))
 
 
 def tela_salvar(sistema):
-    """Opção 0: grava o estado da sessão em data/saida/ e mostra o resumo do que mudou."""
+    """Opção 0: confirma o estado salvo em data/saida/ e mostra as mudanças desta execução."""
     titulo("Salvar e voltar ao início")
     caminhos = dados.salvar_sessao(sistema)
     print(f"Nesta sessão: {sistema['cadastros']} cadastro(s) e {sistema['mudancas']} mudança(s) de status.")
@@ -720,6 +763,7 @@ def tela_salvar(sistema):
     for caminho in caminhos:
         print("  " + caminho)
     print("Os arquivos originais em data/ não foram alterados.")
+    print("Na próxima execução, será possível continuar esta sessão.")
 
 
 # ---------------------------------------------------------------
@@ -733,7 +777,9 @@ def menu_terminal(sistema):
     no else e mostra "Opção inválida": o programa nunca fecha por erro de digitação."""
     while True:
         titulo("Menu principal")
-        modo = "ligado" if CONFIG["acessivel"] else "desligado"
+        modo = "desligado"
+        if CONFIG["acessivel"]:
+            modo = "ligado"
         print(f"Fila de triagem: {len(sistema['fila'])} · Pendências: "
               f"{indicadores.contar_pendencias(sistema['ocorrencias'])} · Modo acessível: {modo}\n")
         for opcao in OPCOES_MENU:
@@ -763,7 +809,10 @@ def menu_terminal(sistema):
             tela_inconsistencias(sistema)
         elif opcao == "12":
             CONFIG["acessivel"] = not CONFIG["acessivel"]
-            print("Modo acessível " + ("ligado." if CONFIG["acessivel"] else "desligado."))
+            if CONFIG["acessivel"]:
+                print("Modo acessível ligado.")
+            else:
+                print("Modo acessível desligado.")
         elif opcao == "0":
             tela_salvar(sistema)
             return

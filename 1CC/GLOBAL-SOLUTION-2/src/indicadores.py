@@ -12,9 +12,9 @@
 from validacao import (CATEGORIAS, STATUS, DIA_HOJE, PESOS, NOMES_CATEGORIAS, eh_pendente)
 
 
-def formatar_numero(valor, casas=2):
-    """Escreve o número com vírgula, no padrão brasileiro: 5.333 -> "5,33"."""
-    texto = f"{valor:.{casas}f}"
+def formatar_numero(valor):
+    """Escreve o número com 2 casas e vírgula, no padrão brasileiro: 5.333 -> "5,33"."""
+    texto = f"{valor:.2f}"
     return texto.replace(".", ",")
 
 

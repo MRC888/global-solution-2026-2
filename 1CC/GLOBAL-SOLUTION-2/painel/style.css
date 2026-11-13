@@ -1,0 +1,992 @@
+
+/* ==========================================
+   NEIGHBORHOOD ACTION DASHBOARD
+   Identidade visual — versão 2
+   ========================================== */
+
+:root {
+  --fundo: #F4F7FA;
+  --branco: #FFFFFF;
+  --superficie: #DCEAF2;
+  --azul: #2497EF;
+  --azul-escuro: #176EBA;
+  --texto: #24364B;
+  --texto-suave: #64778B;
+  --linha: #DEE7EE;
+
+  --aberta: #D94C4C;
+  --analise: #DE9D23;
+  --concluida: #249974;
+
+  --sombra: 0 6px 22px rgba(36, 54, 75, 0.05);
+  --raio: 16px;
+}
+
+/* CONFIGURAÇÕES GERAIS */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--fundo);
+  color: var(--texto);
+  font-family: -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+a {
+  color: var(--azul-escuro);
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid #79C4FF;
+  outline-offset: 3px;
+}
+
+/* ==========================================
+   CABEÇALHO
+   ========================================== */
+
+.banner {
+  width: 100%;
+  min-height: 105px;
+  padding: 26px 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #24364B;
+  background-image: none;
+
+  text-align: center;
+}
+
+.banner h1 {
+  margin: 0;
+  padding: 0;
+
+  color: #FFFFFF;
+  font-size: clamp(1rem, 3vw, 2rem);
+  font-weight: 750;
+  letter-spacing: -0.035em;
+  line-height: 1.2;
+
+  text-align: center;
+  white-space: nowrap;
+
+  text-shadow: none;
+}
+
+/* ==========================================
+   NAVEGAÇÃO
+   ========================================== */
+
+.nav {
+  background: var(--branco);
+  border-bottom: 1px solid var(--linha);
+  padding: 0 20px;
+}
+
+.nav ul {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  list-style: none;
+  gap: 14px;
+
+  margin: 0;
+  padding: 11px 0;
+}
+
+.nav a {
+  display: inline-block;
+  padding: 9px 15px;
+
+  border-radius: 9px;
+
+  color: var(--texto);
+  font-size: 0.94rem;
+  font-weight: 650;
+  text-decoration: none;
+
+  transition: background 0.2s ease,
+    color 0.2s ease;
+}
+
+.nav a:hover,
+.nav a:focus-visible {
+  background: #EAF5FE;
+  color: var(--azul-escuro);
+}
+
+/* ==========================================
+   CONTEÚDO
+   ========================================== */
+
+.conteudo {
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 40px 24px 64px;
+}
+
+.conteudo h1,
+.conteudo h2 {
+  color: var(--texto);
+  line-height: 1.25;
+  letter-spacing: -0.035em;
+}
+
+.conteudo h2 {
+  font-size: clamp(1.35rem, 2.5vw, 1.85rem);
+  font-weight: 750;
+}
+
+.conteudo > h2 {
+  margin: 0 0 12px;
+}
+
+.conteudo p {
+  color: var(--texto-suave);
+}
+
+.conteudo p strong {
+  color: var(--texto);
+}
+
+.conteudo > section {
+  margin: 35px 0 42px;
+}
+
+.conteudo section h2 {
+  margin: 0 0 17px;
+}
+
+.p {
+  color: var(--texto-suave);
+  line-height: 1.7;
+}
+
+/* ==========================================
+   CARTÕES DE INDICADORES
+   ========================================== */
+
+.cartoes {
+  display: grid;
+  grid-template-columns:
+    repeat(auto-fit, minmax(185px, 1fr));
+
+  gap: 16px;
+  margin: 22px 0 38px;
+}
+
+.cartao {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  min-height: 125px;
+  padding: 22px 24px;
+
+  background: var(--branco);
+  border: 1px solid var(--linha);
+  border-left: 5px solid var(--azul);
+  border-radius: var(--raio);
+
+  box-shadow: var(--sombra);
+}
+
+.cartao .numero {
+  display: block;
+
+  color: var(--texto);
+  font-size: clamp(2rem, 3.5vw, 2.6rem);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 1.15;
+}
+
+.cartao .rotulo {
+  margin-top: 5px;
+
+  color: var(--texto-suave);
+  font-size: 0.92rem;
+  font-weight: 550;
+}
+
+.cartao.aberta {
+  border-left-color: var(--aberta);
+}
+
+.cartao.analise {
+  border-left-color: var(--analise);
+}
+
+.cartao.concluida {
+  border-left-color: var(--concluida);
+}
+
+/* ==========================================
+   TABELAS
+   Agora ocupam toda a largura disponível
+   ========================================== */
+
+.tabela {
+  display: table;
+
+  width: 100%;
+  max-width: 100%;
+
+  border-collapse: separate;
+  border-spacing: 0;
+
+  background: var(--branco);
+  border: 1px solid var(--linha);
+  border-radius: 14px;
+
+  box-shadow: var(--sombra);
+  margin: 16px 0 30px;
+
+  table-layout: auto;
+}
+
+.tabela caption {
+  caption-side: top;
+
+  padding: 0 0 13px;
+
+  text-align: left;
+  color: var(--texto-suave);
+  font-size: 0.86rem;
+}
+
+.tabela th,
+.tabela td {
+  padding: 16px 15px;
+
+  border: 0;
+  border-bottom: 1px solid var(--linha);
+
+  font-size: 0.93rem;
+  vertical-align: middle;
+}
+
+.tabela thead {
+  background: #EAF2F8;
+  color: var(--texto);
+}
+
+.tabela thead th {
+  font-weight: 750;
+  text-align: center;
+}
+
+.tabela thead th:first-child {
+  text-align: left;
+}
+
+.tabela tbody th {
+  color: var(--texto);
+  font-weight: 700;
+  text-align: left;
+}
+
+.tabela tbody td {
+  color: var(--texto);
+  text-align: center;
+}
+
+.tabela tbody tr:nth-child(even) {
+  background: #F8FBFD;
+}
+
+.tabela tbody tr:hover {
+  background: #EFF7FC;
+}
+
+.tabela tfoot {
+  background: #EAF2F8;
+  color: var(--texto);
+  font-weight: 750;
+}
+
+.tabela tfoot th {
+  text-align: left;
+}
+
+.tabela tfoot td {
+  text-align: center;
+}
+
+.tabela tbody tr:last-child th,
+.tabela tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+/* A matriz de categorias possui cinco colunas.
+   A primeira identifica a categoria; as outras
+   quatro têm espaço equilibrado. */
+
+.conteudo section .tabela th[scope="row"] {
+  font-weight: 700;
+}
+
+/* ==========================================
+   GRÁFICO DE CATEGORIAS
+   ========================================== */
+
+.grafico {
+  width: 100%;
+  margin: 22px 0 36px;
+  padding: 25px 28px;
+
+  border: 1px solid var(--linha);
+  border-radius: var(--raio);
+
+  background: var(--branco);
+  box-shadow: var(--sombra);
+}
+
+.linha {
+  display: grid;
+  grid-template-columns:
+    160px minmax(0, 1fr) 125px;
+
+  align-items: center;
+  gap: 18px;
+
+  margin: 18px 0;
+
+  color: var(--texto);
+}
+
+.linha:first-child {
+  margin-top: 0;
+}
+
+.linha:last-child {
+  margin-bottom: 0;
+}
+
+.linha .nome {
+  font-weight: 650;
+  font-size: 0.93rem;
+}
+
+.linha .valor {
+  color: var(--texto);
+  font-weight: 700;
+  font-size: 0.9rem;
+
+  text-align: right;
+  white-space: nowrap;
+}
+
+.trilho {
+  width: 100%;
+  height: 21px;
+
+  overflow: hidden;
+
+  background: #E1EBF2;
+  border-radius: 100px;
+}
+
+.barra {
+  height: 100%;
+
+  background: var(--azul);
+  border-radius: 100px;
+}
+
+/* ==========================================
+   STATUS GERAL
+   ========================================== */
+
+.empilhada {
+  display: flex;
+  width: 100%;
+  height: 42px;
+
+  overflow: hidden;
+  border-radius: 10px;
+
+  color: #FFFFFF;
+  font-size: 0.88rem;
+  font-weight: 750;
+}
+
+.empilhada div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  white-space: nowrap;
+}
+
+.empilhada .aberta {
+  background: var(--aberta);
+}
+
+.empilhada .analise {
+  background: var(--analise);
+}
+
+.empilhada .concluida {
+  background: var(--concluida);
+}
+
+/* ==========================================
+   BOTÕES
+   ========================================== */
+
+.botao-link,
+.form button {
+  display: inline-block;
+
+  padding: 12px 20px;
+
+  border: none;
+  border-radius: 10px;
+
+  background: var(--azul);
+  color: #FFFFFF;
+
+  font: inherit;
+  font-weight: 700;
+  text-decoration: none;
+
+  cursor: pointer;
+
+  transition: background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.botao-link {
+  margin-top: 8px;
+}
+
+.botao-link span {
+  display: inline-block;
+  margin-left: 6px;
+  transition: transform 0.2s ease;
+}
+
+.botao-link:hover,
+.form button:not(:disabled):hover {
+  background: var(--azul-escuro);
+}
+
+.botao-link:hover span {
+  transform: translateX(4px);
+}
+
+.form button:disabled {
+  background: #E0E8EF;
+  color: #708499;
+  cursor: not-allowed;
+}
+
+/* ==========================================
+   FORMULÁRIO
+   ========================================== */
+
+.form {
+  display: flex;
+  flex-direction: column;
+
+  gap: 12px;
+  max-width: 750px;
+
+  margin: 22px 0;
+  padding: 28px;
+
+  background: var(--branco);
+  border: 1px solid var(--linha);
+  border-radius: var(--raio);
+
+  box-shadow: var(--sombra);
+}
+
+.form label {
+  margin-top: 8px;
+
+  font-size: 0.93rem;
+  font-weight: 700;
+}
+
+.form input,
+.form textarea,
+.form select {
+  display: block;
+  width: 100%;
+
+  padding: 12px 14px;
+
+  border: 1px solid #CBD9E5;
+  border-radius: 10px;
+
+  background: #FDFEFF;
+  color: var(--texto);
+
+  font: inherit;
+  font-size: 0.96rem;
+}
+
+.form textarea {
+  resize: vertical;
+}
+
+.form .dica {
+  margin-top: -7px;
+
+  color: var(--texto-suave);
+  font-size: 0.82rem;
+}
+
+.form p {
+  margin: 0 0 6px;
+}
+
+.aviso-prototipo {
+  max-width: 750px;
+
+  padding: 15px 19px;
+
+  background: #EAF6FF;
+  border: 1px solid #BBDDF6;
+  border-left: 5px solid var(--azul);
+  border-radius: 10px;
+
+  color: var(--texto) !important;
+}
+
+/* ==========================================
+   PÁGINA SOBRE
+   ========================================== */
+
+.sobre h2 {
+  margin-top: 0;
+  color: var(--texto);
+}
+
+.sobre p,
+.sobre li {
+  line-height: 1.7;
+}
+
+.equipe {
+  display: grid;
+  grid-template-columns:
+    repeat(auto-fit, minmax(200px, 1fr));
+
+  gap: 16px;
+
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+}
+
+.equipe li {
+  padding: 20px;
+
+  background: var(--branco);
+  border: 1px solid var(--linha);
+  border-top: 4px solid var(--azul);
+  border-radius: 13px;
+
+  box-shadow: var(--sombra);
+}
+
+.equipe strong {
+  display: block;
+
+  color: var(--texto);
+  font-size: 1.03rem;
+}
+
+/* ==========================================
+   RODAPÉ
+   ========================================== */
+
+.footer {
+  margin-top: 42px;
+  padding: 35px 24px;
+
+  background: #24364B;
+  color: #FFFFFF;
+
+  border-top: none;
+  text-align: center;
+}
+
+.footer-logo {
+  display: block;
+
+  width: auto;
+  height: 38px;
+  max-width: 170px;
+
+  margin: 0 auto 15px;
+  object-fit: contain;
+}
+
+.footer p {
+  margin: 5px 0;
+  color: #FFFFFF;
+}
+
+.footer .footer-aviso {
+  max-width: 680px;
+  margin: 10px auto 0;
+
+  color: #C4D2E0;
+  font-size: 0.84rem;
+  line-height: 1.6;
+}
+
+/* ==========================================
+   ACESSIBILIDADE
+   ========================================== */
+
+.sr-only {
+  position: absolute;
+
+  width: 1px;
+  height: 1px;
+
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+
+  white-space: nowrap;
+}
+
+/* ==========================================
+   RESPONSIVIDADE
+   ========================================== */
+
+@media (max-width: 760px) {
+  .conteudo {
+    padding: 30px 16px 48px;
+  }
+
+  .cartoes {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
+    gap: 12px;
+  }
+
+  .cartao {
+    min-height: 110px;
+    padding: 18px;
+  }
+
+  .cartao .numero {
+    font-size: 2rem;
+  }
+
+  .tabela {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .tabela th,
+  .tabela td {
+    padding: 12px;
+    white-space: nowrap;
+    font-size: 0.86rem;
+  }
+
+  .grafico {
+    padding: 20px;
+  }
+
+  .linha {
+    grid-template-columns:
+      115px minmax(0, 1fr) 100px;
+
+    gap: 10px;
+  }
+
+  .linha .nome,
+  .linha .valor {
+    font-size: 0.81rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .banner {
+    min-height: 78px;
+    padding: 18px 12px;
+  }
+
+  .banner h1 {
+    font-size: clamp(0.82rem, 3.5vw, 1rem);
+    letter-spacing: -0.04em;
+    white-space: nowrap;
+  }
+
+  .nav {
+    padding: 0 5px;
+  }
+
+  .nav ul {
+    justify-content: space-evenly;
+    gap: 0;
+    padding: 8px 0;
+  }
+
+  .nav a {
+    padding: 9px 7px;
+    font-size: 0.83rem;
+  }
+
+  .conteudo {
+    padding: 25px 14px 42px;
+  }
+
+  .cartoes {
+    gap: 10px;
+  }
+
+  .cartao {
+    padding: 14px;
+  }
+
+  .grafico {
+    padding: 18px 12px;
+  }
+
+  .linha {
+    grid-template-columns:
+      88px minmax(0, 1fr) 88px;
+
+    gap: 7px;
+  }
+
+  .linha .nome,
+  .linha .valor {
+    font-size: 0.73rem;
+  }
+
+  .form {
+    padding: 18px;
+  }
+
+  .empilhada {
+    font-size: 0.69rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+  }
+}
+
+
+/* INTEGRACAO MAPA VILA ESPERANCA - INICIO */
+/* Mantem cinco indicadores em uma linha no desktop, com cards compactos. */
+.cartoes {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+  margin: 14px 0 28px;
+}
+.cartao { min-width: 0; min-height: 92px; padding: 14px 16px; }
+.cartao .numero { font-size: clamp(1.65rem, 2.5vw, 2.05rem); }
+.cartao .rotulo { font-size: .84rem; }
+
+/* Mapa integrado; a interatividade e o desenho ficam no arquivo mapa.html. */
+.secao-mapa-inicio { margin: 0 0 24px !important; }
+.mapa-integrado {
+  display: block;
+  width: 100%;
+  height: 880px;
+  border: none;
+  background: transparent;
+}
+
+@media (max-width: 760px) {
+  .cartoes {
+    grid-template-columns: repeat(5, minmax(135px, 1fr));
+    overflow-x: auto;
+    padding-bottom: 8px;
+    gap: 9px;
+  }
+  .cartao { min-height: 87px; padding: 12px; }
+  .cartao .numero { font-size: 1.75rem; }
+  .mapa-integrado { height: 795px; }
+}
+/* INTEGRACAO MAPA VILA ESPERANCA - FIM */
+
+
+/* REDESIGN EDITORIAL: INÍCIO */
+
+:root {
+  --raio: 8px;
+  --sombra: none;
+}
+
+.banner {
+  background: #24364B;
+  min-height: 76px;
+  height: auto;
+  padding: 18px 16px;
+  box-shadow: none;
+}
+
+.banner h1 {
+  font-size: clamp(1rem, 2vw, 1.55rem);
+  font-weight: 650;
+  letter-spacing: -.015em;
+  text-shadow: none;
+  white-space: nowrap;
+}
+
+.nav {
+  box-shadow: none;
+  border-bottom: 1px solid #DEE7EE;
+}
+
+.nav a {
+  font-weight: 550;
+  border-radius: 4px;
+}
+
+.conteudo {
+  padding-top: 30px;
+}
+
+.conteudo > h2 {
+  font-size: 1.5rem;
+  font-weight: 650;
+}
+
+.conteudo section h2 {
+  font-weight: 650;
+}
+
+.secao-mapa-inicio {
+  margin-top: 8px !important;
+  margin-bottom: 22px !important;
+}
+
+/* Indicadores em uma única faixa horizontal. */
+
+.cartoes {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0;
+  margin: 16px 0 32px;
+  padding: 0;
+  background: #FFFFFF;
+  border: 1px solid #DEE7EE;
+  border-radius: 7px;
+  box-shadow: none;
+  overflow: hidden;
+}
+
+.cartao,
+.cartao.aberta,
+.cartao.analise,
+.cartao.concluida {
+  min-width: 0;
+  min-height: 84px;
+  padding: 15px 18px;
+  background: transparent;
+  border: 0 !important;
+  border-right: 1px solid #DEE7EE !important;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.cartao:last-child {
+  border-right: 0 !important;
+}
+
+.cartao .numero {
+  font-size: clamp(1.6rem, 2.4vw, 1.95rem);
+  font-weight: 720;
+}
+
+.cartao .rotulo {
+  font-size: .81rem;
+  font-weight: 500;
+}
+
+.cartao.aberta .numero {
+  color: #C24646;
+}
+
+.cartao.analise .numero {
+  color: #A87818;
+}
+
+.cartao.concluida .numero {
+  color: #218568;
+}
+
+.tabela,
+.form,
+.equipe li {
+  border-radius: 8px;
+  box-shadow: none;
+}
+
+.grafico {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  padding: 8px 0;
+}
+
+.botao-link,
+.form button {
+  border-radius: 6px;
+}
+
+@media (max-width: 760px) {
+  .cartoes {
+    display: flex;
+    overflow-x: auto;
+  }
+
+  .cartao,
+  .cartao.aberta,
+  .cartao.analise,
+  .cartao.concluida {
+    flex: 0 0 143px;
+    padding: 13px 14px;
+  }
+
+  .banner h1 {
+    font-size: clamp(.88rem, 3.5vw, 1.3rem);
+  }
+}
+
+/* REDESIGN EDITORIAL: FIM */

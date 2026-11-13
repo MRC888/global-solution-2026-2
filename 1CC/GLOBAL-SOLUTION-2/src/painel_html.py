@@ -4,28 +4,36 @@
 # COMO FUNCIONA
 # Uma página HTML é só um arquivo de texto. Então o Python monta esse texto
 # pedaço por pedaço (strings, laços e if) e grava em um arquivo, do mesmo jeito
-# que grava um CSV. Não há biblioteca, servidor nem JavaScript: o navegador
-# só abre o arquivo pronto.
+# que grava um CSV. O painel funciona localmente, sem servidor nem API.
+# O mapa complementar usa JavaScript local autorizado pela equipe.
 #
-# PÁGINAS GERADAS (na pasta "painel", na raiz do repositório)
-#   painel.html        Início: resumo (cartões, matriz, barras e conclusão)
+# PÁGINAS GERADAS
+#   painel.html        Início: mapa, cartões, matriz, barras e conclusão
 #   solicitacoes.html  Detalhes: tempos, prioridade, lista, histórico e inconsistências
+#   mapa.html          Mapa interativo gerado com os registros válidos
 #
-# As duas usam o mesmo style.css das páginas feitas à mão (Sobre e Formulário),
-# por isso o visual é o mesmo. Para atualizar os números, basta rodar o sistema
-# de novo e escolher o caminho 2: as páginas são reescritas com os dados atuais.
+# ONDE ELAS SÃO GRAVADAS
+#   Caminho 2 do sistema: em data/saida/painel/ (fora do Git), com os dados da
+#   sessão, junto com cópias das páginas feitas à mão e do style.css.
+#   "python src/painel_html.py": atualiza a pasta painel/ do projeto com os
+#   dados ORIGINAIS (é a versão que fica no repositório).
+#
+# Todas usam o mesmo style.css das páginas feitas à mão (Sobre e Formulário).
+# Exceção autorizada pelo líder: base64 só para colocar a logo dentro do HTML.
 
+import base64
 import os
 
 import dados
+import estruturas
 import indicadores
+import mapa_html
 from validacao import (BAIRRO, CATEGORIAS, STATUS, DIA_HOJE, NOMES_CATEGORIAS,
                        NOMES_STATUS, SIGNIFICADO_STATUS)
 from estruturas import descrever_inconsistencia
 
-# Onde cada página é gravada.
-ARQUIVO_INICIO = os.path.join(dados.PASTA_PAINEL, "painel.html")
-ARQUIVO_SOLICITACOES = os.path.join(dados.PASTA_PAINEL, "solicitacoes.html")
+# Páginas feitas à mão que acompanham as geradas.
+ARQUIVOS_FIXOS = ["style.css", "script.js", "sobre.html", "formulario.html"]
 
 # Classe do CSS de cada status: define a cor do cartão e do pedaço da barra empilhada.
 CLASSE_STATUS = {"aberta": "aberta", "em_analise": "analise", "concluida": "concluida"}
@@ -73,7 +81,6 @@ def cabecalho_pagina(titulo_aba):
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{titulo_aba}</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="../assets/logo-fiap.png" type="image/png">
 </head>
 <body>
     <!-- Página gerada automaticamente por 1CC/GLOBAL-SOLUTION-2/src/painel_html.py.
@@ -84,9 +91,9 @@ def cabecalho_pagina(titulo_aba):
 
 <nav class="nav">
     <ul>
-        <li><a href="painel.html">Inicio</a></li>
+        <li><a href="painel.html">Início</a></li>
         <li><a href="sobre.html">Sobre</a></li>
-        <li><a href="formulario.html">Formulario</a></li>
+        <li><a href="formulario.html">Formulário</a></li>
         <li><a href="solicitacoes.html">Solicitações</a></li>
     </ul>
 </nav>
@@ -101,7 +108,7 @@ def rodape_pagina():
 </main>
 
 <footer class="footer">
-    <img src="../assets/logo-fiap.png" alt="FIAP" class="footer-logo">
+    <img src="@@LOGO_FIAP@@" alt="FIAP" class="footer-logo">
     <p>Projeto acadêmico da Global Solution 2026.2 · Graduação em Ciência da Computação · FIAP</p>
     <p class="footer-aviso">
         Trabalho de faculdade, sem vínculo com prefeituras, órgãos públicos ou qualquer outra instituição.
@@ -332,7 +339,8 @@ def secao_inconsistencias(sistema):
 
 def gerar_html_inicio(sistema):
     """Monta a página Início (resumo) e devolve o texto HTML."""
-    html = cabecalho_pagina("Painel")
+    html = cabecalho_pagina("Início")
+    html += mapa_html.secao_iframe_mapa()
     html += introducao("Resumo das ocorrências", "Visão geral das demandas registradas no bairro.")
     html += secao_cartoes(sistema)
     html += secao_matriz(sistema)
@@ -356,16 +364,87 @@ def gerar_html_solicitacoes(sistema):
     return html
 
 
+
+def logo_em_texto():
+    """Lê a logo e devolve no formato "data:" para ir DENTRO do HTML.
+
+    Assim a página mostra a logo mesmo se for aberta de outra pasta.
+    Devolve None se o arquivo da logo não existir.
+    """
+    if not os.path.isfile(dados.ARQUIVO_LOGO):
+        return None
+    with open(dados.ARQUIVO_LOGO, "rb") as arquivo:
+        conteudo = arquivo.read()
+    return "data:image/png;base64," + base64.b64encode(conteudo).decode("ascii")
+
+
+def ler_texto(caminho):
+    """Lê um arquivo de texto inteiro (usado para copiar as páginas fixas)."""
+    with open(caminho, "r", encoding="utf-8") as arquivo:
+        return arquivo.read()
+
+
 def gravar(caminho, texto):
     """Grava o texto em um arquivo, em UTF-8 (para os acentos aparecerem certos)."""
     with open(caminho, "w", encoding="utf-8") as arquivo:
         arquivo.write(texto)
 
 
-def salvar_painel(sistema):
-    """Gera e grava as duas páginas. Devolve a lista de caminhos, ou None se a pasta "painel" não existir."""
-    if not os.path.isdir(dados.PASTA_PAINEL):
-        return None
-    gravar(ARQUIVO_INICIO, gerar_html_inicio(sistema))
-    gravar(ARQUIVO_SOLICITACOES, gerar_html_solicitacoes(sistema))
-    return [ARQUIVO_INICIO, ARQUIVO_SOLICITACOES]
+def arquivos_que_faltam():
+    """Lista os arquivos que o painel precisa e que não existem. Lista vazia = tudo certo."""
+    necessarios = [dados.ARQUIVO_LOGO, mapa_html.MODELO]
+    for nome in ARQUIVOS_FIXOS:
+        necessarios.append(os.path.join(dados.PASTA_PAINEL, nome))
+    faltando = []
+    for caminho in necessarios:
+        if not os.path.isfile(caminho):
+            faltando.append(caminho)
+    return faltando
+
+
+def salvar_painel(sistema, pasta_destino=None):
+    """Gera as três páginas e grava em pasta_destino (padrão: data/saida/painel/).
+
+    Primeiro monta TODOS os textos e só depois grava. Assim, se faltar algum
+    arquivo, nada é apagado nem fica pela metade.
+    Devolve [True, lista_de_caminhos] ou [False, lista_de_arquivos_que_faltam].
+    """
+    if pasta_destino is None:
+        pasta_destino = dados.PASTA_PAINEL_SAIDA
+    faltando = arquivos_que_faltam()
+    if len(faltando) > 0:
+        return [False, faltando]
+    logo = logo_em_texto()
+    paginas = {
+        "painel.html": gerar_html_inicio(sistema).replace("@@LOGO_FIAP@@", logo),
+        "solicitacoes.html": gerar_html_solicitacoes(sistema).replace("@@LOGO_FIAP@@", logo),
+        "mapa.html": mapa_html.gerar_mapa(sistema),
+    }
+    if paginas["mapa.html"] is None:
+        return [False, [mapa_html.MODELO]]
+    # As páginas fixas só são copiadas quando o destino é outra pasta.
+    if os.path.abspath(pasta_destino) != os.path.abspath(dados.PASTA_PAINEL):
+        for nome in ARQUIVOS_FIXOS:
+            paginas[nome] = ler_texto(os.path.join(dados.PASTA_PAINEL, nome))
+
+    os.makedirs(pasta_destino, exist_ok=True)
+    caminhos = []
+    for nome in paginas:
+        caminho = os.path.join(pasta_destino, nome)
+        gravar(caminho, paginas[nome])
+        caminhos.append(caminho)
+    return [True, caminhos]
+
+
+if __name__ == "__main__":
+    # Atualiza a pasta painel/ do projeto com os dados ORIGINAIS (versão do repositório).
+    sistema_original = estruturas.criar_sistema()
+    estruturas.carregar_ocorrencias(sistema_original, dados.ler_ocorrencias())
+    estruturas.carregar_historico(sistema_original, dados.ler_historico())
+    resultado = salvar_painel(sistema_original, dados.PASTA_PAINEL)
+    if resultado[0]:
+        print("Painel do repositório atualizado com os dados originais:")
+    else:
+        print("Não foi possível gerar o painel. Arquivos que faltam:")
+    for caminho in resultado[1]:
+        print("  " + caminho)

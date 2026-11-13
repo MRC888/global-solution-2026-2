@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="pt-br"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/><style>body{background:#F4F7FA;color:#24364B;font-family:Arial,sans-serif;padding:35px}main{max-width:1100px;margin:auto}.mapa-cabecalho h2{font-size:28px}/* ==========================================
+   MAPA DE OCORRÊNCIAS — VILA ESPERANÇA
+   Estilos locais do mapa, incorporados a esta página (iframe)
+   ========================================== */
+
+.mapa-secao { margin-top: 30px; }
+.mapa-cabecalho { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 15px; }
+.mapa-cabecalho h2 { margin: 0 0 2px; }
+.mapa-cabecalho p { margin: 0; font-size: .9rem; }
+.mapa-etiqueta { background: #E5F3FC; border: 1px solid #C8E2F5; border-radius: 20px; padding: 5px 11px; color: #176EBA; font-size: .75rem; font-weight: 750; }
+.mapa-rolagem { overflow-x: auto; border-radius: 18px; background: #EAF2F5; border: 1px solid #DCE8EE; box-shadow: 0 7px 22px rgba(36,54,75,.065); }
+.mapa-cenario { position: relative; width: 100%; min-width: 780px; aspect-ratio: 1080 / 650; isolation: isolate; }
+.mapa-desenho { display: block; position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.mapa-nome { position: absolute; z-index: 1; padding: 6px 10px; border: 1px solid #D3E3EB; background: rgba(255,255,255,.94); border-radius: 9px; color: #24364B; font-size: .85rem; font-weight: 750; white-space: nowrap; box-shadow: 0 2px 10px rgba(36,54,75,.06); }
+.mapa-nome span { display: block; color: #64778B; font-size: .72rem; font-weight: 550; }
+.mapa-nome--praca { top: 5%; left: 9%; }
+.mapa-nome--escola { top: 5%; left: 59%; }
+.mapa-nome--onibus { top: 55%; left: 9%; }
+.mapa-nome--ubs { top: 55%; left: 59%; }
+.mapa-pino { --cor-pin: #2497EF; position: absolute; z-index: 2; display: flex; align-items: center; justify-content: center; width: 39px; height: 39px; border: 3px solid #FFF; border-radius: 15px 15px 15px 6px; background: var(--cor-pin); color: white; text-decoration: none; transform: translate(-50%,-50%) rotate(-45deg); box-shadow: 0 4px 11px rgba(36,54,75,.22); transition: scale .15s ease, box-shadow .15s ease; }
+.mapa-pino::after { content: ''; position: absolute; inset: 0; border-radius: inherit; }
+.mapa-pino svg { display: block; width: 21px; height: 21px; transform: rotate(45deg); }
+.mapa-pino--iluminacao { --cor-pin: #2497EF; }
+.mapa-pino--acessibilidade { --cor-pin: #7E73DF; }
+.mapa-pino--limpeza { --cor-pin: #1EAA9A; }
+.mapa-pino--conservacao { --cor-pin: #EA9254; }
+.mapa-pino:hover, .mapa-pino:focus-visible { z-index: 8; scale: 1.1; box-shadow: 0 7px 18px rgba(36,54,75,.26); }
+.mapa-status { position: absolute; bottom: -5px; right: -7px; width: 14px; height: 14px; border: 2px solid white; border-radius: 50%; transform: rotate(45deg); }
+.mapa-status--aberta { background: #D94C4C; }
+.mapa-status--em_analise { background: #DE9D23; }
+.mapa-status--concluida { background: #249974; }
+.mapa-dica { position: absolute; z-index: 10; left: 43px; bottom: 39px; display: block; width: 215px; padding: 12px 13px; background: #24364B; color: #FFF; border-radius: 11px; box-shadow: 0 7px 24px rgba(36,54,75,.20); transform: rotate(45deg); transform-origin: left bottom; font-size: .8rem; line-height: 1.4; text-align: left; opacity: 0; visibility: hidden; pointer-events: none; }
+.mapa-dica b, .mapa-dica small, .mapa-dica em { display: block; color: #FFF; }
+.mapa-dica small { margin-top: 5px; font-size: .75rem; color: #E2EDF4; }
+.mapa-dica em { margin-top: 6px; font-style: normal; color: #A8D8FF; font-size: .72rem; }
+.mapa-pino:hover .mapa-dica, .mapa-pino:focus-visible .mapa-dica { opacity: 1; visibility: visible; }
+.mapa-excedentes { position: absolute; z-index: 3; background: #FFF; color: #176EBA; text-decoration: none; border: 1px solid #C8E2F5; border-radius: 10px; padding: 7px 10px; font-size: .75rem; font-weight: 700; }
+.mapa-legenda { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 21px; padding: 15px 2px 6px; color: #24364B; font-size: .84rem; }
+.mapa-legenda > span { display: inline-flex; gap: 7px; align-items: center; }
+.mapa-bolinha { display: inline-block; width: 10px; height: 10px; border-radius: 50%; }
+.mapa-bolinha--aberta { background: #D94C4C; }
+.mapa-bolinha--em_analise { background: #DE9D23; }
+.mapa-bolinha--concluida { background: #249974; }
+.mapa-legenda .mapa-legenda-nota { margin-left: auto; color: #64778B; font-size: .79rem; }
+.mapa-observacao { color: #64778B; font-size: .79rem; margin: 6px 0 0; }
+.tabela tr:target { outline: 3px solid #82BDF1; outline-offset: -3px; background: #EAF6FF !important; }
+@media (max-width: 760px) {
+  .mapa-cabecalho { flex-wrap: wrap; }
+  .mapa-legenda .mapa-legenda-nota { margin-left: 0; width: 100%; }
+  .mapa-cenario { min-width: 780px; }
+}
+
+/* Interatividade da prévia: sem alterar a composição do mapa aprovado */
+body{min-height:100vh;padding:38px 18px 60px;}
+main{max-width:1120px;}
+.mapa-cabecalho{margin-bottom:13px;}
+.mapa-cabecalho h2{font-size:29px;letter-spacing:-.04em;}
+.mapa-etiqueta{white-space:nowrap;}
+.filtros{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 16px;}
+.filtro{border:1px solid #D7E5EF;border-radius:12px;background:#fff;color:#526A80;padding:10px 13px;cursor:pointer;font:650 13px Arial,sans-serif;display:inline-flex;gap:7px;align-items:center;transition:background .16s,border-color .16s;}
+.filtro span{color:#5E7185;font-size:12px;font-weight:700;}
+.filtro.ativo{background:#24364B;color:#fff;border-color:#24364B;}
+.filtro.ativo span{color:#B5DEFC;}
+.filtro:hover:not(.ativo){background:#EDF6FD;border-color:#B2D7EE;}
+.mapa-rolagem{position:relative;overflow:hidden;height:620px;cursor:grab;touch-action:none;user-select:none;}
+.mapa-rolagem.arrastando{cursor:grabbing;}
+.mapa-cenario{width:1080px;height:650px;min-width:0;aspect-ratio:auto;position:absolute;top:0;left:0;transform-origin:0 0;will-change:transform;}
+.mapa-pino{cursor:pointer;}
+.mapa-pino .mapa-dica{display:none!important;}
+.mapa-pino.oculto{display:none!important;}
+.mapa-pino.selecionado{z-index:6;box-shadow:0 0 0 5px rgba(36,150,239,.25),0 4px 13px rgba(36,54,75,.3);}
+.mapa-nome span{font-weight:650;}
+.mapa-controles{position:absolute;z-index:20;bottom:45px;right:15px;display:flex;flex-direction:column;gap:5px;padding:5px;background:rgba(255,255,255,.94);border:1px solid #D6E3EA;border-radius:14px;box-shadow:0 6px 17px rgba(36,54,75,.14);}
+.mapa-controles button{width:40px;height:40px;border:0;border-radius:9px;color:#24364B;background:#fff;font:600 25px Arial,sans-serif;cursor:pointer;}
+.mapa-controles button:hover{background:#E9F4FC;}
+.mapa-controles button:disabled{opacity:.38;cursor:default;}
+.mapa-ajuda{position:absolute;z-index:10;bottom:17px;left:17px;color:#496478;background:rgba(255,255,255,.91);padding:7px 11px;border-radius:9px;font:600 11px Arial,sans-serif;pointer-events:none;}
+.mapa-ajuda span{padding:0 5px;color:#9DAFBA;}
+.mapa-ficha[hidden]{display:none;}
+.mapa-ficha{position:absolute;z-index:30;top:16px;right:16px;width:min(318px,calc(100% - 32px));max-height:calc(100% - 32px);overflow:auto;background:white;border:1px solid #E0EAF1;border-radius:18px;box-shadow:0 12px 50px rgba(25,49,69,.22);padding:20px 20px 17px;font-family:Arial,sans-serif;user-select:text;cursor:default;}
+.ficha-top{display:flex;justify-content:space-between;align-items:center;gap:5px;}
+.ficha-sobretitulo{font-size:10px;letter-spacing:.1em;color:#7F91A2;font-weight:800;}
+.ficha-fechar{border:0;background:#EFF4F8;color:#3B5367;font-size:21px;line-height:1;width:31px;height:31px;border-radius:9px;cursor:pointer;}
+.ficha-fechar:hover{background:#DCEBF6;}
+.ficha-codigo{font-size:13px;font-weight:750;color:#2088D7;margin-top:10px;}
+.mapa-ficha h3{font-size:19px;line-height:1.26;color:#24364B;letter-spacing:-.025em;margin:7px 0 18px;}
+.ficha-detalhes{display:grid;grid-template-columns:1fr 1fr;gap:15px 12px;padding:16px 0;border-top:1px solid #E6EDF2;border-bottom:1px solid #E6EDF2;}
+.ficha-detalhes>div{min-width:0;}
+.ficha-detalhes span{display:block;color:#8392A0;font-size:11px;margin-bottom:5px;}
+.ficha-detalhes b{display:block;font-size:12px;color:#2E4355;line-height:1.35;}
+.ficha-status{display:inline-block!important;width:fit-content;border-radius:100px;padding:5px 9px;}
+.ficha-status.aberta{background:#FCEAEA;color:#B32A38;}
+.ficha-status.em_analise{background:#FFF0D4;color:#885914;}
+.ficha-status.concluida{background:#DDF5E9;color:#11714F;}
+.ficha-nota{font-size:11px;color:#8794A1;line-height:1.5;margin:13px 0 0;}
+.mapa-rolagem button:focus-visible,.mapa-pino:focus-visible,.filtro:focus-visible{outline:3px solid #248DEA;outline-offset:3px;}
+@media(max-width:760px){body{padding:24px 12px 45px}.mapa-cabecalho h2{font-size:24px;}.mapa-rolagem{height:450px}.mapa-ficha{top:auto;bottom:12px;left:12px;right:12px;width:auto;max-height:72%;}.mapa-controles{bottom:54px;right:12px;}.mapa-ajuda{font-size:10px;bottom:13px;left:12px;max-width:75%;}.mapa-etiqueta{font-size:11px;}}
+
+/* Integração: ocupa toda a largura do painel sem cabeçalho duplicado. */
+html,body{margin:0!important;padding:0!important;min-height:0!important;background:transparent!important;}
+body{overflow:hidden;}
+main{width:100%;max-width:none!important;margin:0!important;padding:0!important;}
+.mapa-secao{margin:0;}
+.mapa-rolagem{height:620px;}
+@media(max-width:760px){.mapa-rolagem{height:450px;}.mapa-cabecalho h2{font-size:23px;}}
+
+/* APARÊNCIA EDITORIAL DO MAPA */
+.mapa-rolagem { border-radius: 9px; box-shadow: none; }
+.mapa-etiqueta, .filtro { border-radius: 6px; }
+.mapa-ficha { border-radius: 9px; }
+</style><title>Mapa interativo — Vila Esperança</title></head><body><main>
+<section aria-labelledby="mapa-titulo" class="mapa-secao">
+<div class="mapa-cabecalho"><div><h2 id="mapa-titulo">Mapa de ocorrências</h2><p>Vila Esperança · dados da simulação · dia @@MAPA_DIA@@</p></div><span class="mapa-etiqueta">@@MAPA_TOTAL@@ ocorrências válidas</span></div><div aria-label="Filtrar ocorrências por situação" class="filtros" role="group">
+<button aria-pressed="true" class="filtro ativo" data-status-filter="todas">Todas <span>@@MAPA_STATUS_TODAS@@</span></button>
+<button aria-pressed="false" class="filtro" data-status-filter="aberta">Abertas <span>@@MAPA_STATUS_ABERTA@@</span></button>
+<button aria-pressed="false" class="filtro" data-status-filter="em_analise">Em análise <span>@@MAPA_STATUS_EM_ANALISE@@</span></button>
+<button aria-pressed="false" class="filtro" data-status-filter="concluida">Concluídas <span>@@MAPA_STATUS_CONCLUIDA@@</span></button>
+</div>
+<div aria-label="Mapa ilustrativo interativo: arraste para mover, use os controles para aproximar e clique nos pinos para consultar ocorrências." class="mapa-rolagem" id="mapaViewport" role="region" tabindex="0">
+<div class="mapa-cenario" id="mapaWorld">
+<svg aria-hidden="true" class="mapa-desenho" preserveaspectratio="none" viewbox="0 0 1080 650" xmlns="http://www.w3.org/2000/svg">
+<rect fill="#EAF2F5" height="650" width="1080"></rect>
+<g fill="#DCE7E9">
+<path d="M28 25h185v120H28z"></path>
+<path d="M260 30h166v111H260z"></path>
+<path d="M660 31h146v120H660z"></path>
+<path d="M845 27h200v140H845z"></path>
+<path d="M20 398h199v175H20z"></path>
+<path d="M267 423h161v185H267z"></path>
+<path d="M647 416h165v195H647z"></path>
+<path d="M852 423h204v166H852z"></path>
+</g>
+<g fill="#D3EACF">
+<path d="M90 70q70-30 148 8l14 115q-64 31-151-4z"></path>
+<path d="M780 495q60-29 137 3l-14 94q-79 22-137-7z"></path>
+</g>
+<g fill="#F3E6D3">
+<rect height="73" rx="12" width="82" x="685" y="65"></rect>
+<rect height="79" rx="11" width="83" x="180" y="457"></rect>
+</g>
+<g fill="none" stroke="#C8D9E0" stroke-linecap="round" stroke-linejoin="round">
+<path d="M528-50C454 98 585 213 529 332S467 555 523 710" stroke-width="76"></path>
+<path d="M-65 320C140 260 234 384 429 335S799 255 1146 344" stroke-width="74"></path>
+<path d="M-40 556C188 520 265 607 420 543S750 496 1119 556" stroke-width="40"></path>
+<path d="M135-60C180 100 72 212 105 357S238 545 215 700" stroke-width="31"></path>
+<path d="M936-40C865 106 1004 240 941 374S869 548 1019 700" stroke-width="32"></path>
+</g>
+<g fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round">
+<path d="M528-50C454 98 585 213 529 332S467 555 523 710" stroke-width="65"></path>
+<path d="M-65 320C140 260 234 384 429 335S799 255 1146 344" stroke-width="63"></path>
+<path d="M-40 556C188 520 265 607 420 543S750 496 1119 556" stroke-width="32"></path>
+<path d="M135-60C180 100 72 212 105 357S238 545 215 700" stroke-width="24"></path>
+<path d="M936-40C865 106 1004 240 941 374S869 548 1019 700" stroke-width="24"></path>
+</g>
+<g fill="#C6D7DE" opacity=".9">
+<rect height="45" rx="7" width="67" x="302" y="79"></rect>
+<rect height="33" rx="6" width="68" x="697" y="212"></rect>
+<rect height="46" rx="7" width="59" x="351" y="458"></rect>
+<rect height="35" rx="7" width="91" x="874" y="437"></rect>
+</g>
+<g fill="none" opacity=".9" stroke="#B7D5BF" stroke-width="5">
+<path d="M133 114q25-17 43 2"></path>
+<path d="M806 557q24-12 49 8"></path>
+</g>
+</svg>
+<div class="mapa-nome mapa-nome--praca" data-local="Praça Central">Praça Central <span>@@MAPA_LOCAL_PRACA@@ ocorrências</span></div>
+<div class="mapa-nome mapa-nome--escola" data-local="Entorno da Escola">Entorno da Escola <span>@@MAPA_LOCAL_ESCOLA@@ ocorrências</span></div>
+<div class="mapa-nome mapa-nome--onibus" data-local="Ponto de Ônibus">Ponto de Ônibus <span>@@MAPA_LOCAL_ONIBUS@@ ocorrências</span></div>
+<div class="mapa-nome mapa-nome--ubs" data-local="Entorno da UBS">Entorno da UBS <span>@@MAPA_LOCAL_UBS@@ ocorrências</span></div>
+@@MAPA_PINOS@@
+</div>
+<div aria-label="Controles do mapa" class="mapa-controles" role="group">
+<button aria-label="Aproximar mapa" id="zoomIn" title="Aproximar" type="button">+</button>
+<button aria-label="Afastar mapa" id="zoomOut" title="Afastar" type="button">−</button>
+<button aria-label="Recentrar mapa" id="zoomReset" title="Recentrar" type="button">⤢</button>
+</div><aside aria-label="Detalhes da ocorrência" aria-live="polite" class="mapa-ficha" hidden="" id="mapa-ficha">
+<div class="ficha-top"><span class="ficha-sobretitulo">DETALHES DA OCORRÊNCIA</span><button aria-label="Fechar detalhes" class="ficha-fechar" id="fecharFicha" type="button">×</button></div>
+<div class="ficha-codigo" id="fichaCodigo">#001</div>
+<h3 id="fichaDescricao"></h3>
+<div class="ficha-detalhes"><div><span>Categoria</span><b id="fichaCategoria"></b></div><div><span>Local de referência</span><b id="fichaLocal"></b></div><div><span>Abertura simulada</span><b id="fichaDia"></b></div><div><span>Situação</span><b class="ficha-status" id="fichaStatus"></b></div></div>
+<p class="ficha-nota">Localização ilustrativa. Não corresponde a uma coordenada geográfica.</p>
+</aside><div aria-hidden="true" class="mapa-ajuda">✥ Arraste para explorar <span>·</span> Use + e − para zoom</div></div>
+<div class="mapa-legenda"><span><i class="mapa-bolinha mapa-bolinha--aberta"></i>Aberta</span><span><i class="mapa-bolinha mapa-bolinha--em_analise"></i>Em análise</span><span><i class="mapa-bolinha mapa-bolinha--concluida"></i>Concluída</span><span class="mapa-legenda-nota">Clique no pino para abrir a ficha da ocorrência.</span></div>
+<p class="mapa-observacao">As ruas e a posição dos marcadores são ilustrativas: os dados identificam apenas quatro pontos de referência fictícios, sem coordenadas ou endereços reais.</p>
+</section>
+</main><script>
+(() => {
+  const viewport = document.getElementById('mapaViewport');
+  const world = document.getElementById('mapaWorld');
+  const pins = Array.from(world.querySelectorAll('.mapa-pino'));
+  const labels = Array.from(world.querySelectorAll('.mapa-nome'));
+  const ficha = document.getElementById('mapa-ficha');
+  const byId = id => document.getElementById(id);
+  const worldWidth = 1080, worldHeight = 650;
+  let baseScale = 1, scale = 1, x = 0, y = 0;
+  let selectedPin = null, filtering = 'todas';
+  const pointers = new Map();
+  let dragPointer = null, startedAt = null, isDrag = false;
+  let pinchStart = null;
+  const clamp = (n, low, high) => Math.min(Math.max(n,low),high);
+  const limit = () => {
+    const w = worldWidth*scale, h = worldHeight*scale;
+    x = w <= viewport.clientWidth ? (viewport.clientWidth-w)/2 : clamp(x,viewport.clientWidth-w,0);
+    y = h <= viewport.clientHeight ? (viewport.clientHeight-h)/2 : clamp(y,viewport.clientHeight-h,0);
+  };
+  const render = () => {
+    limit(); world.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
+    byId('zoomOut').disabled = scale <= baseScale*1.001;
+    byId('zoomIn').disabled = scale >= baseScale*3.5-0.001;
+  };
+  function fit(preserveZoom=false) {
+    const width=viewport.clientWidth, height=viewport.clientHeight;
+    const zoomFactor=preserveZoom?scale/baseScale:1;
+    baseScale=Math.max(width/worldWidth,height/worldHeight);
+    scale=baseScale*zoomFactor;
+    x=(width-worldWidth*scale)/2; y=(height-worldHeight*scale)/2;
+    render();
+  }
+  function zoomAt(nextScale,px,py) {
+    const target=clamp(nextScale,baseScale,baseScale*3.5);
+    if(Math.abs(scale-target)<0.0001)return;
+    const ratio=target/scale;
+    x=px-(px-x)*ratio;
+    y=py-(py-y)*ratio;
+    scale=target; render();
+  }
+  function closeFicha(){
+    ficha.hidden=true;
+    if(selectedPin)selectedPin.classList.remove('selecionado');
+    selectedPin=null;
+  }
+  pins.forEach(pin => pin.addEventListener('click', e => {
+    e.preventDefault();
+    if(isDrag)return;
+    if(selectedPin)selectedPin.classList.remove('selecionado');
+    selectedPin=pin;
+    pin.classList.add('selecionado');
+    const full=pin.querySelector('.mapa-dica');
+    byId('fichaCodigo').textContent='#'+pin.dataset.id;
+    byId('fichaDescricao').textContent=full.querySelector('small').textContent;
+    byId('fichaCategoria').textContent=full.querySelector('b').textContent.split(' · ')[1];
+    byId('fichaLocal').textContent=pin.dataset.local;
+    byId('fichaDia').textContent='Dia '+pin.dataset.dia;
+    const status=pin.dataset.status;
+    const txt={'aberta':'Aberta','em_analise':'Em análise','concluida':'Concluída'}[status];
+    byId('fichaStatus').textContent=txt;
+    byId('fichaStatus').className='ficha-status '+status;
+    ficha.hidden=false;
+  }));
+  byId('fecharFicha').addEventListener('click',closeFicha);
+  document.addEventListener('keydown', e => {
+    if(e.key==='Escape' && !ficha.hidden) { closeFicha(); viewport.focus(); }
+    if(document.activeElement===viewport) {
+      if(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(e.key)) {
+        e.preventDefault(); const d=52;
+        if(e.key==='ArrowLeft')x+=d;
+        if(e.key==='ArrowRight')x-=d;
+        if(e.key==='ArrowUp')y+=d;
+        if(e.key==='ArrowDown')y-=d;
+        render();
+      }
+      if(e.key==='+' || e.key==='=') {e.preventDefault();zoomAt(scale*1.25,viewport.clientWidth/2,viewport.clientHeight/2);}
+      if(e.key==='-') {e.preventDefault();zoomAt(scale/1.25,viewport.clientWidth/2,viewport.clientHeight/2);}
+    }
+  });
+  byId('zoomIn').addEventListener('click',()=>zoomAt(scale*1.3,viewport.clientWidth/2,viewport.clientHeight/2));
+  byId('zoomOut').addEventListener('click',()=>zoomAt(scale/1.3,viewport.clientWidth/2,viewport.clientHeight/2));
+  byId('zoomReset').addEventListener('click',()=>{closeFicha();fit();});
+  viewport.addEventListener('wheel',e=>{
+    if(e.target.closest('.mapa-ficha'))return;
+    e.preventDefault();
+    if(window.parent!==window) window.parent.postMessage(
+      {tipo:'vila-scroll-pagina',dy:e.deltaY,dx:e.deltaX}, '*');
+  },{passive:false});
+  function distAndCenter(){
+    const a=Array.from(pointers.values());
+    const dist=Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y);
+    return {dist,mx:(a[0].x+a[1].x)/2,my:(a[0].y+a[1].y)/2};
+  }
+  viewport.addEventListener('pointerdown',e=>{
+    if(e.target.closest('button,.mapa-ficha'))return;
+    if(e.pointerType==='mouse' && e.button!==0)return;
+    pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
+    if(pointers.size===1){ dragPointer=e.pointerId; startedAt={x:e.clientX,y:e.clientY,offsetX:x,offsetY:y}; isDrag=false; }
+    if(pointers.size===2){pinchStart={...distAndCenter(),scale,x,y}; isDrag=true;closeFicha();}
+  });
+  viewport.addEventListener('pointermove',e=>{
+    if(!pointers.has(e.pointerId))return;
+    pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
+    if(pointers.size>=2){
+      if(!pinchStart)pinchStart={...distAndCenter(),scale,x,y};
+      const now=distAndCenter(); const bounds=viewport.getBoundingClientRect();
+      const mx=now.mx-bounds.left,my=now.my-bounds.top;
+      const originalMx=pinchStart.mx-bounds.left, originalMy=pinchStart.my-bounds.top;
+      const newScale=clamp(pinchStart.scale*now.dist/pinchStart.dist,baseScale,baseScale*3.5);
+      const ratio=newScale/pinchStart.scale;
+      x=mx-(originalMx-pinchStart.x)*ratio;
+      y=my-(originalMy-pinchStart.y)*ratio;
+      scale=newScale;render();return;
+    }
+    if(dragPointer!==e.pointerId||!startedAt)return;
+    const dx=e.clientX-startedAt.x,dy=e.clientY-startedAt.y;
+    if(!isDrag && Math.hypot(dx,dy)>5){isDrag=true;closeFicha();viewport.classList.add('arrastando');viewport.setPointerCapture(e.pointerId);}
+    if(isDrag){x=startedAt.offsetX+dx;y=startedAt.offsetY+dy;render();}
+  });
+  function endPointer(e){
+    pointers.delete(e.pointerId);
+    if(dragPointer===e.pointerId){dragPointer=null;startedAt=null;viewport.classList.remove('arrastando');}
+    if(pointers.size<2)pinchStart=null;
+    if(pointers.size===1){ const p=Array.from(pointers.entries())[0]; dragPointer=p[0];startedAt={x:p[1].x,y:p[1].y,offsetX:x,offsetY:y};}
+    // avoid suppressing click for a stationary tap; reset drag after click propagation
+    requestAnimationFrame(()=>{if(!pointers.size)isDrag=false;});
+  }
+  viewport.addEventListener('pointerup',endPointer);
+  viewport.addEventListener('pointercancel',endPointer);
+  viewport.addEventListener('lostpointercapture',e=>{
+    if(pointers.has(e.pointerId))endPointer(e);
+  });
+  const filterButtons=Array.from(document.querySelectorAll('[data-status-filter]'));
+  filterButtons.forEach(b=>b.addEventListener('click',()=>{
+    const value=b.dataset.statusFilter;
+    filtering=value;
+    filterButtons.forEach(o=>{const active=o===b;o.classList.toggle('ativo',active);o.setAttribute('aria-pressed',String(active));});
+    pins.forEach(p=>p.classList.toggle('oculto',value!=='todas'&&p.dataset.status!==value));
+    for(const label of labels){
+      const local=label.dataset.local;
+      const n=pins.filter(p=>p.dataset.local===local&&!p.classList.contains('oculto')).length;
+      label.querySelector('span').textContent=n+' '+(n===1?'ocorrência':'ocorrências');
+    }
+    closeFicha();
+  }));
+  window.addEventListener('resize',()=>fit());
+  fit();
+})();
+</script></body></html>

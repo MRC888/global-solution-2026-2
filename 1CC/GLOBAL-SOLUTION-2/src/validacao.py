@@ -79,16 +79,30 @@ def campo_vazio(texto):
     return texto.strip() == ""
 
 
+def so_numeros(texto):
+    """Devolve True se o texto tiver pelo menos um caractere e só os dígitos de 0 a 9.
+
+    Não usamos isdigit() porque ele também aceita "²" e dígitos de outros
+    alfabetos, que o int() não consegue converter (e o programa quebraria).
+    """
+    if texto == "":
+        return False
+    for caractere in texto:
+        if caractere not in "0123456789":
+            return False
+    return True
+
+
 def dia_valido(dia_texto):
     """Devolve True se o dia for um número inteiro entre 1 e 30.
 
     Regra L2 (usa NOT e OR):
-        not dia_texto.isdigit() or int(dia_texto) < DIA_INICIAL or int(dia_texto) > DIA_HOJE
+        not so_numeros(dia_texto) or int(dia_texto) < DIA_INICIAL or int(dia_texto) > DIA_HOJE
     O "or" para na primeira condição verdadeira. Por isso, quando o texto
     não é número, o int() nem chega a rodar e o programa não quebra.
     """
     dia_texto = dia_texto.strip()
-    if not dia_texto.isdigit() or int(dia_texto) < DIA_INICIAL or int(dia_texto) > DIA_HOJE:
+    if not so_numeros(dia_texto) or int(dia_texto) < DIA_INICIAL or int(dia_texto) > DIA_HOJE:
         return False
     return True
 
@@ -118,10 +132,11 @@ def validar_registro(registro, por_id):
     codigo = registro["id"].strip()
     if campo_vazio(codigo):
         problemas.append(["id", "código ausente"])
-    elif not codigo.isdigit():
+    elif not so_numeros(codigo):
         problemas.append(["id", "código deve ter só números"])
-    elif codigo in por_id:
-        problemas.append(["id", "código repetido (" + codigo + " já existe)"])
+    elif codigo.zfill(3) in por_id:
+        # "14" e "014" são o mesmo código: a comparação usa sempre 3 dígitos.
+        problemas.append(["id", "código repetido (" + codigo.zfill(3) + " já existe)"])
 
     # Regra 2: categoria precisa ser uma das quatro padronizadas
     categoria = registro["categoria"].strip()
@@ -145,6 +160,11 @@ def validar_registro(registro, por_id):
             problemas.append(["descricao", "descrição vazia"])
         if campo_vazio(local):
             problemas.append(["local", "local vazio"])
+
+    # A interface já limita a descrição a 120 caracteres; a validação central
+    # também confere esse limite para carga do CSV e correção de inconsistências.
+    if len(descricao) > TAMANHO_MAXIMO_DESCRICAO:
+        problemas.append(["descricao", "descrição excede " + str(TAMANHO_MAXIMO_DESCRICAO) + " caracteres"])
 
     # Regra 5: o ponto e vírgula separa os campos no CSV, então não pode aparecer no texto
     if ";" in descricao or ";" in local:
@@ -196,6 +216,30 @@ def verificar_transicao(status_atual, status_novo):
                 + " só é possível ir para " + permitido + "."]
     else:
         return [True, ""]
+
+
+def evento_coerente(evento, dia_abertura):
+    """Confere um evento do histórico lido do CSV. Devolve "" se estiver certo, ou o motivo.
+
+    Um evento precisa ter status conhecidos, dia válido, não pode ser anterior
+    à abertura da ocorrência e precisa seguir as transições permitidas.
+    O "desfazer" grava a volta (por exemplo, em análise -> aberta): por isso
+    um evento "desfeito" é aceito quando faz o caminho contrário de uma transição permitida.
+    """
+    anterior = evento["anterior"]
+    novo = evento["novo"]
+    if anterior not in STATUS or novo not in STATUS:
+        return "status desconhecido no evento"
+    if not dia_valido(evento["dia"]):
+        return "dia fora do período"
+    if int(evento["dia"]) < dia_abertura:
+        return "evento antes da abertura da ocorrência"
+    desfeito = evento["observacao"].startswith("desfeito")
+    if not desfeito and novo not in TRANSICOES[anterior]:
+        return "mudança de status não permitida"
+    if desfeito and anterior not in TRANSICOES[novo]:
+        return "volta de status inválida"
+    return ""
 
 
 # ---------------------------------------------------------------

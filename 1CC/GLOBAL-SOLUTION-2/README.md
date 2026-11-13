@@ -12,11 +12,10 @@
 
 # Neighborhood Action Dashboard — Global Solution 2026.2 (CitizenTech)
 
-> 🚧 Em finalização: faltam o nome do grupo, o tutor, os aprendizados e o vídeo.
-
 ## 1. Equipe
 
 **Nome do grupo:** _(a definir)_
+**Projeto:** Neighborhood Action Dashboard
 
 ### 👨‍🎓 Integrantes
 - Marcelo Santos — RM 576131
@@ -56,7 +55,7 @@ Todas as estruturas ficam em um dicionário `sistema`, montado em [`src/estrutur
 
 ## 4. Regras lógicas principais
 
-**Validação** ([`validacao.validar_registro`](src/validacao.py)): todo registro (na carga do CSV, no cadastro e na correção) passa por seis regras. O registro recebe **todos** os motivos, não só o primeiro.
+**Validação** ([`validacao.validar_registro`](src/validacao.py)): todo registro (na carga do CSV, no cadastro e na correção) passa por verificações de identificação, categoria, status, campos obrigatórios, descrição, caracteres e data simulada. O registro recebe **todos** os motivos, não só o primeiro.
 
 | Regra | Mensagem | Por que essa mensagem aparece |
 |---|---|---|
@@ -65,6 +64,7 @@ Todas as estruturas ficam em um dicionário `sistema`, montado em [`src/estrutur
 | Status fora dos 3 padronizados | "status desconhecido (resolvido)" | O status decide a coluna da matriz e se a ocorrência vai para a fila |
 | Descrição **ou** local vazio (L1) | "descrição vazia" / "local vazio" | São campos obrigatórios para entender o problema |
 | `;` no texto | "o texto não pode ter ponto e vírgula" | O `;` separa os campos do CSV e quebraria o arquivo |
+| Descrição acima de 120 caracteres | "descrição excede 120 caracteres" | Limita o tamanho do campo no terminal e na validação dos CSVs |
 | Dia **não** numérico **ou** fora de 1 a 30 (L2) | "dia fora do período" | O tempo é simulado de 1 a 30; fora disso, os cálculos de tempo perdem o sentido |
 
 **Mudança de status** ([`validacao.verificar_transicao`](src/validacao.py)): só para a frente, um passo por vez (`aberta → em_analise → concluida`). O `if/elif/else` testa na ordem: status desconhecido → igual ao atual → já concluída → transição proibida → aceita. Cada `elif` só roda se os anteriores falharam, então a pessoa recebe o motivo mais claro. Para corrigir um engano existe o "desfazer" (opção 7).
@@ -106,16 +106,16 @@ Calculados com laços e operações simples em [`src/indicadores.py`](src/indica
 
 | # | Indicador | Fórmula | Resultado |
 |---|---|---|---|
-| I1/I2 | Total e proporção por categoria | total da categoria ÷ total geral × 100 | Iluminação 5 (31,25%) · Acessibilidade 4 (25%) · Limpeza 3 (18,75%) · Conservação 4 (25%) |
-| I3 | Total e proporção por status | total do status ÷ total geral × 100 | Aberta 6 (37,5%) · Em análise 4 (25%) · Concluída 6 (37,5%) |
+| I1/I2 | Total e proporção por categoria | total da categoria ÷ total geral × 100 | Iluminação 5 (31,25%) · Acessibilidade 4 (25,00%) · Limpeza 3 (18,75%) · Conservação 4 (25,00%) |
+| I3 | Total e proporção por status | total do status ÷ total geral × 100 | Aberta 6 (37,50%) · Em análise 4 (25,00%) · Concluída 6 (37,50%) |
 | I4 | Matriz categoria × status | contagem em cada célula | tabela 4 × 3 |
-| I5 | Pendências | abertas + em análise | 10 de 16 (62,5%) |
+| I5 | Pendências | abertas + em análise | 10 de 16 (62,50%) |
 | I6 | Tempo médio até a conclusão | Σ(dia da conclusão − dia de abertura) ÷ nº de concluídas | 32 ÷ 6 = **5,33 dias** |
 | I7 | Dias em aberto das pendentes | Σ(30 − dia de abertura) ÷ nº de pendentes da categoria | **Acessibilidade 24,67** · Limpeza 13,00 · Conservação 10,67 · Iluminação 8,00 |
 | Extra | Score de prioridade | dias em aberto × peso (acessibilidade 3, iluminação 2, conservação 2, limpeza 1) | 1º 003 (27 × 3 = 81), 2º 005 (75), 3º 007 (66) |
 
 **Interpretação** (o sistema gera estas frases por regras com `if`):
-- Mais da metade das ocorrências (62,5%) ainda está pendente: o bairro tem demandas acumuladas.
+- Mais da metade das ocorrências (62,50%) ainda está pendente: o bairro tem demandas acumuladas.
 - Iluminação é a categoria com mais registros (5 de 16), mas é a que menos espera.
 - Acessibilidade é a categoria que espera há mais tempo (24,67 dias em média), e as pendências dela estão todas no entorno da UBS. Isso pesa mais porque afeta quem tem mobilidade reduzida e precisa chegar ao posto de saúde. Por isso as três pendências mais urgentes do ranking são dela.
 - O que é resolvido sai em pouco tempo (5,33 dias em média): o problema está no que fica esperando, não na velocidade de quem resolve.
@@ -129,26 +129,36 @@ cd 1CC/GLOBAL-SOLUTION-2
 python src/sistema.py
 ```
 
-Ao abrir, o sistema lê os dados, mostra o resultado da validação e oferece dois caminhos:
+Ao abrir, o sistema procura uma sessão anterior em `data/saida/`. Se houver, pergunta se deseja **continuar de onde parou** ou **recomeçar com os dados demonstrativos originais**. Depois, mostra o resultado da validação e oferece dois caminhos:
 
 | Caminho | O que faz |
 |---|---|
 | **1 - Terminal** | O sistema completo, com menu: listar, buscar, filtrar, cadastrar, triagem, atualizar status, desfazer, histórico, hierarquia do bairro, painel de indicadores e correção de inconsistências. Tem modo acessível (sem cores, frases completas, confirmação antes de cada ação) |
-| **2 - Painel HTML (bônus)** | Gera `painel/solicitacoes.html` (na raiz do repositório) com os mesmos indicadores, para abrir no navegador. Só HTML e CSS montados pelo Python, sem JavaScript |
+| **2 - Painel HTML (bônus)** | Gera o painel com os dados da sessão em `data/saida/painel/` (pasta ignorada pelo Git): `painel.html`, `solicitacoes.html` e `mapa.html`, mais as páginas fixas copiadas de `painel/`. HTML e CSS são montados pelo Python; o mapa usa JavaScript local para zoom, filtros e fichas, sem internet. Se faltar algum arquivo, o sistema avisa e não grava nada |
 
-Os dois caminhos usam os mesmos dados da sessão: o que for alterado no terminal aparece no painel gerado depois. Ao sair do terminal, o estado é salvo em `data/saida/`; os arquivos originais não mudam.
+**Páginas do painel.** `painel.html` é a página **Início**, com mapa interativo acima dos cinco indicadores; `solicitacoes.html` lista ocorrências e histórico; `sobre.html` descreve a proposta; `formulario.html` é demonstrativo e não grava dados. O mapa vem de `src/mapa_html.py` e `painel/mapa_template.html`, com pinos provenientes apenas de ocorrências válidas e posições ilustrativas, não GPS nem coordenadas reais. Fichas, filtros, arraste e zoom usam JavaScript local, sem servidor ou API. A rolagem da página permanece ativa sobre o mapa.
 
-Testes automáticos (comparam os resultados com o gabarito de `docs/dados.md`):
+A pasta `painel/` do projeto é a versão de demonstração, com os dados originais; para recriá-la, rode `python src/painel_html.py`.
+
+**Exceções autorizadas pelo líder, só para o painel bônus:** `base64` coloca a logo FIAP dentro do HTML gerado; `tempfile` cria pastas temporárias nos testes, sem tocar nos CSVs; JavaScript local cuida de pinos, fichas, filtros, arraste e zoom do mapa, sem rede, API ou servidor. Os dados e os indicadores continuam sendo calculados em Python.
+
+**Percentuais.** A interface apresenta duas casas decimais (por exemplo, 62,50% e 25,00%); isso não muda os cálculos.
+
+Os dois caminhos usam os mesmos dados em memória: o que for alterado no terminal aparece no painel gerado depois. **Cada cadastro, correção, mudança de status e desfazer bem-sucedido salva automaticamente** a sessão em `data/saida/`; sair do terminal também salva. A opção de continuar recupera os registros e o histórico na próxima execução. Recomeçar com a base original permite um ensaio limpo, mas a sessão anterior será substituída ao salvar novas alterações. Os CSVs originais em `data/` nunca são modificados.
+
+**Sobre o formulário HTML:** `painel/formulario.html` é uma **prévia visual**, sem envio ou gravação de dados. Seus campos seguem as regras do cadastro Python (categoria, descrição de até 120 caracteres, local genérico e dia de 1 a 30). O cadastro funcional é a opção 4 do terminal.
+
+Para executar as 14 verificações automatizadas (incluindo cálculos conferidos com `docs/dados.md`, gravação/recarga isoladas, painel gerado fora do Git e entradas estranhas como `²` ou `014`):
 
 ```bash
-python src/testes.py
+python3 src/testes.py
 ```
 
 ## 7. Exemplos de uso
 
 Saída real do sistema (caminho 1, terminal). O que a pessoa digita aparece depois de cada pergunta.
 
-**Ao abrir:** a validação já separa os registros com problema.
+**Ao abrir com os dados originais:** a validação já separa os registros com problema.
 
 ```text
 Carga dos dados: 18 registros lidos, 16 válidos, 2 inconsistentes, 16 eventos no histórico.
@@ -166,6 +176,7 @@ Usar essa categoria? (s/n): s
 Escolha o local: 2
 Dia de abertura (1 a 30; hoje é o dia 30): 30
 [OK] Ocorrência 019 cadastrada e colocada na fila (posição 7 de 7).
+Sessão salva automaticamente em data/saida/.
 ```
 
 **Consulta (opção 3):** ocorrências abertas de iluminação.
@@ -203,7 +214,7 @@ Código da ocorrência (ex.: 14 ou 014): 999
 [!] Ocorrência 999 não encontrada.
 ```
 
-**Saída (opção 0):**
+**Saída (opção 0, depois do salvamento automático):**
 
 ```text
 Nesta sessão: 1 cadastro(s) e 1 mudança(s) de status.
@@ -211,6 +222,7 @@ Estado salvo em:
   .../data/saida/ocorrencias_sessao.csv
   .../data/saida/historico_sessao.csv
 Os arquivos originais em data/ não foram alterados.
+Na próxima execução, será possível continuar esta sessão.
 ```
 
 ## 8. Acessibilidade, inclusão e privacidade
@@ -229,10 +241,10 @@ Os arquivos originais em data/ não foram alterados.
 **Privacidade**
 - Todos os dados são fictícios. O cadastro **não pede nome, e-mail nem endereço**; o local é sempre um ponto genérico do bairro ("Entorno da UBS"), nunca a casa de alguém.
 - O formulário de protótipo do painel avisa para não colocar número da casa nem citar nomes de pessoas.
-- Os arquivos originais não são alterados; cada sessão grava em `data/saida/`, fora do repositório.
+- Os arquivos originais não são alterados; o estado da sessão é salvo automaticamente em `data/saida/`, pasta ignorada pelo Git, e pode ser retomado na execução seguinte.
 
 ## 9. Vídeo
-_(link do YouTube, "Não listado")_
+**Vídeo de apresentação:** link a ser incluído após a publicação no YouTube como “Não listado”.
 
 ## 10. Conclusões, limitações e aprendizados
 
@@ -244,16 +256,30 @@ _(link do YouTube, "Não listado")_
 - O sistema não se conecta a nenhum órgão público e não garante atendimento: ele organiza e acompanha, não resolve.
 - Os pesos do score de prioridade foram escolhidos pela equipe e são uma opinião, não uma regra oficial.
 - O painel HTML é um retrato do momento em que foi gerado (não atualiza sozinho) e o formulário é só protótipo visual: o cadastro de verdade é feito no terminal.
+- Como `try/except` não faz parte do conteúdo das Fases 1 a 3, apertar Ctrl+C ou Ctrl+D no meio de uma pergunta encerra o programa com a mensagem de erro do Python. As alterações feitas até ali já estão salvas.
+- As cores do terminal usam códigos ANSI: se a saída for redirecionada para um arquivo, os códigos aparecem como texto. O modo acessível desliga as cores.
+- Ao continuar uma sessão salva, a fila de triagem é remontada com as ocorrências abertas na ordem do arquivo salvo, e a pilha do desfazer começa vazia (só desfaz o que foi feito na sessão atual).
 
-**Aprendizados:** _(a equipe escreve, com as palavras de cada integrante)_
+**Aprendizados técnicos demonstrados:**
+- A mesma ocorrência precisa ser mantida de forma consistente em estruturas diferentes: lista para percorrer, dicionário para consultar por código, fila para triagem, pilha para desfazer, hierarquia para navegar e matriz para contar.
+- A validação é essencial antes de incluir dados nos indicadores. Separar registros inconsistentes, explicar o motivo e permitir correção torna os resultados mais confiáveis.
+- Regras booleanas e transições de status evitam estados impossíveis; o histórico preserva o que aconteceu, mesmo após desfazer.
+- Indicadores simples podem revelar situações diferentes: a categoria mais frequente não é necessariamente a que está pendente há mais tempo.
+- Persistir os dados em arquivos separados permite retomar o trabalho sem alterar a base fictícia usada para testar a aplicação.
+
+**Aprendizados de cada integrante:** _(cada um escreve com as próprias palavras)_
+- **Marcelo:** _(a escrever)_
+- **Douglas:** _(a escrever)_
+- **Alice:** _(a escrever)_
 
 ---
 
 ## 📁 Estrutura de pastas
 
-* **`data/`** ocorrências e histórico simulados (CSV).
+* **`data/`** ocorrências e histórico simulados (CSV); a subpasta `saida/` guarda a sessão retomável localmente (ignorada pelo Git).
 * **`docs/`** documentação: checklist do edital e registro do uso de IA.
 * **`src/`** código-fonte Python.
+* **`painel/`** painel HTML de demonstração (bônus), com os dados originais.
 * **`README.md`** este arquivo.
 
 A pasta `notebooks/` do modelo não foi criada porque o projeto não usa notebooks (o modelo permite usar só as pastas que fazem sentido).
@@ -261,7 +287,10 @@ A pasta `notebooks/` do modelo não foi criada porque o projeto não usa noteboo
 ## 📎 Observações
 
 * **Participação na Competição:** [ ] Sim, aceitamos participar / [ ] Não vamos participar.
-* **Uso de IA:** ver [docs/uso_ia.md](docs/uso_ia.md).
+
+## 📎 Uso de inteligência artificial
+
+O apoio de inteligência artificial ao projeto está documentado em [docs/uso_ia.md](docs/uso_ia.md).
 
 ---
 

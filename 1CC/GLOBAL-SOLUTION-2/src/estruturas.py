@@ -18,7 +18,7 @@
 #   pilha -> entra no topo com append() e sai do topo com pop()
 
 from validacao import (BAIRRO, CATEGORIAS, STATUS, validar_registro,
-                       dia_valido, mensagens_dos_problemas)
+                       evento_coerente, mensagens_dos_problemas)
 
 
 def criar_matriz_zerada():
@@ -62,7 +62,7 @@ def criar_sistema():
 def registro_para_ocorrencia(registro):
     """Converte um registro já validado (só textos) em ocorrência (dia vira número)."""
     return {
-        "id": registro["id"].strip(),
+        "id": registro["id"].strip().zfill(3),      # "14" vira "014": todo código tem 3 dígitos
         "categoria": registro["categoria"].strip(),
         "descricao": registro["descricao"].strip(),
         "local": registro["local"].strip(),
@@ -107,10 +107,19 @@ def carregar_ocorrencias(sistema, registros):
 
 
 def carregar_historico(sistema, eventos):
-    """Guarda os eventos do histórico, conferindo se cada um aponta para uma ocorrência válida."""
+    """Guarda os eventos do histórico, conferindo cada um antes de aceitar.
+
+    Um evento é ignorado (e aparece nos avisos da carga) quando não aponta para
+    uma ocorrência válida ou quando é incoerente: status desconhecido, dia
+    inválido, dia antes da abertura ou mudança de status não permitida.
+    """
     for evento in eventos:
-        codigo = evento["id"]
-        if codigo in sistema["por_id"] and dia_valido(evento["dia"]) and evento["novo"] in STATUS:
+        codigo = evento["id"].strip().zfill(3)
+        if codigo not in sistema["por_id"]:
+            motivo = "não aponta para uma ocorrência válida"
+        else:
+            motivo = evento_coerente(evento, sistema["por_id"][codigo]["dia"])
+        if motivo == "":
             sistema["historico"].append({
                 "id": codigo,
                 "dia": int(evento["dia"]),
@@ -120,7 +129,7 @@ def carregar_historico(sistema, eventos):
             })
         else:
             sistema["avisos_carga"].append("evento do histórico ignorado (ocorrência " + codigo
-                                           + ", dia " + evento["dia"] + "): não aponta para uma ocorrência válida")
+                                           + ", dia " + evento["dia"] + "): " + motivo)
 
 
 def descrever_inconsistencia(item):
