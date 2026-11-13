@@ -104,16 +104,16 @@ Calculados com laços e operações simples em [`src/indicadores.py`](src/indica
 
 | # | Indicador | Fórmula | Resultado |
 |---|---|---|---|
-| I1/I2 | Total e proporção por categoria | total da categoria ÷ total geral × 100 | Iluminação 5 (31,25%) · Acessibilidade 4 (25%) · Limpeza 3 (18,75%) · Conservação 4 (25%) |
-| I3 | Total e proporção por status | total do status ÷ total geral × 100 | Aberta 6 (37,5%) · Em análise 4 (25%) · Concluída 6 (37,5%) |
+| I1/I2 | Total e proporção por categoria | total da categoria ÷ total geral × 100 | Iluminação 5 (31,25%) · Acessibilidade 4 (25,00%) · Limpeza 3 (18,75%) · Conservação 4 (25,00%) |
+| I3 | Total e proporção por status | total do status ÷ total geral × 100 | Aberta 6 (37,50%) · Em análise 4 (25,00%) · Concluída 6 (37,50%) |
 | I4 | Matriz categoria × status | contagem em cada célula | tabela 4 × 3 |
-| I5 | Pendências | abertas + em análise | 10 de 16 (62,5%) |
+| I5 | Pendências | abertas + em análise | 10 de 16 (62,50%) |
 | I6 | Tempo médio até a conclusão | Σ(dia da conclusão − dia de abertura) ÷ nº de concluídas | 32 ÷ 6 = **5,33 dias** |
 | I7 | Dias em aberto das pendentes | Σ(30 − dia de abertura) ÷ nº de pendentes da categoria | **Acessibilidade 24,67** · Limpeza 13,00 · Conservação 10,67 · Iluminação 8,00 |
 | Extra | Score de prioridade | dias em aberto × peso (acessibilidade 3, iluminação 2, conservação 2, limpeza 1) | 1º 003 (27 × 3 = 81), 2º 005 (75), 3º 007 (66) |
 
 **Interpretação** (o sistema gera estas frases por regras com `if`):
-- Mais da metade das ocorrências (62,5%) ainda está pendente: o bairro tem demandas acumuladas.
+- Mais da metade das ocorrências (62,50%) ainda está pendente: o bairro tem demandas acumuladas.
 - Iluminação é a categoria com mais registros (5 de 16), mas é a que menos espera.
 - Acessibilidade é a categoria que espera há mais tempo (24,67 dias em média), e as pendências dela estão todas no entorno da UBS. Isso pesa mais porque afeta quem tem mobilidade reduzida e precisa chegar ao posto de saúde. Por isso as três pendências mais urgentes do ranking são dela.
 - O que é resolvido sai em pouco tempo (5,33 dias em média): o problema está no que fica esperando, não na velocidade de quem resolve.
@@ -133,6 +133,10 @@ Ao abrir, o sistema procura uma sessão anterior em `data/saida/`. Se houver, pe
 |---|---|
 | **1 - Terminal** | O sistema completo, com menu: listar, buscar, filtrar, cadastrar, triagem, atualizar status, desfazer, histórico, hierarquia do bairro, painel de indicadores e correção de inconsistências. Tem modo acessível (sem cores, frases completas, confirmação antes de cada ação) |
 | **2 - Painel HTML (bônus)** | Gera `painel/painel.html`, `painel/solicitacoes.html` e `painel/mapa.html` (na raiz do repositório) com os mesmos indicadores para abrir no navegador; HTML e CSS gerados pelo Python; o mapa usa JavaScript local para zoom, filtros e fichas, sem internet |
+
+**Páginas do painel.** `painel.html` é a página **Início**, com mapa interativo acima dos cinco indicadores; `solicitacoes.html` lista ocorrências e histórico; `sobre.html` descreve a proposta; `formulario.html` é demonstrativo e não grava dados. O mapa vem de `src/mapa_html.py` e `painel/mapa_template.html`, com pinos provenientes apenas de ocorrências válidas e posições ilustrativas, não GPS nem coordenadas reais. Fichas, filtros, arraste e zoom usam JavaScript local, sem servidor ou API. A rolagem da página permanece ativa sobre o mapa. A autorização do líder para JavaScript local, `base64`, `pathlib` e `tempfile`, informada pela equipe, está registrada com escopo limitado no `CLAUDE.md`.
+
+**Percentuais.** A interface apresenta duas casas decimais (por exemplo, 62,50% e 25,00%); isso não muda os cálculos.
 
 Os dois caminhos usam os mesmos dados em memória: o que for alterado no terminal aparece no painel gerado depois. **Cada cadastro, correção, mudança de status e desfazer bem-sucedido salva automaticamente** a sessão em `data/saida/`; sair do terminal também salva. A opção de continuar recupera os registros e o histórico na próxima execução. Recomeçar com a base original permite um ensaio limpo, mas a sessão anterior será substituída ao salvar novas alterações. Os CSVs originais em `data/` nunca são modificados.
 
