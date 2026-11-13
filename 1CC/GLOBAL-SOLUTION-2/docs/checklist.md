@@ -35,7 +35,13 @@ Este documento relaciona os requisitos do desafio às implementações presentes
 | Correção de inconsistências | `operacoes.corrigir_inconsistente`; opção 11 |
 | Continuidade local dos dados | `data/saida/` armazena versões da sessão; escolha de retomada na abertura; dados originais preservados |
 | Interface textual | `src/interface.py`, incluindo modo acessível |
-| Visualização HTML complementar | `src/painel_html.py` produz as páginas de resumo e solicitações; o formulário HTML é apenas demonstrativo |
+| Visualização HTML complementar | `src/painel_html.py` gera as páginas Início e Solicitações; `src/mapa_html.py` gera o mapa |
+| Página Sobre | `painel/sobre.html`: apresentação, equipe e limites acadêmicos do protótipo |
+| Formulário demonstrativo | `painel/formulario.html`: interface visual; o cadastro funcional ocorre no terminal |
+| Mapa interativo (bônus) | `painel/mapa_template.html` (HTML, SVG, CSS e JavaScript local) → `painel/mapa.html`; incorporado por iframe na página Início |
+| Origem dos marcadores | `src/mapa_html.py` gera pinos e contagens somente a partir de `sistema["ocorrencias"]`; registros inconsistentes não são exibidos |
+| Interação do mapa | Clique/teclado nos pinos para consultar descrição, categoria, dia e situação; filtros, arraste e botões de zoom; rolagem da página preservada |
+| Exceções técnicas autorizadas | `CLAUDE.md` registra a confirmação do líder para `base64`, `pathlib`, `tempfile` e JavaScript local, com escopo limitado |
 
 ## Indicadores
 
@@ -44,7 +50,7 @@ Este documento relaciona os requisitos do desafio às implementações presentes
 | Ocorrências válidas | 16 |
 | Por categoria | Iluminação 5; acessibilidade 4; limpeza 3; conservação 4 |
 | Por situação | Abertas 6; em análise 4; concluídas 6 |
-| Pendências | 10 de 16 = 62,5% |
+| Pendências | 10 de 16 = 62,50% |
 | Tempo médio até a conclusão | 32 ÷ 6 = 5,33 dias simulados |
 | Média de dias pendentes em acessibilidade | 24,67 dias |
 | Ranking de prioridade | Calculado em `src/indicadores.py` por dias em aberto × peso de categoria |
@@ -60,7 +66,7 @@ python3 src/sistema.py
 python3 src/testes.py
 ```
 
-A suíte em `src/testes.py` contém 11 verificações de carga, estruturas, validação, consultas, indicadores, cadastro, status, triagem, correção, geração HTML e persistência em pasta isolada.
+A suíte em `src/testes.py` contém 11 verificações de carga, estruturas, validação, consultas, indicadores, cadastro, status, triagem, correção, páginas HTML (incluindo mapa dinâmico e logo incorporada) e persistência isolada. As páginas de navegação são Início, Sobre, Formulário e Solicitações; o mapa usa posições ilustrativas, não endereços reais.
 
 ## Entrega
 
