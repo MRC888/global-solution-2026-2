@@ -12,6 +12,7 @@ import estruturas
 import operacoes
 import indicadores
 import painel_html
+import mapa_html
 from validacao import validar_registro, verificar_transicao, dia_valido, sugerir_categoria
 
 testes_ok = 0
@@ -193,7 +194,7 @@ def teste_correcao():
 
 
 def teste_painel_html():
-    """As duas páginas do painel saem com os números dos dados, sem JavaScript."""
+    """Verifica os indicadores, o menu, o mapa e a logo no HTML."""
     s = sistema_novo()
     inicio = painel_html.gerar_html_inicio(s)
     detalhes = painel_html.gerar_html_solicitacoes(s)
@@ -202,7 +203,25 @@ def teste_painel_html():
         assert "Gerado pelo sistema em Python" in html
 
     assert '<script src="script.js" defer></script>' in inicio
+    assert '<iframe class="mapa-integrado" src="mapa.html"' in inicio
     assert "<script" not in detalhes.lower()
+    assert '<a href="painel.html">Início</a>' in inicio
+    assert '<a href="formulario.html">Formulário</a>' in detalhes
+    assert "<title>Início</title>" in inicio
+    # Mapa ilustrativo: somente as ocorrências válidas recebem pinos.
+    mapa = mapa_html.gerar_mapa(s)
+    assert mapa.count('class="mapa-pino mapa-pino--') == 16
+    assert 'data-id="001"' in mapa
+    assert 'data-id="017"' not in mapa and 'data-id="018"' not in mapa
+    assert 'data-status="aberta"' in mapa
+    assert 'data-status="em_analise"' in mapa
+    assert 'data-status="concluida"' in mapa
+    assert "vila-scroll-pagina" in mapa
+    assert "@@MAPA_" not in mapa
+    # A imagem é incorporada ao arquivo pelo gerador Python.
+    logo = painel_html._fiap_embutida_no_html(
+        '<img src="../assets/logo-fiap.png" class="footer-logo">')
+    assert 'src="data:image/png;base64,' in logo
     # Início: os números vêm dos dados (16 no total), e não dos 12 de exemplo
     assert '<span class="numero">16</span><span class="rotulo">Total' in inicio
     assert 'style="width: 31.25%"' in inicio   # CSS usa ponto, não vírgula
@@ -211,7 +230,7 @@ def teste_painel_html():
     assert "Pintura da faixa de pedestres apagada" in detalhes
     assert "017: categoria ausente" in detalhes
     assert painel_html.escapar("<b>&") == "&lt;b&gt;&amp;"
-    passou("painel HTML: Início e Solicitações com os números dos dados")
+    passou("painel HTML: indicadores, menu, mapa e logo incorporada")
 
 
 def teste_persistencia():
