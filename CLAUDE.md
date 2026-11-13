@@ -33,26 +33,19 @@ Autorizadas pelo líder Marcelo (confirmado por ele em 13/11/2026):
 | Douglas Goltz (RM 574439) | Código do sistema, validações, regras, indicadores e painel HTML |
 | Alice Brenda (RM 574916) | Visual, modo acessível e vídeo |
 
-## Repositórios (os dois privados)
-| Repositório | Branch local | Remote | O que tem |
-|---|---|---|---|
-| [MRC888/global-solution-2026-2](https://github.com/MRC888/global-solution-2026-2) | `main` | `origin` | **Oficial da equipe.** Sistema completo do Douglas, dados, testes, README, painel HTML e roteiro do vídeo |
-| [MRC888/gs2026-claude](https://github.com/MRC888/gs2026-claude) | `rascunho-claude` | `rascunho` | **Rascunho do Claude**, temporário: tudo o que foi adiantado, incluindo `data/*.csv` e `docs/dados.md` (dados da Vila Esperança e gabarito dos indicadores conferido por script) |
+## Repositório
+[MRC888/global-solution-2026-2](https://github.com/MRC888/global-solution-2026-2), **público desde 13/11/2026**, branch `main`, remote `origin`. O rascunho do Claude (`gs2026-claude`) foi descartado: a branch e o remote locais foram apagados em 13/11; o repositório no GitHub só falta excluir (precisa do `gh auth refresh -h github.com -s delete_repo` do Marcelo). Nada dele faltava na `main`: os dados de lá eram versões antigas.
 
-Para consultar o rascunho sem trocar de branch: `git show rascunho-claude:1CC/GLOBAL-SOLUTION-2/docs/dados.md`.
-
-## ⏰ LEMBRETE OBRIGATÓRIO (pedido do Marcelo, 10/11/2026)
-No fim do projeto, antes da entrega, **lembrar o Marcelo** de:
-1. unir ao `main` o que for aproveitado do `rascunho-claude`;
-2. excluir o repositório `MRC888/gs2026-claude`, a branch `rascunho-claude` e o remote `rascunho`;
-3. tornar público o `global-solution-2026-2` (o edital exige repositório público).
+## ⏰ LEMBRETE DA ENTREGA (pedido do Marcelo, 13/11/2026)
+Quando o Marcelo for entregar, **lembrar** que:
+1. ele vai pedir uma **revisão final** completa antes (rodar testes, sistema, painel no navegador, conferir README, links e repositório público);
+2. o vídeo (Alice) precisa estar no YouTube como **"Não listado"**, com o link na seção 9 do README;
+3. a entrega na FIAP ON é **um `.TXT` com os dois links**: repositório GitHub público e vídeo.
 
 ## Estado e próximas tarefas (13/11/2026)
-- [x] Sistema completo na `main` (Douglas, 12/11), revisado sem alterações; roteiro do vídeo em `docs/roteiro_video.md`.
-- [ ] Douglas corrige os pontos da revisão (ver nota do Obsidian, 12/11).
-- [x] README: nome da equipe Mugiwaras, sem tutor, aprendizados de cada um (escritos pelo Claude a partir do que cada um fez; a equipe revisa).
-- [ ] Link do vídeo no README (seção 9).
-- [ ] Gravar o vídeo (Alice, "Não listado") e montar o `.TXT` com os dois links.
-- [x] Mapa interativo bônus (Alice), auditado e corrigido pelo Marcelo com o Claude em 13/11 e unido à `main`; 14 testes passando, CI a cada push.
-- [ ] Conferir navegação no navegador antes da entrega (feita em 13/11; repetir depois de qualquer mudança).
-- [ ] Lembrete acima: tornar público, apagar o rascunho.
+- [x] Sistema completo, mapa da Alice, correções da auditoria, 14 testes e CI, tudo na `main`.
+- [x] README: equipe Mugiwaras, sem tutor, aprendizados de cada um (escritos pelo Claude a partir do que cada um fez; a equipe revisa).
+- [x] Repositório público; rascunho apagado (falta só excluir o `gs2026-claude` no GitHub).
+- [ ] Vídeo (Alice) e link na seção 9 do README.
+- [ ] Revisão final a pedido do Marcelo.
+- [ ] `.TXT` com os dois links e entrega.
