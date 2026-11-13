@@ -34,7 +34,7 @@ Autorizadas pelo líder Marcelo (confirmado por ele em 13/11/2026):
 | Alice Brenda (RM 574916) | Visual, modo acessível e vídeo |
 
 ## Repositório
-[MRC888/global-solution-2026-2](https://github.com/MRC888/global-solution-2026-2), **público desde 13/11/2026**, branch `main`, remote `origin`. O rascunho do Claude (`gs2026-claude`) foi descartado: a branch e o remote locais foram apagados em 13/11; o repositório no GitHub só falta excluir (precisa do `gh auth refresh -h github.com -s delete_repo` do Marcelo). Nada dele faltava na `main`: os dados de lá eram versões antigas.
+[MRC888/global-solution-2026-2](https://github.com/MRC888/global-solution-2026-2), **público desde 13/11/2026**, branch `main`, remote `origin`. O rascunho do Claude (`gs2026-claude`) foi descartado: repositório no GitHub, branch e remote locais apagados em 13/11. Nada dele faltava na `main`: os dados de lá eram versões antigas.
 
 ## ⏰ LEMBRETE DA ENTREGA (pedido do Marcelo, 13/11/2026)
 Quando o Marcelo for entregar, **lembrar** que:
@@ -45,7 +45,7 @@ Quando o Marcelo for entregar, **lembrar** que:
 ## Estado e próximas tarefas (13/11/2026)
 - [x] Sistema completo, mapa da Alice, correções da auditoria, 14 testes e CI, tudo na `main`.
 - [x] README: equipe Mugiwaras, sem tutor, aprendizados de cada um (escritos pelo Claude a partir do que cada um fez; a equipe revisa).
-- [x] Repositório público; rascunho apagado (falta só excluir o `gs2026-claude` no GitHub).
+- [x] Repositório público; rascunho `gs2026-claude` apagado por completo.
 - [ ] Vídeo (Alice) e link na seção 9 do README.
 - [ ] Revisão final a pedido do Marcelo.
 - [ ] `.TXT` com os dois links e entrega.
