@@ -64,8 +64,29 @@ A fórmula de proporção é `(parte ÷ total) × 100`. O tempo médio até a co
 
 ## 8. Saída e interface
 
-A interface textual usa opções numeradas, mensagens de validação e um modo acessível que não depende de cores e pode solicitar confirmações antes de alterar dados. O gerador HTML produz páginas estáticas de indicadores a partir dos dados atuais da sessão. O formulário HTML apresenta os campos do cadastro, mas não envia dados; o cadastro funcional acontece no terminal.
+A interface textual usa opções numeradas, mensagens de validação e um modo acessível que não depende de cores e pode solicitar confirmações antes de alterar dados. O gerador HTML monta, em Python, as páginas de indicadores a partir dos dados atuais da sessão e as grava em `data/saida/painel/`; o mapa bônus usa JavaScript local só para fichas, filtros, arraste e zoom. O formulário HTML apresenta os campos do cadastro, mas não envia dados; o cadastro funcional acontece no terminal.
 
 ## 9. Limitações
 
 Os dados e dias são simulados. A aplicação não integra órgãos públicos, não encaminha demandas e não promete atendimento. O HTML gerado é uma fotografia da sessão em que foi produzido. A persistência acontece em arquivos CSV locais na pasta `data/saida/`, que não integra o versionamento do Git.
+
+## 10. Decisões tomadas
+
+O código cita estas decisões pelo número (por exemplo, "D7" em `src/operacoes.py`). A coluna "Escolha" é o que foi implementado.
+
+| # | Pergunta | Opções | Escolha |
+|---|---|---|---|
+| D1 | Como representar a data? | (a) dia 1–30; (b) data real dd/mm | (a): a conta de tempo vira uma subtração simples |
+| D2 | Formato da hierarquia | (a) bairro → categoria → ocorrências; (b) bairro → local → categoria → ocorrências | (a), como no edital |
+| D3 | Menu | (a) 12 opções diretas; (b) submenus | (a), para a banca ver tudo de uma vez |
+| D4 | Transições permitidas | (a) só aberta → em análise → concluída; (b) também aberta → concluída; (c) também reabrir uma concluída | (a) + desfazer para corrigir engano |
+| D5 | Código no cadastro | (a) automático; (b) digitado e validado | (a): evita código repetido |
+| D6 | Desfazer e histórico | (a) apaga o último evento; (b) registra um evento "desfeito" | (b): o histórico nunca perde informação |
+| D7 | Fila na triagem e no desfazer | Volta para o começo ou para o fim da fila? | Começo: mantém a ordem de chegada |
+| D8 | Tratar as inconsistências | (a) correção pelo menu; (b) automática na carga; (c) as duas | (a): a carga só detecta; a correção é pelo menu, com sugestão |
+| D9 | Modo acessível | (a) perguntar ao abrir; (b) só pelo menu | (a) + opção no menu |
+| D10 | Salvar | (a) sobrescrever os CSVs; (b) gravar em outros arquivos e manter os originais | (b): o vídeo e os testes sempre partem dos mesmos dados |
+| D11 | Conclusão do painel | (a) frase gerada por regra; (b) texto fixo no README | (a) no painel + (b) no README |
+| D12 | Pesos do score de prioridade | Quais pesos e por quê? | Acessibilidade 3, iluminação 2 (segurança à noite), conservação 2, limpeza 1 |
+| D13 | Dados | Manter as 18 ocorrências propostas e a história da acessibilidade na UBS? | Mantidas |
+| D14 | Divisão de tarefas | Quem faz o quê? | Tabela da equipe no `CLAUDE.md` da raiz |

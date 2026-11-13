@@ -5,6 +5,7 @@
 # Como rodar (dentro de 1CC/GLOBAL-SOLUTION-2):  python src/testes.py
 # Se algum teste falhar, o Python para e mostra qual assert não bateu.
 
+import os
 import tempfile
 
 import dados
@@ -13,7 +14,9 @@ import operacoes
 import indicadores
 import painel_html
 import mapa_html
-from validacao import validar_registro, verificar_transicao, dia_valido, sugerir_categoria
+import sistema as programa
+from validacao import (validar_registro, verificar_transicao, dia_valido, sugerir_categoria,
+                       so_numeros, evento_coerente)
 
 testes_ok = 0
 
@@ -31,6 +34,75 @@ def sistema_novo():
     estruturas.carregar_ocorrencias(sistema, dados.ler_ocorrencias())
     estruturas.carregar_historico(sistema, dados.ler_historico())
     return sistema
+
+
+def teste_painel_gerado_fora_do_git():
+    """O caminho 2 grava em outra pasta e nunca deixa arquivo vazio."""
+    s = sistema_novo()
+    with tempfile.TemporaryDirectory() as pasta:
+        resultado = painel_html.salvar_painel(s, pasta)
+        assert resultado[0]
+        nomes = os.listdir(pasta)
+        for nome in ["painel.html", "solicitacoes.html", "mapa.html", "style.css", "sobre.html"]:
+            assert nome in nomes
+            assert os.path.getsize(os.path.join(pasta, nome)) > 0
+        inicio = open(os.path.join(pasta, "painel.html"), encoding="utf-8").read()
+        assert "@@LOGO_FIAP@@" not in inicio and "data:image/png;base64," in inicio
+    # Sem o modelo do mapa: nada é gravado e a resposta diz o que falta.
+    original = mapa_html.MODELO
+    mapa_html.MODELO = original + ".nao_existe"
+    with tempfile.TemporaryDirectory() as pasta:
+        resultado = painel_html.salvar_painel(s, pasta)
+        assert not resultado[0] and mapa_html.MODELO in resultado[1]
+        assert os.listdir(pasta) == []
+    mapa_html.MODELO = original
+    passou("painel: gerado fora do Git e sem arquivos vazios quando falta um arquivo")
+
+
+def teste_robustez():
+    """Entradas estranhas: dígitos de outros alfabetos, códigos 14/014, limite de 120 e histórico incoerente."""
+    # Só os dígitos de 0 a 9 contam como número ("²" quebraria o int()).
+    assert so_numeros("014") and not so_numeros("²") and not so_numeros("١٢") and not so_numeros("")
+    assert not dia_valido("²") and not dia_valido("𝟏𝟐")
+    assert operacoes.buscar(sistema_novo(), "²") is None
+    # "14" e "014" são o mesmo código.
+    s = sistema_novo()
+    reg = {"id": "14", "categoria": "limpeza", "descricao": "Teste", "local": "Praça Central",
+           "dia": "5", "status": "aberta"}
+    assert "código repetido (014 já existe)" in [p[1] for p in validar_registro(reg, s["por_id"])]
+    # Limite da descrição: 120 passa, 121 não.
+    reg = {"id": "099", "categoria": "limpeza", "descricao": "a" * 120, "local": "Praça Central",
+           "dia": "5", "status": "aberta"}
+    assert validar_registro(reg, s["por_id"]) == []
+    reg["descricao"] = "a" * 121
+    assert validar_registro(reg, s["por_id"]) != []
+    # Histórico: evento antes da abertura, salto de status e volta do desfazer.
+    evento = {"id": "001", "dia": "3", "anterior": "aberta", "novo": "concluida", "observacao": "x"}
+    assert evento_coerente(evento, 1) == "mudança de status não permitida"
+    evento = {"id": "001", "dia": "3", "anterior": "aberta", "novo": "em_analise", "observacao": "x"}
+    assert evento_coerente(evento, 20) == "evento antes da abertura da ocorrência"
+    assert evento_coerente(evento, 1) == ""
+    evento = {"id": "001", "dia": "30", "anterior": "em_analise", "novo": "aberta",
+              "observacao": "desfeito (mudança anterior cancelada)"}
+    assert evento_coerente(evento, 1) == ""
+    novo = estruturas.criar_sistema()
+    estruturas.carregar_ocorrencias(novo, dados.ler_ocorrencias())
+    estruturas.carregar_historico(novo, [{"id": "001", "dia": "2", "anterior": "aberta",
+                                          "novo": "concluida", "observacao": "pulou etapa"}])
+    assert novo["historico"] == [] and "não permitida" in novo["avisos_carga"][0]
+    passou("robustez: só dígitos 0-9, 14 = 014, limite de 120 e histórico incoerente recusado")
+
+
+def teste_sessao_vazia():
+    """Sessão salva só com o cabeçalho é lida como vazia (o sistema volta para a base original)."""
+    with tempfile.TemporaryDirectory() as pasta:
+        dados.gravar_linhas(os.path.join(pasta, "ocorrencias_sessao.csv"), dados.CABECALHO_OCORRENCIAS, [])
+        dados.gravar_linhas(os.path.join(pasta, "historico_sessao.csv"), dados.CABECALHO_HISTORICO, [])
+        assert dados.ha_sessao_salva(pasta)
+        s = programa.carregar_sistema(True, pasta)
+        assert len(s["ocorrencias"]) == 0
+        assert len(programa.carregar_sistema(False)["ocorrencias"]) == 16
+    passou("sessão vazia: detectada, e a base original continua disponível")
 
 
 def teste_carga():
@@ -218,10 +290,9 @@ def teste_painel_html():
     assert 'data-status="concluida"' in mapa
     assert "vila-scroll-pagina" in mapa
     assert "@@MAPA_" not in mapa
-    # A imagem é incorporada ao arquivo pelo gerador Python.
-    logo = painel_html._fiap_embutida_no_html(
-        '<img src="../assets/logo-fiap.png" class="footer-logo">')
-    assert 'src="data:image/png;base64,' in logo
+    # A logo branca do rodapé é colocada dentro do HTML pelo gerador Python.
+    assert painel_html.logo_em_texto().startswith("data:image/png;base64,")
+    assert painel_html.arquivos_que_faltam() == []
     # Início: os números vêm dos dados (16 no total), e não dos 12 de exemplo
     assert '<span class="numero">16</span><span class="rotulo">Total' in inicio
     assert 'style="width: 31.25%"' in inicio   # CSS usa ponto, não vírgula
@@ -230,6 +301,7 @@ def teste_painel_html():
     assert "Pintura da faixa de pedestres apagada" in detalhes
     assert "017: categoria ausente" in detalhes
     assert painel_html.escapar("<b>&") == "&lt;b&gt;&amp;"
+    assert mapa_html.escapar('<a href="x">&') == "&lt;a href=&quot;x&quot;&gt;&amp;"
     passou("painel HTML: indicadores, menu, mapa e logo incorporada")
 
 
@@ -275,4 +347,7 @@ teste_triagem()
 teste_correcao()
 teste_painel_html()
 teste_persistencia()
+teste_painel_gerado_fora_do_git()
+teste_robustez()
+teste_sessao_vazia()
 print(f"\n{testes_ok} testes passaram.")

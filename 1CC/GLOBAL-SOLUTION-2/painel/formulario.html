@@ -3,13 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Início</title>
+    <title>Registrar ocorrência — Protótipo</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="../assets/logo-fiap.png" type="image/png">
 </head>
 <body>
-    <!-- Página gerada automaticamente por 1CC/GLOBAL-SOLUTION-2/src/painel_html.py.
-         Não edite à mão: rode "python src/sistema.py", caminho 2, para gerar de novo. -->
     <header id="banner" class="banner">
         <h1>Neighborhood Action Dashboard</h1>
     </header>
@@ -24,89 +21,67 @@
 </nav>
 
 <main class="conteudo">
+    <h2>Registrar uma ocorrência</h2>
+    <p>
+        Demonstração visual do cadastro do bairro fictício <strong>Vila Esperança</strong>.
+        O cadastro funcional é realizado no terminal, com validação em Python.
+    </p>
 
-    <section class="secao-mapa-inicio" aria-label="Mapa interativo das ocorrências">
-        <iframe class="mapa-integrado" src="mapa.html" title="Mapa interativo da Vila Esperança: arraste, aplique zoom e consulte as ocorrências" loading="eager"></iframe>
-        <script src="script.js" defer></script>
-    </section>
+    <p class="aviso-prototipo" id="aviso-prototipo">
+        <strong>Prévia, sem envio de dados:</strong> esta página não cadastra nem salva ocorrências.
+        Execute <code>python3 src/sistema.py</code>, escolha <strong>1 — Terminal</strong>
+        e depois <strong>4 — Cadastrar nova ocorrência</strong>.
+    </p>
 
-    <h2>Resumo das ocorrências</h2>
-    <p>Visão geral das demandas registradas no bairro. Dados do bairro fictício Vila Esperança, dia simulado 30. Gerado pelo sistema em Python: para atualizar, rode o sistema e escolha o caminho 2.</p>
+    <!-- Campos espelhados do cadastro em interface.py e das regras em validacao.py.
+         Não há JavaScript, servidor ou gravação neste formulário demonstrativo. -->
+    <form class="form" aria-describedby="aviso-prototipo">
+        <p>
+            <strong>Código:</strong> gerado automaticamente pelo Python.
+            <strong>Situação inicial:</strong> Aberta (aguardando triagem).
+        </p>
 
-    <section class="cartoes">
-        <div class="cartao"><span class="numero">16</span><span class="rotulo">Total</span></div>
-        <div class="cartao aberta"><span class="numero">6</span><span class="rotulo">Abertas</span></div>
-        <div class="cartao analise"><span class="numero">4</span><span class="rotulo">Em análise</span></div>
-        <div class="cartao concluida"><span class="numero">6</span><span class="rotulo">Concluídas</span></div>
-        <div class="cartao"><span class="numero">10</span><span class="rotulo">Pendências</span></div>
-    </section>
+        <label for="descricao">Descrição do problema *</label>
+        <textarea id="descricao" name="descricao" rows="4" maxlength="120" required
+                  aria-describedby="dica-descricao"
+                  placeholder="Ex.: Poste apagado perto da praça."></textarea>
+        <small id="dica-descricao" class="dica">
+            Até 120 caracteres; não use ponto e vírgula nem dados pessoais.
+        </small>
 
-    <section>
-        <h2>Ocorrências por categoria e status</h2>
-        <table class="tabela">
-            <caption>Matriz categoria × status: cada célula é a quantidade de ocorrências</caption>
-            <thead><tr><th scope="col">Categoria</th><th scope="col">Aberta</th><th scope="col">Em análise</th><th scope="col">Concluída</th><th scope="col">Total</th></tr></thead>
-            <tbody>
-                <tr><th scope="row">Iluminação</th><td>2</td><td>0</td><td>3</td><td>5</td></tr>
-                <tr><th scope="row">Acessibilidade</th><td>1</td><td>2</td><td>1</td><td>4</td></tr>
-                <tr><th scope="row">Limpeza</th><td>1</td><td>1</td><td>1</td><td>3</td></tr>
-                <tr><th scope="row">Conservação</th><td>2</td><td>1</td><td>1</td><td>4</td></tr>
-            </tbody>
-            <tfoot><tr><th scope="row">Total</th><td>6</td><td>4</td><td>6</td><td>16</td></tr></tfoot>
-        </table>
-    </section>
+        <label for="categoria">Categoria *</label>
+        <select id="categoria" name="categoria" required>
+            <option value="">Escolha uma categoria</option>
+            <option value="iluminacao">Iluminação</option>
+            <option value="acessibilidade">Acessibilidade</option>
+            <option value="limpeza">Limpeza</option>
+            <option value="conservacao">Conservação de espaços coletivos</option>
+        </select>
+        <small class="dica">No terminal, o programa pode sugerir uma categoria a partir da descrição.</small>
 
-    <section>
-        <h2>Proporção por categoria</h2>
-        <p>Fórmula: total da categoria ÷ total geral × 100.</p>
-        <div class="grafico">
-            <div class="linha">
-                <span class="nome">Iluminação</span>
-                <div class="trilho"><div class="barra" style="width: 31.25%"></div></div>
-                <span class="valor">5 (31,25%)</span>
-            </div>
-            <div class="linha">
-                <span class="nome">Acessibilidade</span>
-                <div class="trilho"><div class="barra" style="width: 25%"></div></div>
-                <span class="valor">4 (25,00%)</span>
-            </div>
-            <div class="linha">
-                <span class="nome">Limpeza</span>
-                <div class="trilho"><div class="barra" style="width: 18.75%"></div></div>
-                <span class="valor">3 (18,75%)</span>
-            </div>
-            <div class="linha">
-                <span class="nome">Conservação</span>
-                <div class="trilho"><div class="barra" style="width: 25%"></div></div>
-                <span class="valor">4 (25,00%)</span>
-            </div>
-        </div>
-    </section>
+        <label for="local">Local genérico *</label>
+        <select id="local" name="local" required aria-describedby="dica-local">
+            <option value="">Escolha um ponto de referência</option>
+            <option value="Entorno da UBS">Entorno da UBS</option>
+            <option value="Entorno da Escola">Entorno da Escola</option>
+            <option value="Praça Central">Praça Central</option>
+            <option value="Ponto de Ônibus">Ponto de Ônibus</option>
+        </select>
+        <small id="dica-local" class="dica">
+            Selecione somente um dos locais fictícios; não informe endereços particulares.
+        </small>
 
-    <section>
-        <h2>Situação geral</h2>
-        <div class="empilhada">
-            <div class="aberta" style="width: 37.5%">Aberta 6</div>
-            <div class="analise" style="width: 25%">Em análise 4</div>
-            <div class="concluida" style="width: 37.5%">Concluída 6</div>
-        </div>
-        <ul>
-            <li><strong>Aberta:</strong> registrada e aguardando a primeira análise, na fila de triagem.</li>
-            <li><strong>Em análise:</strong> já foi examinada e a solução está em andamento.</li>
-            <li><strong>Concluída:</strong> o problema foi resolvido; a ocorrência não muda mais.</li>
-        </ul>
-    </section>
+        <label for="dia">Dia simulado de abertura *</label>
+        <input type="number" id="dia" name="dia" min="1" max="30" step="1" required
+               aria-describedby="dica-dia" placeholder="1 a 30">
+        <small id="dica-dia" class="dica">
+            O período simulado vai do dia 1 ao dia 30 (hoje = dia 30).
+        </small>
 
-    <section>
-        <h2>O que os números sugerem</h2>
-        <p>Mais da metade das ocorrências (62,50%) ainda está pendente: o bairro tem demandas acumuladas.</p>
-        <p>A categoria com mais registros é Iluminação (5 de 16).</p>
-        <p>A categoria com mais tempo em aberto é Acessibilidade (24,67 dias em média), e a maior parte dessas pendências fica em: Entorno da UBS.</p>
-        <p>Isso sugere priorizar acessibilidade, que afeta quem tem mobilidade reduzida.</p>
-        <p>As ocorrências concluídas levaram em média 5,33 dias para serem resolvidas.</p>
-        <p><a class="botao-link" href="solicitacoes.html">Ver todas as solicitações e o detalhe de cada indicador <span aria-hidden="true">→</span></a></p>
-    </section>
-
+        <button type="button" disabled aria-describedby="aviso-prototipo">
+            Cadastro disponível no terminal
+        </button>
+    </form>
 </main>
 
 <footer class="footer">
@@ -117,5 +92,6 @@
         As ocorrências exibidas são fictícias e nenhuma solicitação é encaminhada ou atendida de verdade.
     </p>
 </footer>
+
 </body>
 </html>

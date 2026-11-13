@@ -1,6 +1,7 @@
 # mapa_html.py
-# Gera o mapa interativo a partir das ocorrencias validas da simulacao.
-# HTML, SVG e JavaScript locais: nenhuma API, instalacao ou biblioteca externa.
+# Gera o mapa interativo a partir das ocorrências válidas da simulação.
+# HTML, SVG e JavaScript locais: nenhuma API, instalação ou biblioteca externa.
+# O JavaScript fica no modelo (painel/mapa_template.html); o Python só preenche os dados.
 
 import os
 
@@ -8,20 +9,19 @@ import dados
 from validacao import DIA_HOJE, LOCAIS, NOMES_CATEGORIAS, NOMES_STATUS, STATUS
 
 MODELO = os.path.join(dados.PASTA_PAINEL, "mapa_template.html")
-ARQUIVO = os.path.join(dados.PASTA_PAINEL, "mapa.html")
 
-# Posicoes visuais FIXAS para os quatro locais da simulacao.
-# Elas NAO representam coordenadas reais. A sequencia irregular
-# foi aprovada como composicao grafica do bairro ficticio.
+# Posições visuais FIXAS ([x, y], em % do desenho) para os quatro locais da simulação.
+# Elas NÃO representam coordenadas reais. A sequência irregular
+# foi aprovada como composição gráfica do bairro fictício.
 POSICOES = {
-    "Praça Central": [(10.5, 27), (29, 20), (39, 34), (18, 43), (31, 37),
-                      (9, 35), (37, 18), (21, 25), (35, 46), (16, 18)],
-    "Entorno da Escola": [(59.5, 26), (76, 19), (88.5, 36), (69, 41),
-                          (83, 26), (63, 15), (79, 46), (91, 20), (71, 31)],
-    "Ponto de Ônibus": [(12, 70), (28, 87), (40, 72), (18, 91), (36, 61),
-                        (8, 83), (27, 66), (39, 89), (17, 78)],
-    "Entorno da UBS": [(60, 76), (75, 67), (89, 84), (69, 89), (91, 64),
-                       (79, 80), (63, 62), (82, 93), (73, 57)],
+    "Praça Central": [[10.5, 27], [29, 20], [39, 34], [18, 43], [31, 37],
+                      [9, 35], [37, 18], [21, 25], [35, 46], [16, 18]],
+    "Entorno da Escola": [[59.5, 26], [76, 19], [88.5, 36], [69, 41],
+                          [83, 26], [63, 15], [79, 46], [91, 20], [71, 31]],
+    "Ponto de Ônibus": [[12, 70], [28, 87], [40, 72], [18, 91], [36, 61],
+                        [8, 83], [27, 66], [39, 89], [17, 78]],
+    "Entorno da UBS": [[60, 76], [75, 67], [89, 84], [69, 89], [91, 64],
+                       [79, 80], [63, 62], [82, 93], [73, 57]],
 }
 
 ICONES = {
@@ -40,15 +40,16 @@ CHAVES_LOCAIS = {
 
 
 def escapar(texto):
-    """Evita que dados de ocorrencias sejam interpretados como codigo HTML."""
+    """Evita que dados de ocorrências sejam interpretados como código HTML."""
     texto = str(texto)
     return (texto.replace("&", "&amp;").replace("<", "&lt;")
                  .replace(">", "&gt;").replace('"', "&quot;"))
 
 
 def pino(oc, x, y):
-    """Monta um marcador clicavel, com todos os dados vindo do sistema."""
-    categoria, status = oc["categoria"], oc["status"]
+    """Monta um marcador clicável, com todos os dados vindo do sistema."""
+    categoria = oc["categoria"]
+    status = oc["status"]
     codigo = escapar(oc["id"])
     descricao = escapar(oc["descricao"])
     local = escapar(oc["local"])
@@ -75,7 +76,12 @@ def pino(oc, x, y):
 
 
 def gerar_mapa(sistema):
-    """Preenche o modelo com marcadores e contagens dos registros VALIDOS."""
+    """Preenche o modelo com marcadores e contagens dos registros VÁLIDOS.
+
+    Devolve o texto HTML, ou None se o modelo não existir ou ficar incompleto.
+    """
+    if not os.path.isfile(MODELO):
+        return None
     with open(MODELO, encoding="utf-8") as arquivo:
         html = arquivo.read()
 
@@ -102,15 +108,19 @@ def gerar_mapa(sistema):
     for local in LOCAIS:
         lista = por_local[local]
         quantidade = len(lista)
-        unidade = "ocorrência" if quantidade == 1 else "ocorrências"
+        unidade = "ocorrências"
+        if quantidade == 1:
+            unidade = "ocorrência"
         html = html.replace("@@MAPA_LOCAL_" + CHAVES_LOCAIS[local] + "@@ ocorrências",
                             str(quantidade) + " " + unidade)
         posicoes = POSICOES[local]
-        for indice in range(min(quantidade, len(posicoes))):
-            x, y = posicoes[indice]
-            marcadores += pino(lista[indice], x, y)
-        # Quando ha muitos registros em uma mesma area, evita pin sobreposto
-        # e informa quantos outros podem ser consultados na pagina Solicitacoes.
+        limite = quantidade
+        if limite > len(posicoes):
+            limite = len(posicoes)
+        for indice in range(limite):
+            marcadores += pino(lista[indice], posicoes[indice][0], posicoes[indice][1])
+        # Quando há muitos registros em uma mesma área, evita pino sobreposto
+        # e informa quantos outros podem ser consultados na página Solicitações.
         excedente = quantidade - len(posicoes)
         if excedente > 0:
             marcadores += (
@@ -122,15 +132,8 @@ def gerar_mapa(sistema):
     html = html.replace("@@MAPA_PINOS@@", marcadores)
 
     if "@@MAPA_" in html:
-        raise ValueError("O modelo de mapa possui um marcador não preenchido")
+        return None   # o modelo tem um marcador que o Python não conhece
     return html
-
-
-def salvar_mapa(sistema):
-    """Regenera o mapa a cada nova geracao do painel Python."""
-    with open(ARQUIVO, "w", encoding="utf-8") as arquivo:
-        arquivo.write(gerar_mapa(sistema))
-    return ARQUIVO
 
 
 def secao_iframe_mapa():

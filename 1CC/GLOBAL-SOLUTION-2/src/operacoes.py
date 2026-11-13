@@ -6,7 +6,7 @@
 # e devolvem o resultado. Quem conversa com o usuário é o interface.py.
 # Assim as regras podem ser testadas sozinhas (ver testes.py).
 
-from validacao import (DIA_HOJE, NOMES_STATUS, validar_registro, verificar_transicao)
+from validacao import (DIA_HOJE, NOMES_STATUS, so_numeros, validar_registro, verificar_transicao)
 from estruturas import (adicionar_ocorrencia, mover_na_matriz, registro_para_ocorrencia)
 
 
@@ -17,7 +17,7 @@ from estruturas import (adicionar_ocorrencia, mover_na_matriz, registro_para_oco
 def completar_codigo(texto):
     """Completa o código com zeros à esquerda: "14" vira "014"."""
     texto = texto.strip()
-    if texto.isdigit():
+    if so_numeros(texto):
         return texto.zfill(3)
     return texto
 
@@ -72,7 +72,7 @@ def proximo_codigo(sistema):
             maior = int(codigo)
     for item in sistema["inconsistentes"]:
         codigo = item["registro"]["id"]
-        if codigo.isdigit() and int(codigo) > maior:
+        if so_numeros(codigo) and int(codigo) > maior:
             maior = int(codigo)
     return str(maior + 1).zfill(3)
 

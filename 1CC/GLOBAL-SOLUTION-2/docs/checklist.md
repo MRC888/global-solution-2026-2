@@ -24,7 +24,7 @@ Este documento relaciona os requisitos do desafio às implementações presentes
 
 | Requisito | Implementação e evidência |
 |---|---|
-| Leitura de CSV/TXT simples | `src/dados.py`; leitura de arquivos UTF-8 separados por ponto e vírgula |
+| Leitura de CSV/TXT simples | `src/dados.py`; leitura de arquivos UTF-8 separados por ponto e vírgula; o histórico só entra se o evento for coerente com a ocorrência (`evento_coerente`) |
 | Campos obrigatórios e validação | `validar_registro`, em `src/validacao.py`, com rejeição de códigos duplicados, valores desconhecidos, campos vazios, caracteres incompatíveis, descrição longa e dias inválidos |
 | `if`, `elif`, `else` | Validação, transições de status e menu no terminal |
 | `and`, `or`, `not` | Regras de filtragem, validação, detecção de possíveis duplicatas e pendências |
@@ -38,10 +38,11 @@ Este documento relaciona os requisitos do desafio às implementações presentes
 | Visualização HTML complementar | `src/painel_html.py` gera as páginas Início e Solicitações; `src/mapa_html.py` gera o mapa |
 | Página Sobre | `painel/sobre.html`: apresentação, equipe e limites acadêmicos do protótipo |
 | Formulário demonstrativo | `painel/formulario.html`: interface visual; o cadastro funcional ocorre no terminal |
-| Mapa interativo (bônus) | `painel/mapa_template.html` (HTML, SVG, CSS e JavaScript local) → `painel/mapa.html`; incorporado por iframe na página Início |
+| Mapa interativo (bônus) | `painel/mapa_template.html` (HTML, SVG, CSS e JavaScript local) → `mapa.html`; incorporado por iframe na página Início |
+| Onde o painel é gravado | Caminho 2: `data/saida/painel/` (fora do Git, com os dados da sessão). `painel/` guarda a demonstração com os dados originais, recriada por `python src/painel_html.py` |
 | Origem dos marcadores | `src/mapa_html.py` gera pinos e contagens somente a partir de `sistema["ocorrencias"]`; registros inconsistentes não são exibidos |
 | Interação do mapa | Clique/teclado nos pinos para consultar descrição, categoria, dia e situação; filtros, arraste e botões de zoom; rolagem da página preservada |
-| Exceções técnicas autorizadas | `CLAUDE.md` registra a confirmação do líder para `base64`, `pathlib`, `tempfile` e JavaScript local, com escopo limitado |
+| Exceções técnicas autorizadas | Aprovadas pelo líder e descritas na seção 6 do README: `base64` (logo no HTML), `tempfile` (testes) e JavaScript local (mapa) |
 
 ## Indicadores
 
@@ -66,7 +67,7 @@ python3 src/sistema.py
 python3 src/testes.py
 ```
 
-A suíte em `src/testes.py` contém 11 verificações de carga, estruturas, validação, consultas, indicadores, cadastro, status, triagem, correção, páginas HTML (incluindo mapa dinâmico e logo incorporada) e persistência isolada. As páginas de navegação são Início, Sobre, Formulário e Solicitações; o mapa usa posições ilustrativas, não endereços reais.
+A suíte em `src/testes.py` contém 14 verificações de carga, estruturas, validação, consultas, indicadores, cadastro, status, triagem, correção, páginas HTML (incluindo mapa dinâmico e logo incorporada), persistência isolada, painel gerado fora do Git, entradas estranhas (`²`, `014`, histórico incoerente) e sessão vazia. O GitHub Actions roda a suíte a cada push. As páginas de navegação são Início, Sobre, Formulário e Solicitações; o mapa usa posições ilustrativas, não endereços reais.
 
 ## Entrega
 

@@ -19,6 +19,12 @@ O projeto utilizou ferramentas de inteligência artificial como apoio à organiz
 | 12–13/11/2026 | Desenvolvimento assistido do mapa ilustrativo e interativo da Vila Esperança; integração Python→HTML; refinamento editorial do painel. | `src/mapa_html.py` gera marcadores apenas de dados válidos; `painel/mapa_template.html` reúne desenho, fichas, filtros, arraste e zoom local. |
 | 12–13/11/2026 | Correção dos rótulos do menu e da logo FIAP branca, revisão de comentários e documentação. | `src/painel_html.py` usa `base64` e `pathlib` para incorporar a imagem; exceções técnicas documentadas em `CLAUDE.md`, mediante aprovação do líder comunicada pela equipe. |
 | 12–13/11/2026 | Ampliação dos testes do painel. | Verificação automatizada de 16 pinos, exclusão de inconsistências, navegação, iframe, dados de situação e incorporação da logo; resultado da execução verificável na suíte de testes. |
+| 13/11/2026 | A pedido do Marcelo, o Claude (via Claude Code) auditou a branch do mapa e corrigiu o que encontrou: validação só com dígitos de 0 a 9 (o `²` derrubava o programa), códigos `14` e `014` tratados como o mesmo, histórico incoerente recusado na carga, sessão vazia detectada, confirmação antes de recomeçar, painel do caminho 2 gravado em `data/saida/painel/` sem apagar os arquivos versionados e sem gerar arquivos vazios, pasta `painel/` movida para dentro do projeto, logo colorida de volta no README (a branca ficou só no rodapé do painel), retirada de ternários, tuplas e `raise`, e documentação atualizada. | Suíte ampliada para 14 testes, rodada no Python 3.9 e 3.13; sessões no terminal com entradas inválidas; painel gerado aberto no navegador. A ferramenta usada no mapa, no CSS e no JavaScript não ficou registrada: a confirmar com a Alice. |
+
+## Como verificamos o que a IA produz
+- Rodamos o programa e testamos os casos de erro (entrada vazia, código inexistente, status inválido, caracteres estranhos).
+- Conferimos os cálculos dos indicadores à mão (`docs/dados.md`) e com os testes automatizados.
+- Cada integrante lê e explica o trecho de código pelo qual é responsável antes de ele entrar no repositório.
 
 ## Responsabilidade e limites
 

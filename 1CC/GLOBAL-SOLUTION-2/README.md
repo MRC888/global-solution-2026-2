@@ -14,14 +14,16 @@
 
 ## 1. Equipe
 
-**Nome da equipe e do projeto:** Neighborhood Action Dashboard
+**Nome do grupo:** _(a definir)_
+**Projeto:** Neighborhood Action Dashboard
 
 ### 👨‍🎓 Integrantes
 - Marcelo Santos — RM 576131
 - Douglas Goltz — RM 574439
 - Alice Brenda — RM 574916
 
-### 👩‍🏫 Coordenação
+### 👩‍🏫 Professores
+- **Tutor(a):** _(a definir)_
 - **Coordenador:** [André Godoi Chiovato](https://www.linkedin.com/in/andregodoichiovato/)
 
 ## 2. O bairro, o problema e o público
@@ -132,9 +134,13 @@ Ao abrir, o sistema procura uma sessão anterior em `data/saida/`. Se houver, pe
 | Caminho | O que faz |
 |---|---|
 | **1 - Terminal** | O sistema completo, com menu: listar, buscar, filtrar, cadastrar, triagem, atualizar status, desfazer, histórico, hierarquia do bairro, painel de indicadores e correção de inconsistências. Tem modo acessível (sem cores, frases completas, confirmação antes de cada ação) |
-| **2 - Painel HTML (bônus)** | Gera `painel/painel.html`, `painel/solicitacoes.html` e `painel/mapa.html` (na raiz do repositório) com os mesmos indicadores para abrir no navegador; HTML e CSS gerados pelo Python; o mapa usa JavaScript local para zoom, filtros e fichas, sem internet |
+| **2 - Painel HTML (bônus)** | Gera o painel com os dados da sessão em `data/saida/painel/` (pasta ignorada pelo Git): `painel.html`, `solicitacoes.html` e `mapa.html`, mais as páginas fixas copiadas de `painel/`. HTML e CSS são montados pelo Python; o mapa usa JavaScript local para zoom, filtros e fichas, sem internet. Se faltar algum arquivo, o sistema avisa e não grava nada |
 
-**Páginas do painel.** `painel.html` é a página **Início**, com mapa interativo acima dos cinco indicadores; `solicitacoes.html` lista ocorrências e histórico; `sobre.html` descreve a proposta; `formulario.html` é demonstrativo e não grava dados. O mapa vem de `src/mapa_html.py` e `painel/mapa_template.html`, com pinos provenientes apenas de ocorrências válidas e posições ilustrativas, não GPS nem coordenadas reais. Fichas, filtros, arraste e zoom usam JavaScript local, sem servidor ou API. A rolagem da página permanece ativa sobre o mapa. A autorização do líder para JavaScript local, `base64`, `pathlib` e `tempfile`, informada pela equipe, está registrada com escopo limitado no `CLAUDE.md`.
+**Páginas do painel.** `painel.html` é a página **Início**, com mapa interativo acima dos cinco indicadores; `solicitacoes.html` lista ocorrências e histórico; `sobre.html` descreve a proposta; `formulario.html` é demonstrativo e não grava dados. O mapa vem de `src/mapa_html.py` e `painel/mapa_template.html`, com pinos provenientes apenas de ocorrências válidas e posições ilustrativas, não GPS nem coordenadas reais. Fichas, filtros, arraste e zoom usam JavaScript local, sem servidor ou API. A rolagem da página permanece ativa sobre o mapa.
+
+A pasta `painel/` do projeto é a versão de demonstração, com os dados originais; para recriá-la, rode `python src/painel_html.py`.
+
+**Exceções autorizadas pelo líder, só para o painel bônus:** `base64` coloca a logo FIAP dentro do HTML gerado; `tempfile` cria pastas temporárias nos testes, sem tocar nos CSVs; JavaScript local cuida de pinos, fichas, filtros, arraste e zoom do mapa, sem rede, API ou servidor. Os dados e os indicadores continuam sendo calculados em Python.
 
 **Percentuais.** A interface apresenta duas casas decimais (por exemplo, 62,50% e 25,00%); isso não muda os cálculos.
 
@@ -142,7 +148,7 @@ Os dois caminhos usam os mesmos dados em memória: o que for alterado no termina
 
 **Sobre o formulário HTML:** `painel/formulario.html` é uma **prévia visual**, sem envio ou gravação de dados. Seus campos seguem as regras do cadastro Python (categoria, descrição de até 120 caracteres, local genérico e dia de 1 a 30). O cadastro funcional é a opção 4 do terminal.
 
-Para executar as 11 verificações automatizadas (incluindo cálculos conferidos com `docs/dados.md` e gravação/recarga isoladas, sem tocar nas sessões reais):
+Para executar as 14 verificações automatizadas (incluindo cálculos conferidos com `docs/dados.md`, gravação/recarga isoladas, painel gerado fora do Git e entradas estranhas como `²` ou `014`):
 
 ```bash
 python3 src/testes.py
@@ -250,6 +256,9 @@ Na próxima execução, será possível continuar esta sessão.
 - O sistema não se conecta a nenhum órgão público e não garante atendimento: ele organiza e acompanha, não resolve.
 - Os pesos do score de prioridade foram escolhidos pela equipe e são uma opinião, não uma regra oficial.
 - O painel HTML é um retrato do momento em que foi gerado (não atualiza sozinho) e o formulário é só protótipo visual: o cadastro de verdade é feito no terminal.
+- Como `try/except` não faz parte do conteúdo das Fases 1 a 3, apertar Ctrl+C ou Ctrl+D no meio de uma pergunta encerra o programa com a mensagem de erro do Python. As alterações feitas até ali já estão salvas.
+- As cores do terminal usam códigos ANSI: se a saída for redirecionada para um arquivo, os códigos aparecem como texto. O modo acessível desliga as cores.
+- Ao continuar uma sessão salva, a fila de triagem é remontada com as ocorrências abertas na ordem do arquivo salvo, e a pilha do desfazer começa vazia (só desfaz o que foi feito na sessão atual).
 
 **Aprendizados técnicos demonstrados:**
 - A mesma ocorrência precisa ser mantida de forma consistente em estruturas diferentes: lista para percorrer, dicionário para consultar por código, fila para triagem, pilha para desfazer, hierarquia para navegar e matriz para contar.
@@ -258,6 +267,11 @@ Na próxima execução, será possível continuar esta sessão.
 - Indicadores simples podem revelar situações diferentes: a categoria mais frequente não é necessariamente a que está pendente há mais tempo.
 - Persistir os dados em arquivos separados permite retomar o trabalho sem alterar a base fictícia usada para testar a aplicação.
 
+**Aprendizados de cada integrante:** _(cada um escreve com as próprias palavras)_
+- **Marcelo:** _(a escrever)_
+- **Douglas:** _(a escrever)_
+- **Alice:** _(a escrever)_
+
 ---
 
 ## 📁 Estrutura de pastas
@@ -265,9 +279,14 @@ Na próxima execução, será possível continuar esta sessão.
 * **`data/`** ocorrências e histórico simulados (CSV); a subpasta `saida/` guarda a sessão retomável localmente (ignorada pelo Git).
 * **`docs/`** documentação: checklist do edital e registro do uso de IA.
 * **`src/`** código-fonte Python.
+* **`painel/`** painel HTML de demonstração (bônus), com os dados originais.
 * **`README.md`** este arquivo.
 
 A pasta `notebooks/` do modelo não foi criada porque o projeto não usa notebooks (o modelo permite usar só as pastas que fazem sentido).
+
+## 📎 Observações
+
+* **Participação na Competição:** [ ] Sim, aceitamos participar / [ ] Não vamos participar.
 
 ## 📎 Uso de inteligência artificial
 

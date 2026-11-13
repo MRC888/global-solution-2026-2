@@ -3,13 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Solicitações</title>
+    <title>Sobre</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="../assets/logo-fiap.png" type="image/png">
 </head>
 <body>
-    <!-- Página gerada automaticamente por 1CC/GLOBAL-SOLUTION-2/src/painel_html.py.
-         Não edite à mão: rode "python src/sistema.py", caminho 2, para gerar de novo. -->
     <header id="banner" class="banner">
         <h1>Neighborhood Action Dashboard</h1>
     </header>
@@ -23,92 +20,60 @@
     </ul>
 </nav>
 
-<main class="conteudo">
-
-    <h2>Solicitações e indicadores detalhados</h2>
-    <p>Todas as ocorrências, o histórico e o cálculo de cada indicador. Dados do bairro fictício Vila Esperança, dia simulado 30. Gerado pelo sistema em Python: para atualizar, rode o sistema e escolha o caminho 2.</p>
+<main class="conteudo sobre">
 
     <section>
-        <h2>Tempo de acompanhamento</h2>
-        <p><strong>Tempo médio até a conclusão: 5,33 dias</strong> (soma de 32 dias ÷ 6 concluídas). Fórmula: média de (dia da conclusão − dia de abertura).</p>
-        <table class="tabela">
-            <caption>Dias em aberto das pendentes, por categoria (hoje = dia 30)</caption>
-            <thead><tr><th scope="col">Categoria</th><th scope="col">Pendentes</th><th scope="col">Soma dos dias</th><th scope="col">Média de dias</th></tr></thead>
-            <tbody>
-                <tr><th scope="row">Iluminação</th><td>2</td><td>16</td><td>8,00</td></tr>
-                <tr><th scope="row">Acessibilidade</th><td>3</td><td>74</td><td>24,67</td></tr>
-                <tr><th scope="row">Limpeza</th><td>2</td><td>26</td><td>13,00</td></tr>
-                <tr><th scope="row">Conservação</th><td>3</td><td>32</td><td>10,67</td></tr>
-            </tbody>
-        </table>
+        <h2>O projeto</h2>
+        <p>
+            O <strong>Neighborhood Action Dashboard</strong> é o nosso projeto para a
+            <strong>Global Solution 2026.2</strong> da graduação em Ciência da Computação da FIAP,
+            dentro do desafio <strong>CitizenTech</strong>: criar tecnologia voltada às necessidades
+            reais das pessoas nas cidades e comunidades.
+        </p>
     </section>
 
     <section>
-        <h2>Prioridade das pendências</h2>
-        <p>Score = dias em aberto × peso da categoria (acessibilidade 3, iluminação 2, conservação 2, limpeza 1).</p>
-        <table class="tabela">
-            <caption>As 5 pendências mais urgentes</caption>
-            <thead><tr><th scope="col">Posição</th><th scope="col">Código</th><th scope="col">Categoria</th><th scope="col">Local</th><th scope="col">Cálculo</th><th scope="col">Score</th></tr></thead>
-            <tbody>
-                <tr><td>1º</td><th scope="row">003</th><td>Acessibilidade</td><td>Entorno da UBS</td><td>27 × 3</td><td>81</td></tr>
-                <tr><td>2º</td><th scope="row">005</th><td>Acessibilidade</td><td>Entorno da UBS</td><td>25 × 3</td><td>75</td></tr>
-                <tr><td>3º</td><th scope="row">007</th><td>Acessibilidade</td><td>Entorno da UBS</td><td>22 × 3</td><td>66</td></tr>
-                <tr><td>4º</td><th scope="row">010</th><td>Conservação</td><td>Entorno da Escola</td><td>16 × 2</td><td>32</td></tr>
-                <tr><td>5º</td><th scope="row">012</th><td>Conservação</td><td>Praça Central</td><td>12 × 2</td><td>24</td></tr>
-            </tbody>
-        </table>
+        <h2>O problema</h2>
+        <p>
+            Poste apagado, calçada sem rampa, lixo acumulado, praça mal conservada: problemas do dia a dia
+            que afetam a vida de quem mora no bairro. Muitas vezes esses relatos ficam espalhados,
+            não fica claro o que é mais urgente e os moradores não conseguem acompanhar o que foi feito.
+        </p>
     </section>
 
     <section>
-        <h2>Todas as ocorrências</h2>
-        <table class="tabela">
-            <caption>Lista completa, na ordem de registro</caption>
-            <thead><tr><th scope="col">Código</th><th scope="col">Categoria</th><th scope="col">Descrição</th><th scope="col">Local</th><th scope="col">Dia</th><th scope="col">Status</th></tr></thead>
-            <tbody>
-                <tr><th scope="row">001</th><td>Iluminação</td><td>Poste apagado na entrada da praça</td><td>Praça Central</td><td>1</td><td>Concluída</td></tr>
-                <tr><th scope="row">002</th><td>Acessibilidade</td><td>Rampa de acesso com piso solto</td><td>Entorno da UBS</td><td>2</td><td>Concluída</td></tr>
-                <tr><th scope="row">003</th><td>Acessibilidade</td><td>Calçada sem rampa em frente à UBS</td><td>Entorno da UBS</td><td>3</td><td>Em análise</td></tr>
-                <tr><th scope="row">004</th><td>Limpeza</td><td>Lixo acumulado ao lado do ponto</td><td>Ponto de Ônibus</td><td>4</td><td>Concluída</td></tr>
-                <tr><th scope="row">005</th><td>Acessibilidade</td><td>Piso tátil danificado no acesso à UBS</td><td>Entorno da UBS</td><td>5</td><td>Aberta</td></tr>
-                <tr><th scope="row">006</th><td>Conservação</td><td>Banco da praça quebrado</td><td>Praça Central</td><td>6</td><td>Concluída</td></tr>
-                <tr><th scope="row">007</th><td>Acessibilidade</td><td>Degrau alto sem corrimão na entrada da UBS</td><td>Entorno da UBS</td><td>8</td><td>Em análise</td></tr>
-                <tr><th scope="row">008</th><td>Iluminação</td><td>Lâmpada queimada no ponto de ônibus</td><td>Ponto de Ônibus</td><td>10</td><td>Concluída</td></tr>
-                <tr><th scope="row">009</th><td>Limpeza</td><td>Entulho na calçada da escola</td><td>Entorno da Escola</td><td>12</td><td>Em análise</td></tr>
-                <tr><th scope="row">010</th><td>Conservação</td><td>Muro da escola pichado</td><td>Entorno da Escola</td><td>14</td><td>Aberta</td></tr>
-                <tr><th scope="row">011</th><td>Iluminação</td><td>Rua escura no caminho da escola</td><td>Entorno da Escola</td><td>16</td><td>Concluída</td></tr>
-                <tr><th scope="row">012</th><td>Conservação</td><td>Brinquedo do parquinho quebrado</td><td>Praça Central</td><td>18</td><td>Em análise</td></tr>
-                <tr><th scope="row">013</th><td>Iluminação</td><td>Refletor da quadra sem funcionar</td><td>Praça Central</td><td>20</td><td>Aberta</td></tr>
-                <tr><th scope="row">014</th><td>Limpeza</td><td>Mato alto ao redor dos bancos</td><td>Praça Central</td><td>22</td><td>Aberta</td></tr>
-                <tr><th scope="row">015</th><td>Iluminação</td><td>Poste piscando à noite</td><td>Ponto de Ônibus</td><td>24</td><td>Aberta</td></tr>
-                <tr><th scope="row">016</th><td>Conservação</td><td>Pintura da faixa de pedestres apagada</td><td>Entorno da UBS</td><td>26</td><td>Aberta</td></tr>
-            </tbody>
-        </table>
-    </section>
-
-    <section>
-        <h2>Últimas atualizações</h2>
-        <table class="tabela">
-            <caption>Os 8 eventos mais recentes do histórico, do mais novo para o mais antigo</caption>
-            <thead><tr><th scope="col">Dia</th><th scope="col">Código</th><th scope="col">De</th><th scope="col">Para</th><th scope="col">Observação</th></tr></thead>
-            <tbody>
-                <tr><td>21</td><th scope="row">012</th><td>Aberta</td><td>Em análise</td><td>Peça de reposição encomendada</td></tr>
-                <tr><td>20</td><th scope="row">011</th><td>Em análise</td><td>Concluída</td><td>Novos postes ligados</td></tr>
-                <tr><td>17</td><th scope="row">011</th><td>Aberta</td><td>Em análise</td><td>Vistoria noturna feita</td></tr>
-                <tr><td>15</td><th scope="row">009</th><td>Aberta</td><td>Em análise</td><td>Caçamba solicitada</td></tr>
-                <tr><td>15</td><th scope="row">008</th><td>Em análise</td><td>Concluída</td><td>Lâmpada trocada</td></tr>
-                <tr><td>15</td><th scope="row">006</th><td>Em análise</td><td>Concluída</td><td>Banco consertado</td></tr>
-                <tr><td>12</td><th scope="row">007</th><td>Aberta</td><td>Em análise</td><td>Projeto do corrimão em estudo</td></tr>
-                <tr><td>12</td><th scope="row">008</th><td>Aberta</td><td>Em análise</td><td>Pedido de troca registrado</td></tr>
-            </tbody>
-        </table>
-    </section>
-
-    <section>
-        <h2>Registros com problema</h2>
-        <p>Estes registros foram separados pela validação e não entram nos números:</p>
+        <h2>Objetivo</h2>
+        <p>
+            Construir um protótipo que transforme relatos em informação organizada. O sistema permite:
+        </p>
         <ul>
-            <li>017: categoria ausente</li>
-            <li>018: status desconhecido (resolvido)</li>
+            <li><strong>Cadastrar</strong> ocorrências de iluminação, acessibilidade, limpeza e conservação de espaços coletivos;</li>
+            <li><strong>Consultar</strong> por código e filtrar por categoria ou situação;</li>
+            <li><strong>Acompanhar</strong> cada ocorrência (aberta, em análise, concluída), guardando o histórico das mudanças;</li>
+            <li><strong>Ver indicadores</strong>: totais e proporções por categoria e por situação, pendências e tempo de acompanhamento.</li>
+        </ul>
+        <p>
+            O coração do projeto é feito em <strong>Python</strong>, aplicando o que estudamos nas três
+            primeiras fases do curso: lógica de programação, estruturas de dados (lista, fila, pilha,
+            dicionário e matriz) e algoritmos.
+        </p>
+    </section>
+
+    <section>
+        <h2>A equipe</h2>
+        <ul class="equipe">
+        <li><strong>Marcelo Santos</strong>RM 576131 · Líder</li>
+        <li><strong>Douglas Goltz</strong>RM 574439</li>
+        <li><strong>Alice Brenda</strong>RM 574916</li>
+    </ul>
+    </section>
+
+    <section>
+        <h2>Nossos cuidados</h2>
+        <ul>
+            <li><strong>Privacidade:</strong> todos os dados são inventados; nenhuma informação pessoal é exibida.</li>
+            <li><strong>Acessibilidade:</strong> os números aparecem sempre escritos, não só em cores, e as tabelas são legíveis por leitores de tela.</li>
+            <li><strong>Responsabilidade:</strong> é um protótipo acadêmico; não há integração com órgãos públicos nem promessa de atendimento.</li>
         </ul>
     </section>
 
@@ -122,5 +87,6 @@
         As ocorrências exibidas são fictícias e nenhuma solicitação é encaminhada ou atendida de verdade.
     </p>
 </footer>
+
 </body>
 </html>

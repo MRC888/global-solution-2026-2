@@ -18,9 +18,13 @@ ARQUIVO_HISTORICO = os.path.join(PASTA_DADOS, "historico.csv")
 ARQUIVO_OCORRENCIAS_SALVAS = os.path.join(PASTA_SAIDA, "ocorrencias_sessao.csv")
 ARQUIVO_HISTORICO_SALVO = os.path.join(PASTA_SAIDA, "historico_sessao.csv")
 
-# O painel HTML (bônus) fica na pasta "painel" na raiz do repositório.
+# O painel HTML (bônus) fica na pasta "painel" do projeto, com os dados originais.
+# O caminho 2 grava uma cópia com os dados da sessão em data/saida/painel/,
+# fora do Git, para não alterar os arquivos versionados.
 PASTA_REPOSITORIO = os.path.dirname(os.path.dirname(PASTA_PROJETO))
-PASTA_PAINEL = os.path.join(PASTA_REPOSITORIO, "painel")
+PASTA_PAINEL = os.path.join(PASTA_PROJETO, "painel")
+PASTA_PAINEL_SAIDA = os.path.join(PASTA_SAIDA, "painel")
+ARQUIVO_LOGO = os.path.join(PASTA_REPOSITORIO, "assets", "logo-fiap-branca.png")
 
 # Ordem dos campos em cada arquivo.
 CAMPOS_OCORRENCIA = ["id", "categoria", "descricao", "local", "dia", "status"]
@@ -38,7 +42,9 @@ def ler_linhas(caminho):
     if not os.path.exists(caminho):
         return None
     linhas = []
-    with open(caminho, "r", encoding="utf-8") as arquivo:
+    # errors="replace": se o arquivo tiver bytes estranhos (arquivo corrompido),
+    # eles viram "�" e a linha cai na validação, em vez de o programa quebrar.
+    with open(caminho, "r", encoding="utf-8", errors="replace") as arquivo:
         for linha in arquivo:
             linha = linha.rstrip("\r\n")
             if linha.strip() != "":

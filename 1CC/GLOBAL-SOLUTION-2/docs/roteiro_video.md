@@ -6,6 +6,7 @@
 
 **Antes de gravar:**
 - Rodar `python3 src/sistema.py` a partir da pasta `1CC/GLOBAL-SOLUTION-2`, com os dados originais. Assim os números batem com os deste roteiro.
+- Se aparecer **"Encontrei uma sessão anterior"**, escolher `2` (recomeçar) e confirmar com `s`. Outra saída é apagar a pasta `data/saida/` antes de gravar.
 - Terminal com fonte grande (pelo menos 18 pt) e janela larga. O tutor precisa conseguir ler a tela.
 - Os textos entre aspas são sugestões. Falem com as próprias palavras.
 
@@ -76,7 +77,7 @@
 
 > "No modo acessível, as cores somem e cada ocorrência vira uma frase completa, o que ajuda quem usa leitor de tela. O sistema não pede nome, e-mail nem endereço: o local é sempre um ponto genérico do bairro."
 
-**Opcional (bônus):** mostrar em poucos segundos o painel HTML gerado pela opção `2` da tela inicial.
+**Opcional (bônus):** mostrar em poucos segundos o painel HTML gerado pela opção `2` da tela inicial (fica em `data/saida/painel/painel.html`).
 
 ## 10. Encerramento (5:05–5:30) · Marcelo
 **Ação:** opção `0` (salvar).
