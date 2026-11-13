@@ -1,6 +1,6 @@
 # Evidências de atendimento ao desafio — Global Solution 2026.2
 
-Projeto e equipe: **Neighborhood Action Dashboard**. Cenário simulado: **Vila Esperança**.
+Equipe **Mugiwaras**, projeto **Neighborhood Action Dashboard**. Cenário simulado: **Vila Esperança**.
 
 Este documento relaciona os requisitos do desafio às implementações presentes no repositório. Os indicadores correspondem à base fictícia original, antes de alterações realizadas no terminal.
 

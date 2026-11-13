@@ -15,7 +15,7 @@
 ## 1. Abertura (0:00–0:30) · Marcelo
 **Tela:** README no GitHub, depois o terminal na tela inicial.
 
-> "Somos a equipe [nome] e este é o Neighborhood Action Dashboard. É um painel comunitário que registra, organiza e acompanha problemas de um bairro fictício, a Vila Esperança: iluminação, acessibilidade, limpeza e conservação."
+> "Somos a equipe Mugiwaras e este é o Neighborhood Action Dashboard. É um painel comunitário que registra, organiza e acompanha problemas de um bairro fictício, a Vila Esperança: iluminação, acessibilidade, limpeza e conservação."
 
 > "Os relatos de um bairro costumam ficar espalhados. O morador não sabe o que é mais urgente nem em que pé está a solicitação. A nossa proposta organiza isso com Python puro e as estruturas que estudamos nas três primeiras fases."
 

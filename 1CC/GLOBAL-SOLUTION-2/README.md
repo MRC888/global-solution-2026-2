@@ -14,7 +14,8 @@
 
 ## 1. Equipe
 
-**Nome da equipe e do projeto:** Neighborhood Action Dashboard
+**Nome da equipe:** Mugiwaras
+**Projeto:** Neighborhood Action Dashboard
 
 ### 👨‍🎓 Integrantes
 - Marcelo Santos — RM 576131
