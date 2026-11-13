@@ -4,12 +4,13 @@
 # COMO FUNCIONA
 # Uma página HTML é só um arquivo de texto. Então o Python monta esse texto
 # pedaço por pedaço (strings, laços e if) e grava em um arquivo, do mesmo jeito
-# que grava um CSV. Não há biblioteca, servidor nem JavaScript: o navegador
-# só abre o arquivo pronto.
+# que grava um CSV. O painel funciona localmente, sem servidor nem API.
+# O mapa complementar usa JavaScript local autorizado pela equipe.
 #
 # PÁGINAS GERADAS (na pasta "painel", na raiz do repositório)
-#   painel.html        Início: resumo (cartões, matriz, barras e conclusão)
+#   painel.html        Início: mapa, cartões, matriz, barras e conclusão
 #   solicitacoes.html  Detalhes: tempos, prioridade, lista, histórico e inconsistências
+#   mapa.html          Mapa interativo gerado com os registros válidos
 #
 # As duas usam o mesmo style.css das páginas feitas à mão (Sobre e Formulário),
 # por isso o visual é o mesmo. Para atualizar os números, basta rodar o sistema
@@ -85,9 +86,9 @@ def cabecalho_pagina(titulo_aba):
 
 <nav class="nav">
     <ul>
-        <li><a href="painel.html">Inicio</a></li>
+        <li><a href="painel.html">Início</a></li>
         <li><a href="sobre.html">Sobre</a></li>
-        <li><a href="formulario.html">Formulario</a></li>
+        <li><a href="formulario.html">Formulário</a></li>
         <li><a href="solicitacoes.html">Solicitações</a></li>
     </ul>
 </nav>
@@ -333,7 +334,7 @@ def secao_inconsistencias(sistema):
 
 def gerar_html_inicio(sistema):
     """Monta a página Início (resumo) e devolve o texto HTML."""
-    html = cabecalho_pagina("Painel")
+    html = cabecalho_pagina("Início")
     html += mapa_html.secao_iframe_mapa()
     html += introducao("Resumo das ocorrências", "Visão geral das demandas registradas no bairro.")
     html += secao_cartoes(sistema)
@@ -360,7 +361,7 @@ def gerar_html_solicitacoes(sistema):
 
 
 def _fiap_embutida_no_html(texto):
-    # Inclui a logo no HTML sem depender do caminho relativo no navegador.
+    # Incorpora a logo aprovada pelo grupo, sem depender do caminho no navegador.
     marcador = 'src="../assets/logo-fiap.png"'
     if marcador not in texto:
         return texto
