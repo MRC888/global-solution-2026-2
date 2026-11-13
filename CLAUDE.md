@@ -15,6 +15,13 @@ Este repositório é o **portfólio** no formato de `equipe1ccon/FIAP-PORTFOLIO-
 - Só conceitos das Fases 1 a 3. Módulos e `import` entre arquivos **foram ensinados** (Fase 3, Cap 3). `try/except` **não foi**: validar entradas com `if` (por exemplo, `.isdigit()`).
 - Só a biblioteca padrão. Fora `csv` e `os`, qualquer biblioteca precisa da aprovação do Marcelo. Nada de pandas, numpy, sklearn, streamlit, web, banco de dados ou APIs.
 - Código e comentários em português, em estilo iniciante a intermediário, sem truques que a equipe não saiba explicar.
+
+### Exceções autorizadas para o painel complementar
+Conforme autorização do líder Marcelo comunicada pela equipe na revisão final:
+- `base64` e `pathlib` (biblioteca padrão) estão liberados **somente** para incorporar a logo FIAP aos arquivos HTML gerados.
+- `tempfile` (biblioteca padrão) está liberado **somente** em testes de persistência com diretórios temporários isolados, sem alterar os CSVs originais.
+- JavaScript **local** está liberado para o mapa interativo bônus (pinos, ficha, filtros, arraste e botões de zoom), sem requisições de rede, APIs, servidor ou dependências externas. Os dados e indicadores continuam sendo processados em Python.
+- Essas exceções não autorizam outras bibliotecas ou integrações sem nova aprovação. O código deve continuar compreensível e explicável pela equipe.
 - Dados inventados, sem informações pessoais.
 - Atualizar `docs/checklist.md` e `docs/uso_ia.md` a cada bloco.
 
@@ -44,4 +51,6 @@ No fim do projeto, antes da entrega, **lembrar o Marcelo** de:
 - [ ] Douglas corrige os pontos da revisão (ver nota do Obsidian, 12/11).
 - [ ] README: nome do grupo, tutor, aprendizados e link do vídeo.
 - [ ] Gravar o vídeo ("Não listado") e montar o `.TXT` com os dois links.
+- [x] Mapa interativo bônus na branch `aline/atualização`, conforme aprovação comunicada do Marcelo.
+- [ ] Conferir execução dos testes e navegação no navegador antes da entrega.
 - [ ] Lembrete acima: tornar público, apagar o rascunho.
