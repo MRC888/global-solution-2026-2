@@ -14,16 +14,14 @@
 
 ## 1. Equipe
 
-**Nome do grupo:** _(a definir)_
-**Projeto:** Neighborhood Action Dashboard
+**Nome da equipe e do projeto:** Neighborhood Action Dashboard
 
 ### 👨‍🎓 Integrantes
 - Marcelo Santos — RM 576131
 - Douglas Goltz — RM 574439
 - Alice Brenda — RM 574916
 
-### 👩‍🏫 Professores
-- **Tutor(a):** _(a definir)_
+### 👩‍🏫 Coordenação
 - **Coordenador:** [André Godoi Chiovato](https://www.linkedin.com/in/andregodoichiovato/)
 
 ## 2. O bairro, o problema e o público
@@ -267,10 +265,10 @@ Na próxima execução, será possível continuar esta sessão.
 - Indicadores simples podem revelar situações diferentes: a categoria mais frequente não é necessariamente a que está pendente há mais tempo.
 - Persistir os dados em arquivos separados permite retomar o trabalho sem alterar a base fictícia usada para testar a aplicação.
 
-**Aprendizados de cada integrante:** _(cada um escreve com as próprias palavras)_
-- **Marcelo:** _(a escrever)_
-- **Douglas:** _(a escrever)_
-- **Alice:** _(a escrever)_
+**Aprendizados de cada integrante:**
+- **Marcelo Santos (líder: algoritmo, estruturas, integração e revisão):** escrever o algoritmo e as decisões D1 a D14 antes do código fez a equipe discutir o "porquê" de cada estrutura antes de programar. Na integração, aprendi a revisar o trabalho dos colegas em branches separadas antes de unir na `main` e a testar entradas que ninguém espera, como `²` ou `014`, que passavam pelo `isdigit()` e quebravam o programa. Também vi que manter README, testes e código contando a mesma história dá tanto trabalho quanto o próprio código.
+- **Douglas Goltz (sistema em Python, validações, regras e indicadores):** montar a mesma ocorrência em lista, dicionário, fila, pilha, hierarquia e matriz me mostrou que cada estrutura serve para uma pergunta diferente, e que qualquer mudança precisa atualizar todas juntas. Sem `try/except`, toda entrada teve de ser validada com `if` antes de virar número. Comparar os indicadores com o gabarito calculado à mão, em testes automáticos, foi o que deu segurança para mexer no código sem medo de quebrar os resultados.
+- **Alice Brenda (visual, modo acessível, mapa, persistência e vídeo):** aprendi a gerar páginas HTML a partir dos dados do Python, deixando o cálculo no Python e a apresentação no navegador. O modo acessível me fez pensar em quem não enxerga cores ou usa leitor de tela: a informação precisa estar no texto, não só na cor. Na persistência, aprendi a salvar a sessão em arquivos separados para retomar depois sem estragar a base original.
 
 ---
 
