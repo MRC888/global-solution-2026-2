@@ -50,7 +50,7 @@ No fim do projeto, antes da entrega, **lembrar o Marcelo** de:
 ## Estado e próximas tarefas (13/11/2026)
 - [x] Sistema completo na `main` (Douglas, 12/11), revisado sem alterações; roteiro do vídeo em `docs/roteiro_video.md`.
 - [ ] Douglas corrige os pontos da revisão (ver nota do Obsidian, 12/11).
-- [x] README: nome da equipe (= nome do projeto, o edital só pede "nome da equipe"), sem tutor, aprendizados de cada um (escritos pelo Claude a partir do que cada um fez; a equipe revisa).
+- [x] README: nome da equipe Mugiwaras, sem tutor, aprendizados de cada um (escritos pelo Claude a partir do que cada um fez; a equipe revisa).
 - [ ] Link do vídeo no README (seção 9).
 - [ ] Gravar o vídeo (Alice, "Não listado") e montar o `.TXT` com os dois links.
 - [x] Mapa interativo bônus (Alice), auditado e corrigido pelo Marcelo com o Claude em 13/11 e unido à `main`; 14 testes passando, CI a cada push.
