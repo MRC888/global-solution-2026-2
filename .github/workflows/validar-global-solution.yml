@@ -1,0 +1,32 @@
+name: Validação do Neighborhood Action Dashboard
+
+on:
+  push:
+    branches:
+      - 'aline/atualização'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  testes:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Obter arquivos da branch
+        uses: actions/checkout@v4
+      - name: Verificar sintaxe Python
+        run: python3 -m compileall -q 1CC/GLOBAL-SOLUTION-2/src
+      - name: Executar os 11 testes do projeto
+        working-directory: 1CC/GLOBAL-SOLUTION-2
+        run: python3 src/testes.py
+      - name: Verificar sintaxe do JavaScript local
+        run: node --check painel/script.js
+      - name: Verificar arquivos do painel
+        run: |
+          test -f painel/mapa_template.html
+          test -f painel/mapa.html
+          test -f painel/formulario.html
+          test -f painel/sobre.html
+          test -f assets/logo-fiap.png
