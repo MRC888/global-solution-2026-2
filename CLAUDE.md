@@ -46,6 +46,6 @@ Quando o Marcelo for entregar, **lembrar** que:
 - [x] Sistema completo, mapa da Alice, correções da auditoria, 14 testes e CI, tudo na `main`.
 - [x] README: equipe Mugiwaras, sem tutor, aprendizados de cada um (escritos pelo Claude a partir do que cada um fez; a equipe revisa).
 - [x] Repositório público; rascunho `gs2026-claude` apagado por completo.
-- [ ] Vídeo (Alice) e link na seção 9 do README.
-- [ ] Revisão final a pedido do Marcelo.
+- [x] Vídeo (Alice, 7min18s, não listado): https://youtu.be/5biyfVOSMmY, com link na seção 9 do README.
+- [x] Revisão final (16/11): 14 testes no Python 3.9 e 3.13, demonstração do exemplo do edital no terminal, painel igual ao código, links do README conferidos, competição marcada como "Sim".
 - [ ] `.TXT` com os dois links e entrega.

@@ -243,7 +243,7 @@ Na próxima execução, será possível continuar esta sessão.
 - Os arquivos originais não são alterados; o estado da sessão é salvo automaticamente em `data/saida/`, pasta ignorada pelo Git, e pode ser retomado na execução seguinte.
 
 ## 9. Vídeo
-**Vídeo de apresentação:** link a ser incluído após a publicação no YouTube como “Não listado”.
+**Vídeo de apresentação (YouTube, não listado, cerca de 7 minutos):** https://youtu.be/5biyfVOSMmY
 
 ## 10. Conclusões, limitações e aprendizados
 
@@ -285,7 +285,7 @@ A pasta `notebooks/` do modelo não foi criada porque o projeto não usa noteboo
 
 ## 📎 Observações
 
-* **Participação na Competição:** [ ] Sim, aceitamos participar / [ ] Não vamos participar.
+* **Participação na Competição:** [x] Sim, aceitamos participar.
 
 ## 📎 Uso de inteligência artificial
 
